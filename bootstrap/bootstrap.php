@@ -1,17 +1,16 @@
 <?php
 
-$vendorDir = __DIR__.'/../../../../../..';
-$appDir = __DIR__.'/../../../../../../..'.SF_TEST_KERNEL_ROOT;
+$vendorDir = realpath(__DIR__.'/../../..');
 
 $file = $vendorDir.'/autoload.php';
 
 if (!file_exists($file)) {
-    throw new RuntimeException('Run "composer update --dev" to run test suite.');
+    throw new RuntimeException('Cannot find "'.$file.'". Run "composer update --dev" to run test suite.');
 }
 
 require_once $file;
 
-if ( !class_exists('Symfony\\Component\\ClassLoader\\UniversalClassLoader')) {
+if (!class_exists('Symfony\\Component\\ClassLoader\\UniversalClassLoader')) {
     throw new RuntimeException('Run "composer update --dev" to run test suite. (You seem to have missed the --dev part.)');
 }
 
