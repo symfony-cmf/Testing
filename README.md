@@ -7,6 +7,16 @@ the context of the CMF!
 This is a testing library created to aid the development of functional tests
 for the Symfony CMF Bundle suite.
 
+Install the Dependencies
+------------------------
+
+Use composer to install the dependencies required to be able to run the
+functional test suite:
+
+````
+composer install --dev
+````
+
 Bootstrapping
 -------------
 
@@ -84,6 +94,25 @@ class MyTest extends PhpcrOdmTestCase
     }
 }
 ````
+
+There is also a base test case which is storage layer agnostic:
+
+````
+<?php
+
+namespace ...
+use Symfony\Cmf\Component\Testing\Functional\BaseTestCase;
+
+class MyTest extends PhpcrOdmTestCase
+{
+    public function testWhatever()
+    {
+        $myService = $this->getContainer()->get('foo');
+        $application = $this->getApplication();
+    }
+}
+````
+
 
 Changing the Kernel
 -------------------
