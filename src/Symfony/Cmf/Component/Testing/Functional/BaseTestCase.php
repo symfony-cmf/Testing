@@ -18,7 +18,9 @@ class BaseTestCase extends WebTestCase
 
     public function setUp()
     {
-        // bootstrap AppKernel
+        // get the kernel loaded.. we don't use autoloading
+        // so that we don't have to worry about the bundles
+        // namespace.
         $kernelFName = sprintf('%s/%s/%s.php',
             realpath(__DIR__.'/../../../../../../../../..'),
             'Tests/Functional/app',
