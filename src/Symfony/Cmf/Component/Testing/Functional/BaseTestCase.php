@@ -11,8 +11,26 @@ class BaseTestCase extends WebTestCase
 {
     protected $kernelConfigName = 'default.yml';
 
+    public static function getKernelClass()
+    {
+        return 'AppKernel';
+    }
+
     public function setUp()
     {
+        // bootstrap AppKernel
+        $kernelFName = sprintf('%s/%s/%s.php',
+            realpath(__DIR__.'/../../../../../../../../..'),
+            'Tests/Functional/app',
+            self::getKernelClass()
+        );
+
+        if (!file_exists($kernelFName)) {
+            throw new \Exception('Kernel does not exist: "'.$kernelFName.'"');
+        }
+
+        require_once($kernelFName);
+
         self::$kernel = self::createKernel();
         self::$kernel->setConfigFilename($this->kernelConfigName);
         self::$kernel->init();

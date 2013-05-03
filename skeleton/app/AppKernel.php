@@ -1,7 +1,5 @@
 <?php
 
-namespace Symfony\Cmf\Bundle\RoutingAutoBundle\Tests\Functional\app;
-
 use Symfony\Cmf\Component\Testing\HttpKernel\TestKernel;
 
 class AppKernel extends TestKernel

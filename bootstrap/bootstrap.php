@@ -25,4 +25,3 @@ AnnotationRegistry::registerLoader(function($class) use ($loader) {
 });
 
 AnnotationRegistry::registerFile($vendorDir.'/doctrine/phpcr-odm/lib/Doctrine/ODM/PHPCR/Mapping/Annotations/DoctrineAnnotations.php');
-

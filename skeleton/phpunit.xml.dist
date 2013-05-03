@@ -6,12 +6,8 @@
     bootstrap="vendor/symfony-cmf/testing/Symfony/Cmf/Component/Testing/bootstrap.php"
     >
 
-    <php>
-        <const name="SF_TEST_KERNEL_ROOT" value="Tests/Functional/app"/>
-    </php>
-
     <testsuites>
-        <testsuite name="Test Suite">
+        <testsuite name="ReplaceMeBundle Test Suite">
             <directory>./Tests</directory>
         </testsuite>
     </testsuites>
