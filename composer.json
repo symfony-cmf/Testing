@@ -1,5 +1,6 @@
 {
     "name": "symfony-cmf/testing-bootstrap",
+    "license": "MIT",
     "description": "Component for bootstraping functional tests for CMF bundles only.",
     "authors": [
         {
@@ -14,12 +15,12 @@
         "symfony/form": ">=2.1,<2.3-dev",
         "symfony/finder": ">=2.1,<2.3-dev",
 
-        "doctrine/common": "2.3.x-dev"
+        "doctrine/common": "2.3.x-dev",
         "doctrine/doctrine-bundle": "1.*",
         "doctrine/phpcr-odm": "1.0.*",
         "doctrine/phpcr-bundle": "1.0.*",
 
-        "jackalope/jackalope-doctrine-dbal": "1.0.*",
+        "jackalope/jackalope-doctrine-dbal": "1.0.*"
     },
     "autoload": {
         "psr-0": { "Symfony\\Cmf\\Component\\Testing": "" }
