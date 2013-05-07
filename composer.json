@@ -10,10 +10,7 @@
     ],
     "minimum-stability": "dev",
     "require": {
-        "symfony/class-loader": ">=2.1,<2.3-dev",
-        "symfony/yaml": ">=2.1,<2.3-dev",
-        "symfony/form": ">=2.1,<2.3-dev",
-        "symfony/finder": ">=2.1,<2.3-dev",
+        "symfony/symfony": ">=2.1,<2.3-dev",
 
         "doctrine/common": "2.3.x-dev",
         "doctrine/doctrine-bundle": "1.*",

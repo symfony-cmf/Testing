@@ -1,6 +1,0 @@
-imports:
-    - { resource: parameters.yml }
-    - { resource: dist/framework.yml }
-    - { resource: dist/monolog.yml }
-    - { resource: dist/doctrine.yml }
-    - { resource: dist/phpcrodm.yml }
