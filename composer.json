@@ -9,7 +9,7 @@
         }
     ],
     "minimum-stability": "dev",
-    "require-dev": {
+    "require": {
         "symfony/class-loader": ">=2.1,<2.3-dev",
         "symfony/yaml": ">=2.1,<2.3-dev",
         "symfony/form": ">=2.1,<2.3-dev",
