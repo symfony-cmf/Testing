@@ -1,5 +1,5 @@
 {
-    "name": "symfony-cmf/testing-bootstrap",
+    "name": "dtl/testing-bootstrap",
     "license": "MIT",
     "description": "Component for bootstraping functional tests for CMF bundles only.",
     "authors": [
