@@ -17,130 +17,75 @@ functional test suite:
 composer install --dev
 ````
 
-Bootstrapping
--------------
+PHPUnit configuration
+---------------------
 
-To generate a skeleton bootstrap:
-
-````
-$ php vendor/symfony-cmf/testing/bin/generate_functional.php
-````
-
-This generates the following files:
+Copy the `phpunit.dist.xml` file from the testing component to the directory
+root of the bundle:
 
 ````
-./
-./Tests/Functional/app/AppKernel.php
-./Tests/Functional/app/console
-./Tests/Functional/app/config
-./Tests/Functional/app/config/default.yml
-./Tests/Functional/app/config/parameters.yml.dist
-./Tests/Functional/app/config/dist
-./Tests/Functional/app/config/dist/monolog.yml
-./Tests/Functional/app/config/dist/framework.yml
-./Tests/Functional/app/config/dist/phpcrodm.yml
-./Tests/Functional/app/config/dist/routing.yml
-./Tests/Functional/app/config/dist/doctrine.yml
-./Tests/Functional/app/config/user
+cp vendor/symfony-cmf/testing/skeleton/phpunit.xml.dist .
 ````
 
-You will need to copy `parameters.yml.dist` to `parameters.yml` for the kernel
-to work, the distribution configuration should work out-of-the-box with
-doctrine dbal sqlite.
+Note that this file includes the bootstrap file `bootstrap/bootstrap.php`
+which initializes the autoloader and defines some useful PHP constants.
 
-Pull in some other files
-------------------------
+Create your configuration class
+-------------------------------
 
-The following files are also useful:
-
-````
-cp vendor/symfony-cmf/testing/skeleton/.travis.yml .
-cp vendor/symfony-cmf/testing/skeleton/phpunit.dist.xml .
-````
-
-Writing Functional Test Cases
------------------------------
-
-Most of the functional test cases in the CMF currently use PHCR-ODM. This
-component provides a base test case which automatically purges and creates
-the node `/test`. You should place any documents your test will create under
-this node.
-
-Example:
-
-````
-<?php
-
-namespace ...
-use Symfony\Cmf\Component\Testing\Functional\PhpcrOdmTestCase;
-
-class MyTest extends PhpcrOdmTestCase
-{
-    public function testFooIsCreated()
-    {
-        $foo = new FooDocument;
-        $foo->id = '/test/foo';
-        $this->getDm()->persist($foo);
-        $this->getDm()->clear();
-        $foo = $this->getDm()->find(null, '/test/foo');
-
-        $this->assertNotNull($foo); // will pass
-    }
-
-    public function testFooIsGone()
-    {
-        $foo = $this->getDm()->find(null, '/test/foo');
-        $this->assertNull($foo); // will pass
-    }
-}
-````
-
-There is also a base test case which is storage layer agnostic:
-
-````
-<?php
-
-namespace ...
-use Symfony\Cmf\Component\Testing\Functional\BaseTestCase;
-
-class MyTest extends PhpcrOdmTestCase
-{
-    public function testWhatever()
-    {
-        $myService = $this->getContainer()->get('foo');
-        $application = $this->getApplication();
-    }
-}
-````
-
-
-Changing the Kernel
--------------------
-
-You may want to have a test use a different kernel then the default
-`AppKernel` - for example, you might want to test optional dependencies such
-as SonataAdmin.
-
-To do this simply override `getKernelClassname`:
-
-````
-// mytest.php
-public static function getKernelClassname()
-{
-    return 'AlternativeKernel';
-}
-````
-
-The kernel file `AlternativeKernel.php` must live inside the directory
-`Tests/Functional/app`. We avoid the use of the autoloader to avoid having
-to guess the bundles namespace.
-
-Using the test console
-----------------------
-
-The test console can be invaluable for debugging tests, you can use it as
+You can include pre-defined configurations from the testing component as
 follows:
 
+````php
+// YourBundle/Tests/Functional/app/config/config.php
+<?php
+
+$loader->import(CMF_TEST_CONFIG_DIR.'/sonata_admin.php');
 ````
-$ php Tests/Functional/app/console
+
+We have to use a PHP file to access the `CMF_TEST_CONFIG_DIR` constant
+which is defined in the bootstrap file. Have a look in the 
+`/skeleton/app/config` directory for all possible options.
+
+Create the test Kernel
+----------------------
+
+Below is an example test kernel. Note that you extend `TestKernel` and need to
+implement the `configure` method to register any bundles that you need.
+
+You should use the `requireBundleSets` method to register pre-defined sets of
+bundles, e.g. `sonata_admin` will include all the bundles required for a
+standard CMF sonata admin interface.
+
+For bundles specific to this test kernel or to the bundle as a whole, use the
+`addBundles` method.
+
+````php
+// YourBundle/Tests/Functional/app/AppKernel.php
+<?php
+
+use Symfony\Cmf\Component\Testing\HttpKernel\TestKernel;
+use Symfony\Component\Config\Loader\LoaderInterface;
+
+class AppKernel extends TestKernel
+{
+    public function configure()
+    {
+        $this->requireBundleSets(array(
+            'default', 'phpcr_odm', 'sonata_admin'
+        ));
+
+        $this->addBundles(array(
+            new \Knp\Bundle\MenuBundle\KnpMenuBundle(),
+            new \Symfony\Cmf\Bundle\MenuBundle\SymfonyCmfMenuBundle(),
+        ));
+    }
+
+    public function registerContainerConfiguration(LoaderInterface $loader)
+    {
+        // Load our configuration
+        $loader->load(__DIR__.'/config/config.php');
+    }
+
+}
 ````
