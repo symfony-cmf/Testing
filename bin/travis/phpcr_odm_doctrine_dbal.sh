@@ -1,5 +1,8 @@
 #!/bin/bash
 
+DIR_NAME=`dirname $0`
+CONSOLE_DIR=$DIR_NAME"/.."
+
 # composer install --dev
-php Tests/Functional/App/console doctrine:phpcr:init:dbal
-php Tests/Functional/App/console doctrine:phpcr:repository:init
+php $CONSOLE_DIR"/console" doctrine:phpcr:init:dbal
+php $CONSOLE_DIR"/console" doctrine:phpcr:repository:init
