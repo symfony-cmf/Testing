@@ -16,4 +16,4 @@ script: phpunit --coverage-text
 
 notifications:
   irc: "irc.freenode.org#symfony-cmf"
-  email: "symfony-cmf-devs@googlegroups.com"
+  email: "cmf-devs@googlegroups.com"
