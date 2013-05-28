@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 abstract class BaseTestCase extends WebTestCase
 {
     protected $db;
+    protected $dbManagers = array();
 
     public function getContainer()
     {
@@ -22,6 +23,10 @@ abstract class BaseTestCase extends WebTestCase
 
     public function getDbManager($type)
     {
+        if (isset($this->dbManagers[$type])) {
+            return $this->dbManagers[$type];
+        }
+
         $className = sprintf(
             'Symfony\Cmf\Component\Testing\Functional\DbManager\%s',
             $type
@@ -36,6 +41,8 @@ abstract class BaseTestCase extends WebTestCase
 
         $dbManager = new $className($this->getContainer());
 
-        return $dbManager;
+        $this->dbManagers[$type] = $dbManager;
+
+        return $this->getDbManager($type);
     }
 }

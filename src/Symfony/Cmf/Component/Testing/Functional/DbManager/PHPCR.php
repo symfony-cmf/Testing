@@ -13,6 +13,7 @@ use Doctrine\Common\DataFixtures\ProxyReferenceRepository;
 class PHPCR
 {
     protected $container;
+    protected $om;
 
     public function __construct(ContainerInterface $container)
     {
@@ -26,8 +27,10 @@ class PHPCR
 
     public function getOm()
     {
-        $om = $this->getRegistry()->getManager();
-        return $om;
+        if (!$this->om) {
+            $this->om = $this->getRegistry()->getManager();
+        }
+        return $this->om;
     }
 
     public function loadFixtures(array $classNames)
