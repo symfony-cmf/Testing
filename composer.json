@@ -12,10 +12,10 @@
     "require": {
         "symfony/symfony": ">=2.1,<2.3-dev",
 
-        "doctrine/common": "2.3.x-dev",
+        "doctrine/common": "2.4.x-dev",
         "doctrine/doctrine-bundle": "1.*",
-        "doctrine/phpcr-odm": "1.0.*",
-        "doctrine/phpcr-bundle": "1.0.*",
+        "doctrine/phpcr-odm": "1.0.x-dev",
+        "doctrine/phpcr-bundle": "1.0.x-dev",
         "doctrine/data-fixtures": "1.0.*",
 
         "jackalope/jackalope-doctrine-dbal": "1.0.*"
