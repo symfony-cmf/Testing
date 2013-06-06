@@ -75,4 +75,19 @@ class PHPCR
             }
         }
     }
+
+    public function createTestNode()
+    {
+        $session = $this->container->get('doctrine_phpcr.session');
+
+        if ($session->nodeExists('/test')) {
+            $session->getNode('/test')->remove();
+        }
+
+        if (! $session->nodeExists('/test')) {
+            $session->getRootNode()->addNode('test', 'nt:unstructured');
+        }
+
+        $session->save();
+    }
 }
