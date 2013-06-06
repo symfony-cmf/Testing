@@ -15,6 +15,14 @@ $config = array(
             'de' => array('en', 'fr'),
             'fr' => array('en', 'de'),
         ),
+        'mappings' => array(
+            'test_default' => array(
+                'type' => 'annotation',
+                'prefix' => 'Symfony\Cmf\Component\Testing\Document',
+                'dir' => CMF_TEST_ROOT_DIR.'/src/Symfony/Cmf/Component/Testing/Document',
+                'is_bundle' => false,
+            ),
+        ),
     ),
 );
 
@@ -24,13 +32,12 @@ $phpcrOdmDocDir = sprintf('%s/../Document', $kernelRootDir);
 $phpcrOdmDocPrefix = sprintf('%s\Tests\Functional\App\Document', $bundleFQN);
 
 if (file_exists($phpcrOdmDocDir)) {
-    $config['odm']['mappings'] = array(
-        'test' => array(
-            'type' => 'annotation',
-            'prefix' => $phpcrOdmDocPrefix,
-            'dir' => $phpcrOdmDocDir,
-            'is_bundle' => false,
-        ),
+
+    $config['odm']['mappings']['test_additional'] = array(
+        'type' => 'annotation',
+        'prefix' => $phpcrOdmDocPrefix,
+        'dir' => $phpcrOdmDocDir,
+        'is_bundle' => false,
     );
 }
 
