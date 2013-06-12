@@ -8,3 +8,9 @@ sonata_admin:
     prefix: /admin
     requirements:
         id:  .+
+
+admin_dashboard:
+    pattern: /admin/
+    defaults:
+        _controller: FrameworkBundle:Redirect:redirect
+        route: sonata_admin_dashboard

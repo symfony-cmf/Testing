@@ -30,6 +30,7 @@ abstract class TestKernel extends Kernel
             '\Symfony\Bundle\FrameworkBundle\FrameworkBundle',
             '\Symfony\Bundle\SecurityBundle\SecurityBundle',
             '\Symfony\Bundle\TwigBundle\TwigBundle',
+            '\Symfony\Bundle\MonologBundle\MonologBundle',
         ));
 
         $this->registerBundleSet('phpcr_odm', array(
