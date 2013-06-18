@@ -17,4 +17,3 @@ if (class_exists('Symfony\Bundle\MonologBundle\MonologBundle')) {
 }
 $loader->import('dist/doctrine.yml');
 $loader->import('dist/security.yml');
-$loader->import('dist/phpcrodm.php');
