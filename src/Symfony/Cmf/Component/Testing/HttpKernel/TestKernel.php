@@ -41,6 +41,7 @@ abstract class TestKernel extends Kernel
         $this->registerBundleSet('sonata_admin', array(
             '\Sonata\BlockBundle\SonataBlockBundle',
             '\Sonata\AdminBundle\SonataAdminBundle',
+            'Knp\Bundle\MenuBundle\KnpMenuBundle',
             '\Sonata\DoctrinePHPCRAdminBundle\SonataDoctrinePHPCRAdminBundle',
         ));
 
