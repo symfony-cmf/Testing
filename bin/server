@@ -1,0 +1,16 @@
+#!/usr/bin/env php
+<?php
+
+$kernel = include __DIR__.'/../bootstrap/kernel_bootstrap.php';
+
+use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Symfony\Component\Console\Input\ArrayInput;
+
+$input = new ArrayInput(array(
+    'server:run',
+    '--router' => CMF_TEST_ROOT_DIR.'/resources/web/router.php',
+    '--docroot' => CMF_TEST_ROOT_DIR.'/resources/web',
+));
+
+$application = new Application($kernel);
+$application->run($input);
