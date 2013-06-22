@@ -29,7 +29,7 @@ $config = array(
 $kernelRootDir = $container->getParameter('kernel.root_dir');
 $bundleFQN = $container->getParameter('cmf_testing.bundle_fqn');
 $phpcrOdmDocDir = sprintf('%s/../Document', $kernelRootDir);
-$phpcrOdmDocPrefix = sprintf('%s\Tests\Functional\App\Document', $bundleFQN);
+$phpcrOdmDocPrefix = sprintf('%s\Tests\Resources\Document', $bundleFQN);
 
 if (file_exists($phpcrOdmDocDir)) {
 
