@@ -1,6 +1,5 @@
 <?php
 
-
 use Symfony\Component\HttpFoundation\Request;
 
 $kernel = include __DIR__.'/../../bootstrap/kernel_bootstrap.php';
