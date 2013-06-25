@@ -14,3 +14,6 @@ admin_dashboard:
     defaults:
         _controller: FrameworkBundle:Redirect:redirect
         route: sonata_admin_dashboard
+
+fos_js_routing:
+    resource: @FOSJsRoutingBundle/Resources/config/routing/routing.xml

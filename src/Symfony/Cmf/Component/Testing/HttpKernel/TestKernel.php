@@ -43,6 +43,8 @@ abstract class TestKernel extends Kernel
             '\Sonata\AdminBundle\SonataAdminBundle',
             'Knp\Bundle\MenuBundle\KnpMenuBundle',
             '\Sonata\DoctrinePHPCRAdminBundle\SonataDoctrinePHPCRAdminBundle',
+            'Symfony\Cmf\Bundle\TreeBrowserBundle\CmfTreeBrowserBundle',
+            'FOS\JsRoutingBundle\FOSJsRoutingBundle',
         ));
 
         parent::init();
