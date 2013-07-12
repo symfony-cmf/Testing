@@ -8,12 +8,16 @@ abstract class BaseTestCase extends WebTestCase
 {
     protected $db;
     protected $dbManagers = array();
+    protected $container;
 
     public function getContainer()
     {
-        $client = $this->createClient();
+        if (null === $this->container) {
+            $client = $this->createClient();
+            $this->container = $client->getContainer();
+        }
 
-        return $client->getContainer();
+        return $this->container;
     }
 
     public function db($type)

@@ -1,10 +1,11 @@
 <?php
 
 $req = $_SERVER['REQUEST_URI'];
+$asset = preg_replace('/\?.*/', '', __DIR__.$req);
 
 // If this looks like a file request then return
 // false and serve the file
-if (preg_match('^\.[A-Za-z]{3,4}$^', $req)) {
+if ($asset != __DIR__.'/' && file_exists($asset)) {
     return false;
 }
 
