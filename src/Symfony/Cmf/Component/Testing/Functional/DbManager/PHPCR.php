@@ -35,7 +35,18 @@ class PHPCR
 
     public function loadFixtures(array $classNames)
     {
-        $loader = new ContainerAwareLoader($this->container);;
+        $loader = new ContainerAwareLoader($this->container);
+        $executor = $this->purge();
+
+        foreach ($classNames as $className) {
+            $this->loadFixtureClass($loader, $className);
+        }
+
+        $executor->execute($loader->getFixtures(), true);
+    }
+
+    public function purge()
+    {
         $purger = new PHPCRPurger();
         $executor = new PHPCRExecutor($this->getOm(), $purger);
 
@@ -43,12 +54,7 @@ class PHPCR
 
         $executor->setReferenceRepository($referenceRepository);
         $executor->purge();
-
-        foreach ($classNames as $className) {
-            $this->loadFixtureClass($loader, $className);
-        }
-
-        $executor->execute($loader->getFixtures(), true);
+        return $executor;
     }
 
     public function loadFixtureClass($loader, $className)
