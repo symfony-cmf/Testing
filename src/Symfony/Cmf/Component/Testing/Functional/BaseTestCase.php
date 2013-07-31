@@ -3,6 +3,7 @@
 namespace Symfony\Cmf\Component\Testing\Functional;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 
 abstract class BaseTestCase extends WebTestCase
 {
@@ -23,6 +24,31 @@ abstract class BaseTestCase extends WebTestCase
     public function db($type)
     {
         return $this->getDbManager($type);
+    }
+
+    public function helper($name)
+    {
+        $name = ucfirst($name).'Helper';
+
+        $className = sprintf(
+            'Symfony\Cmf\Component\Testing\Functional\Helper\%s',
+            $name
+        );
+
+        if (!class_exists($className)) {
+            throw new \InvalidArgumentException(sprintf(
+                'Test Helper "%s" does not exist.',
+                $className
+            ));
+        }
+
+        $helper = new $className;
+
+        if ($helper instanceof ContainerAwareInterface) {
+            $helper->setContainer($this->getContainer());
+        }
+
+        return $helper;
     }
 
     public function getDbManager($type)
