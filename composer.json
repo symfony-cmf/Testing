@@ -20,7 +20,7 @@
 
         "symfony/monolog-bundle": "~2.1",
 
-        "jackalope/jackalope": "~1.0.0-beta1",
+        "jackalope/jackalope": "~1.0.0-beta4",
         "jackalope/jackalope-doctrine-dbal": "1.0.*"
     },
     "autoload": {
