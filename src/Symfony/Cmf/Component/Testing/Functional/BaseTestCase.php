@@ -9,6 +9,7 @@ abstract class BaseTestCase extends WebTestCase
 {
     protected $db;
     protected $dbManagers = array();
+    protected $helpers = array();
     protected $container;
 
     public function getContainer()
@@ -28,6 +29,9 @@ abstract class BaseTestCase extends WebTestCase
 
     public function helper($name)
     {
+        if (isset($this->helpers[$name])) {
+            return $this->helpers[$name];
+        }
         $name = ucfirst($name).'Helper';
 
         $className = sprintf(
@@ -48,7 +52,9 @@ abstract class BaseTestCase extends WebTestCase
             $helper->setContainer($this->getContainer());
         }
 
-        return $helper;
+        $this->helpers[$name] = $helper;
+
+        return $this->helper($name);
     }
 
     public function getDbManager($type)
