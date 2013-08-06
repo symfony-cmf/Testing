@@ -30,6 +30,7 @@ class PHPCR
         if (!$this->om) {
             $this->om = $this->getRegistry()->getManager();
         }
+
         return $this->om;
     }
 
@@ -84,9 +85,7 @@ class PHPCR
             $session->getNode('/test')->remove();
         }
 
-        if (! $session->nodeExists('/test')) {
-            $session->getRootNode()->addNode('test', 'nt:unstructured');
-        }
+        $session->getRootNode()->addNode('test', 'nt:unstructured');
 
         $session->save();
     }
