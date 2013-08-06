@@ -10,10 +10,11 @@ abstract class BaseTestCase extends WebTestCase
     protected $dbManagers = array();
     protected $container;
 
-    public function getContainer()
+    public function getContainer(array $options = array())
     {
-        if (null === $this->container) {
-            $client = $this->createClient();
+        // second condition: when options changed, recache the new container
+        if (null === $this->container || 0 < count($options)) {
+            $client = $this->createClient($options);
             $this->container = $client->getContainer();
         }
 
@@ -48,5 +49,21 @@ abstract class BaseTestCase extends WebTestCase
         $this->dbManagers[$type] = $dbManager;
 
         return $this->getDbManager($type);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected static function createKernel(array $options = array())
+    {
+        if (null === static::$class) {
+            static::$class = static::getKernelClass();
+        }
+
+        return new static::$class(
+            isset($options['environment']) ? $options['environment'] : 'test',
+            isset($options['debug']) ? $options['debug'] : true,
+            isset($options['config_filename']) ? $options['config_filename'] : null
+        );
     }
 }

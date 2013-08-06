@@ -15,8 +15,21 @@ use Symfony\Component\HttpKernel\Bundle\BundleInterface;
  */
 abstract class TestKernel extends Kernel
 {
+    protected $configFilename;
     protected $bundleSets = array();
     protected $requiredBundles = array();
+
+    /**
+     * @param string  $environment
+     * @param boolean $debug
+     * @param string  $configFilename Optional
+     */
+    public function __construct($environment, $debug, $configFilename = null)
+    {
+        $this->configFilename = $configFilename;
+
+        parent::__construct($environement, $debug);
+    }
 
     /**
      * Register commonly needed bundle sets and then
