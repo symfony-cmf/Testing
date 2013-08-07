@@ -1,6 +1,5 @@
 <?php
-$rootDir = realpath(__DIR__.'/../../../..');
-$vendorDir = realpath($rootDir.'/vendor');
+
 $phpUnitFile = $rootDir.'/phpunit.xml.dist';
 
 if (!file_exists($phpUnitFile)) {
@@ -22,7 +21,6 @@ if (!file_exists($kernelFile)) {
     ));
 }
 
-require_once $vendorDir.'/symfony-cmf/testing/bootstrap/bootstrap.php';
 require_once $kernelFile;
 
-return new AppKernel('test', true);
+return new AppKernel($env, true);
