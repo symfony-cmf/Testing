@@ -8,16 +8,22 @@ abstract class BaseTestCase extends WebTestCase
 {
     protected $db;
     protected $dbManagers = array();
-    protected $container;
+    protected $containers = array();
 
-    public function getContainer()
+    public function getContainer(array $options = array())
     {
-        if (null === $this->container) {
-            $client = $this->createClient();
-            $this->container = $client->getContainer();
+        if (0 === count($this->container) || 0 < count($options)) {
+            $hash = md5(serialize($options));
+
+            if (isset($this->containers[$hash])) {
+                $this->containers['latest'] = $this->containers[$hash];
+            }
+
+            $client = $this->createClient($options);
+            $this->containers['latest'] = $this->containers[$hash] = $client->getContainer();
         }
 
-        return $this->container;
+        return $this->containers['latest'];
     }
 
     public function db($type)
