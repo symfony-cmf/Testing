@@ -4,18 +4,44 @@ namespace Symfony\Cmf\Component\Testing\Functional;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
+/**
+ * The base class for Functional and Web tests.
+ *
+ * @author Daniel Leech <daniel@dantleech.com>
+ * @author Wouter J <waldio.webdesign@gmail.com>
+ */
 abstract class BaseTestCase extends WebTestCase
 {
+    /**
+     * Use this property to save the DbManager.
+     */
     protected $db;
+
     protected $dbManagers = array();
     protected $settings = array();
     protected $containers = array();
 
+    /**
+     * Configure the testcase.
+     *
+     * Currently, this is only used for creating a new kernel. This accepts
+     * 2 settings:
+     *
+     *  * environment - The environment to use (defaults to 'phpcr')
+     *  * debug - If debug should be enabled/disabled (defaults to true)
+     *
+     * @param array $options
+     */
     protected function configure(array $options)
     {
         $this->settings = $options;
     }
 
+    /**
+     * Gets the container.
+     *
+     * @return \Symfony\Component\DependencyInjection\Container
+     */
     public function getContainer()
     {
         $hash = md5(serialize($this->settings));
@@ -28,11 +54,23 @@ abstract class BaseTestCase extends WebTestCase
         return $this->containers[$hash];
     }
 
+    /**
+     * Gets the DbManager.
+     *
+     * @see self::getDbManager
+     */
     public function db($type)
     {
         return $this->getDbManager($type);
     }
 
+    /**
+     * Gets the DbManager.
+     *
+     * @param string $type The Db type
+     *
+     * @return object
+     */
     public function getDbManager($type)
     {
         if (isset($this->dbManagers[$type])) {
@@ -60,6 +98,8 @@ abstract class BaseTestCase extends WebTestCase
 
     /**
      * {@inheritDoc}
+     *
+     * This is overriden to set the default environment to 'phpcr'
      */
     protected static function createKernel(array $options = array())
     {
