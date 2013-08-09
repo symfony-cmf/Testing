@@ -3,3 +3,5 @@ doctrine:
         driver:   %database_driver%
         path:     %database_path%
         charset:  UTF8
+    orm:
+        auto_mapping: true
