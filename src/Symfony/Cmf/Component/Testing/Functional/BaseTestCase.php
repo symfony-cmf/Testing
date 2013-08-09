@@ -8,16 +8,24 @@ abstract class BaseTestCase extends WebTestCase
 {
     protected $db;
     protected $dbManagers = array();
-    protected $container;
+    protected $settings = array();
+    protected $containers = array();
+
+    protected function configure(array $options)
+    {
+        $this->settings = $options;
+    }
 
     public function getContainer()
     {
-        if (null === $this->container) {
-            $client = $this->createClient();
-            $this->container = $client->getContainer();
+        $hash = md5(serialize($this->settings));
+
+        if (!isset($this->containers[$hash])) {
+            $client = $this->createClient($this->settings);
+            $this->containers[$hash] = $client->getContainer();
         }
 
-        return $this->container;
+        return $this->containers[$hash];
     }
 
     public function db($type)
@@ -48,5 +56,18 @@ abstract class BaseTestCase extends WebTestCase
         $this->dbManagers[$type] = $dbManager;
 
         return $this->getDbManager($type);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected static function createKernel(array $options = array())
+    {
+        // default environment is 'phpcr'
+        if (!isset($options['environment'])) {
+            $options['environment'] = 'phpcr';
+        }
+
+        parent::createKernel($options);
     }
 }

@@ -1,10 +1,19 @@
 #!/usr/bin/env php
 <?php
 
-$kernel = include __DIR__.'/../bootstrap/kernel_bootstrap.php';
+$rootDir = realpath(__DIR__.'/../../../..');
+$vendorDir = realpath($rootDir.'/vendor');
+require_once $vendorDir.'/symfony-cmf/testing/bootstrap/bootstrap.php';
 
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArgvInput;
 
+$input = new ArgvInput();
+$env = $input->getParameterOption(array('--env', '-e'), 'phpcr');
+
+// must be placed after setting $env, because it's used in bootstrapping the 
+// kernel
+$kernel = include __DIR__.'/../bootstrap/kernel_bootstrap.php';
+
 $application = new Application($kernel);
-$application->run();
+$application->run($input);
