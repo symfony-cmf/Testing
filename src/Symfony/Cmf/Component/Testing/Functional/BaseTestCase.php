@@ -18,23 +18,21 @@ abstract class BaseTestCase extends WebTestCase
     protected $db;
 
     protected $dbManagers = array();
-    protected $settings = array();
     protected $containers = array();
 
     /**
-     * Configure the testcase.
+     * Return the configuration to use when creating the Kernel.
      *
-     * Currently, this is only used for creating a new kernel. This accepts
-     * 2 settings:
+     * The following settings are used:
      *
      *  * environment - The environment to use (defaults to 'phpcr')
      *  * debug - If debug should be enabled/disabled (defaults to true)
      *
-     * @param array $options
+     * @return array
      */
-    protected function configure(array $options)
+    protected function getKernelConfiguration()
     {
-        $this->settings = $options;
+        return array();
     }
 
     /**
@@ -47,7 +45,7 @@ abstract class BaseTestCase extends WebTestCase
         $hash = md5(serialize($this->settings));
 
         if (!isset($this->containers[$hash])) {
-            $client = $this->createClient($this->settings);
+            $client = $this->createClient($this->getKernelConfiguration());
             $this->containers[$hash] = $client->getContainer();
         }
 
