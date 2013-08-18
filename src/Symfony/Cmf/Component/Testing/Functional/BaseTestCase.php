@@ -109,6 +109,6 @@ abstract class BaseTestCase extends WebTestCase
             $options['environment'] = 'phpcr';
         }
 
-        parent::createKernel($options);
+        return parent::createKernel($options);
     }
 }
