@@ -3,6 +3,7 @@
 namespace Symfony\Cmf\Component\Testing\Functional;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\DependencyInjection\Container;
 
 /**
  * The base class for Functional and Web tests.
@@ -18,7 +19,11 @@ abstract class BaseTestCase extends WebTestCase
     protected $db;
 
     protected $dbManagers = array();
-    protected $containers = array();
+
+    /**
+     * @var Container
+     */
+    protected $container;
 
     /**
      * Return the configuration to use when creating the Kernel.
@@ -38,18 +43,16 @@ abstract class BaseTestCase extends WebTestCase
     /**
      * Gets the container.
      *
-     * @return \Symfony\Component\DependencyInjection\Container
+     * @return Container
      */
     public function getContainer()
     {
-        $hash = md5(serialize($this->settings));
-
-        if (!isset($this->containers[$hash])) {
+        if (null === $this->container) {
             $client = $this->createClient($this->getKernelConfiguration());
-            $this->containers[$hash] = $client->getContainer();
+            $this->container = $client->getContainer();
         }
 
-        return $this->containers[$hash];
+        return $this->container;
     }
 
     /**
