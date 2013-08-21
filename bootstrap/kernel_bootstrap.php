@@ -1,5 +1,6 @@
 <?php
 
+$rootDir = realpath(__DIR__.'/../../../..');
 $phpUnitFile = $rootDir.'/phpunit.xml.dist';
 
 if (!file_exists($phpUnitFile)) {
