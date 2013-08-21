@@ -7,12 +7,12 @@ error_reporting(E_ALL);
 
 require_once __DIR__.'/../../bootstrap/bootstrap.php';
 
-// fixme: hack!!
-$env = 'phpcr';
+$request = Request::createFromGlobals();
+$env = $request->query->get('env', 'phpcr');
+$request->query->remove('env');
 
 $kernel = include __DIR__.'/../../bootstrap/kernel_bootstrap.php';
 $kernel->loadClassCache();
-$request = Request::createFromGlobals();
 $response = $kernel->handle($request);
 $response->send();
 $kernel->terminate($request, $response);
