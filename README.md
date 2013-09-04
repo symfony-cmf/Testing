@@ -1,5 +1,7 @@
 # Symfony CMF Testing Component
 
+[![Build Status](https://travis-ci.org/symfony-cmf/Testing.png?branch=master)](https://travis-ci.org/symfony-cmf/Testing)
+
 **NOTE**: This is an internal tool and is not intended to be used outside of
 the context of the CMF.
 
