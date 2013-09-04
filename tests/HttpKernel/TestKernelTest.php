@@ -1,6 +1,6 @@
 <?php
 
-namespace Symfony\Cmf\Component\Testing\Tests\HttpKernel;
+namespace Tests\HttpKernel;
 
 use Symfony\Cmf\Component\Testing\HttpKernel\TestKernel;
 use Symfony\Component\Config\Loader\LoaderInterface;
@@ -24,7 +24,7 @@ class TestKernelTest extends \PHPUnit_Framework_TestCase
             'default', 'phpcr_odm'
         ));
         $bundles = $this->kernel->registerBundles();
-        $this->assertCount(5, $bundles);
+        $this->assertCount(6, $bundles);
     }
 
     public function testBundleAdd()
