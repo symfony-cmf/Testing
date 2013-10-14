@@ -11,16 +11,13 @@
     "minimum-stability": "dev",
     "require": {
         "symfony/symfony": "~2.1",
-
+        "symfony/monolog-bundle": "~2.1",
         "doctrine/common": "~2.4",
         "doctrine/doctrine-bundle": "1.*",
         "doctrine/phpcr-odm": "1.0.*",
         "doctrine/phpcr-bundle": "1.0.*",
         "doctrine/data-fixtures": "1.0.*",
-
-        "symfony/monolog-bundle": "~2.1",
-
-        "jackalope/jackalope": "~1.0.0-beta4",
+        "jackalope/jackalope": "1.0.*",
         "jackalope/jackalope-doctrine-dbal": "1.0.*"
     },
     "autoload": {
