@@ -38,6 +38,10 @@ abstract class TestKernel extends Kernel
             '\Doctrine\Bundle\PHPCRBundle\DoctrinePHPCRBundle',
         ));
 
+        $this->registerBundleSet('doctrine_orm', array(
+            '\Doctrine\Bundle\DoctrineBundle\DoctrineBundle',
+        ));
+
         $this->registerBundleSet('sonata_admin', array(
             '\Sonata\BlockBundle\SonataBlockBundle',
             '\Sonata\AdminBundle\SonataAdminBundle',
