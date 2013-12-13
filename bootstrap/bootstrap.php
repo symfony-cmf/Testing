@@ -29,5 +29,9 @@ AnnotationRegistry::registerLoader(function($class) use ($loader) {
 
 AnnotationRegistry::registerFile($vendorDir.'/doctrine/phpcr-odm/lib/Doctrine/ODM/PHPCR/Mapping/Annotations/DoctrineAnnotations.php');
 
-define('CMF_TEST_ROOT_DIR', realpath(__DIR__.'/..'));
-define('CMF_TEST_CONFIG_DIR', CMF_TEST_ROOT_DIR.'/resources/config');
+if (!defined('CMF_TEST_ROOT_DIR')) {
+    define('CMF_TEST_ROOT_DIR', realpath(__DIR__.'/..'));
+}
+if (!defined('CMF_TEST_CONFIG_DIR')) {
+    define('CMF_TEST_CONFIG_DIR', CMF_TEST_ROOT_DIR.'/resources/config');
+}
