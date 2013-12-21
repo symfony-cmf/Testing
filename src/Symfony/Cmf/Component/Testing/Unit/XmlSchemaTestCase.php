@@ -19,9 +19,11 @@ class XmlSchemaTestCase extends \PHPUnit_Framework_TestCase
                 return $dom;
             }
             
-            if (!$dom instanceof DOMDocument) {
-                throw new \InvalidArgumentException('The first argument of assertSchemaAcceptsXml should be instances of \DOMDocument, "%s" given', get_class($xml));
+            if (!$dom instanceof \DOMDocument) {
+                throw new \InvalidArgumentException(sprintf('The first argument of assertSchemaAcceptsXml should be instances of \DOMDocument, "%s" given', get_class($dom)));
             }
+
+            return $dom;
         }, $xmlDoms);
 
         return self::assertThat($xmlDoms, new Constraint\SchemaAcceptsXml($schemaPath), $message);
