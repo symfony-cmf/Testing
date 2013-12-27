@@ -26,6 +26,6 @@ class XmlSchemaTestCase extends \PHPUnit_Framework_TestCase
             return $dom;
         }, $xmlDoms);
 
-        return self::assertThat($xmlDoms, new Constraint\SchemaAcceptsXml($schemaPath), $message);
+        return self::assertThat($schemaPath, new Constraint\SchemaAcceptsXml($xmlDoms), $message);
     }
 }

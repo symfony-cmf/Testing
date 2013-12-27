@@ -4,19 +4,19 @@ namespace Symfony\Cmf\Component\Testing\Unit\Constraint;
 
 class SchemaAcceptsXml extends \PHPUnit_Framework_Constraint
 {
-    protected $schemaFile;
+    protected $xml;
     protected $failingElement;
     protected $errors;
 
-    public function __construct($schemaFile)
+    public function __construct($xml)
     {
-        $this->schemaFile = $schemaFile;
+        $this->xml = $xml;
     }
 
-    public function matches($others)
+    public function matches($schemaFile)
     {
-        foreach ($others as $id => $other) {
-            $configElement = $other->getElementsByTagName('config');
+        foreach ($this->xml as $id => $dom) {
+            $configElement = $dom->getElementsByTagName('config');
 
             if (1 !== $configElement->length) {
                 throw new \InvalidArgumentException(sprintf('Can only test a file if it contains 1 <config> element, %d given', $configElement->length));
@@ -26,9 +26,10 @@ class SchemaAcceptsXml extends \PHPUnit_Framework_Constraint
             $configDom->appendChild($configDom->importNode($configElement->item(0), true));
 
             libxml_use_internal_errors(true);
-            if (!$configDom->schemaValidate($this->schemaFile)) {
+            if (!$configDom->schemaValidate($schemaFile)) {
                 $this->errors = libxml_get_errors();
                 $this->failingElement = $id;
+
                 return false;
             }
         }
@@ -36,18 +37,23 @@ class SchemaAcceptsXml extends \PHPUnit_Framework_Constraint
         return true;
     }
 
+    public function count()
+    {
+        return count($this->xml);
+    }
+
     public function toString() { }
 
-    protected function failureDescription($others)
+    protected function failureDescription($schemaFile)
     {
         return sprintf(
             '"%s" is accepted by the XML schema "%s"',
-            \PHPUnit_Util_Type::export($others[$this->failingElement]),
-            $this->schemaFile
+            \PHPUnit_Util_Type::export($this->xml[$this->failingElement]),
+            $schemaFile
         );
     }
 
-    protected function additionalFailureDescription($other)
+    protected function additionalFailureDescription($schema)
     {
         $str = '';
 
