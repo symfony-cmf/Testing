@@ -47,18 +47,22 @@ class SchemaAcceptsXml extends \PHPUnit_Framework_Constraint
     protected function failureDescription($schemaFile)
     {
         return sprintf(
-            '"%s" is accepted by the XML schema "%s"',
-            \PHPUnit_Util_Type::export($this->xml[$this->failingElement]),
+            "Xml is accepted by the XML schema \"%s\"",
             $schemaFile
         );
     }
 
     protected function additionalFailureDescription($schema)
     {
-        $str = '';
+        $str = "\n".$this->xml[$this->failingElement]->saveXml()."\n\n";
 
         foreach ($this->errors as $error) {
-            $str .= $error->message.($error->file ? ' in'.$error->file : '').' on line '.$error->line."\n";
+            $error = trim($error->message).($error->file ? ' in'.$error->file : '').' on line '.$error->line."\n";
+
+            // avoid repeating same error
+            if (false === strpos($str, $error)) {
+                $str .= $error;
+            }
         }
 
         return $str;
