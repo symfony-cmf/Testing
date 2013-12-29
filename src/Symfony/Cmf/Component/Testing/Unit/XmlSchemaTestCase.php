@@ -6,6 +6,20 @@ class XmlSchemaTestCase extends \PHPUnit_Framework_TestCase
 {
     public static function assertSchemaAcceptsXml($xmlDoms, $schemaPath, $message = '')
     {
+        return self::assertThat($schemaPath, self::getSchemaAcceptsXmlConstraint($xmlDoms), $message);
+    }
+
+    public static function assertSchemaRefusesXml($xmlDoms, $schemaPath, $message = '')
+    {
+        return self::assertThat(
+            $schemaPath,
+            new \PHPUnit_Framework_Constraint_Not(self::getSchemaAcceptsXmlConstraint($xmlDoms)),
+            $message
+        );
+    }
+
+    private static function getSchemaAcceptsXmlConstraint($xmlDoms)
+    {
         if (!is_array($xmlDoms)) {
             $xmlDoms = array($xmlDoms);
         }
@@ -26,6 +40,6 @@ class XmlSchemaTestCase extends \PHPUnit_Framework_TestCase
             return $dom;
         }, $xmlDoms);
 
-        return self::assertThat($schemaPath, new Constraint\SchemaAcceptsXml($xmlDoms), $message);
+        return new Constraint\SchemaAcceptsXml($xmlDoms);
     }
 }
