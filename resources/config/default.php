@@ -5,7 +5,7 @@ $bundleName = null;
 
 if (preg_match('&/([a-zA-Z]+?)Bundle&', $kernelRootDir, $matches)) {
     $bundleName = $matches[1].'Bundle';
-    $bundleFQN = 'Symfony\\Cmf\\Bundle\\'.$matches[1].'Bundle';
+    $bundleFQN = $container->get('kernel')->getBundle($bundleName)->getNamespace().'\\'.$bundleName;
     $container->setParameter('cmf_testing.bundle_name', $bundleName);
     $container->setParameter('cmf_testing.bundle_fqn', $bundleFQN);
 }
