@@ -22,7 +22,7 @@ class DatabaseTestListener implements \PHPUnit_Framework_TestListener
             if (false !== $phpExecutable) {
                 $this->processBuilder->setPrefix(array($phpExecutable, __DIR__.'/../../../../../../bin/console'));
             } else {
-                // todo throw an exception, log error?
+                throw new \RuntimeException('No PHP executable found on the current system.');
             }
         } else {
             $this->processBuilder = $processBuilder;
