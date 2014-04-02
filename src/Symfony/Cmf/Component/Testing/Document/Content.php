@@ -20,6 +20,9 @@ use Symfony\Cmf\Bundle\CoreBundle\Model\ChildInterface;
  *
  * Very simple, referenceable document.
  *
+ * @deprecated This Document is deprecated as of 1.1 and will be removed in 
+ * 2.0. Move the fixture to your own bundle instead.
+ *
  * @PHPCRODM\Document(referenceable=true)
  */
 class Content implements ChildInterface
