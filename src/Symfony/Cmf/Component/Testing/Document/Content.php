@@ -13,7 +13,6 @@
 namespace Symfony\Cmf\Component\Testing\Document;
 
 use Doctrine\ODM\PHPCR\Mapping\Annotations as PHPCRODM;
-use Symfony\Cmf\Bundle\CoreBundle\Model\ChildInterface;
 
 /**
  * Test content document
@@ -25,7 +24,7 @@ use Symfony\Cmf\Bundle\CoreBundle\Model\ChildInterface;
  *
  * @PHPCRODM\Document(referenceable=true)
  */
-class Content implements ChildInterface
+class Content
 {
     /**
      * @PHPCRODM\Id(strategy="parent")
@@ -57,12 +56,12 @@ class Content implements ChildInterface
         return $this->id;
     }
 
-    public function setParentDocument($parent)
+    public function setParent($parent)
     {
         $this->parent = $parent;
     }
 
-    public function getParentDocument()
+    public function getParent()
     {
         return $this->parent;
     }
