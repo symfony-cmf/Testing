@@ -16,6 +16,9 @@ use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ODM\PHPCR\Document\Generic;
 
+/**
+ * @deprecated Deprecated as of Testing 1.1, will be removed in 2.0
+ */
 class LoadBaseData implements FixtureInterface
 {
     public function load(ObjectManager $manager)
