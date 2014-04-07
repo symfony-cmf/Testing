@@ -1,10 +1,10 @@
 {
     "name": "symfony-cmf/testing",
     "license": "MIT",
-    "description": "Component to easily test CMF bundles.",
+    "description": "Component providing tools for writing tests with Symfony.",
     "authors": [
         {
-            "name": "Symfony CMF community",
+            "name": "Symfony CMF Community",
             "homepage": "https://github.com/symfony-cmf/Routing/contributors"
         }
     ],
