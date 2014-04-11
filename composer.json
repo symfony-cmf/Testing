@@ -10,7 +10,7 @@
     ],
     "minimum-stability": "dev",
     "require": {
-        "symfony/symfony": "~2.1",
+        "symfony/symfony": "~2.3",
         "symfony/monolog-bundle": "~2.1",
         "doctrine/common": "~2.4",
         "doctrine/doctrine-bundle": "1.*",
