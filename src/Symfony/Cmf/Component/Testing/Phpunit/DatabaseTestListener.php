@@ -14,6 +14,7 @@ namespace Symfony\Cmf\Component\Testing\Phpunit;
 
 use Symfony\Component\Process\ProcessBuilder;
 use Symfony\Component\Process\Process;
+use Symfony\Component\Process\ProcessUtils;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\HttpKernel\Kernel;
 use Doctrine\Common\DataFixtures\Purger;
@@ -30,7 +31,10 @@ class DatabaseTestListener implements \PHPUnit_Framework_TestListener
             $phpExecutableFinder = new PhpExecutableFinder();
             $phpExecutable = $phpExecutableFinder->find();
             if (false !== $phpExecutable) {
-                $this->processBuilder->setPrefix(array($phpExecutable, __DIR__.'/../../../../../../bin/console'));
+                $this->processBuilder->setPrefix(
+                    ProcessUtils::escapeArgument($phpExecutable).' '.
+                    ProcessUtils::escapeArgument(__DIR__.'/../../../../../../bin/console')
+                );
             } else {
                 throw new \RuntimeException('No PHP executable found on the current system.');
             }
