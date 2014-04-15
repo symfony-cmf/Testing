@@ -23,6 +23,7 @@ class DatabaseTestListener implements \PHPUnit_Framework_TestListener
 {
     protected static $currentSuite;
     private $processBuilder;
+    private $prefix;
 
     public function __construct($processBuilder = null)
     {
@@ -30,14 +31,12 @@ class DatabaseTestListener implements \PHPUnit_Framework_TestListener
             $this->processBuilder = new ProcessBuilder();
             $phpExecutableFinder = new PhpExecutableFinder();
             $phpExecutable = $phpExecutableFinder->find();
-            if (false !== $phpExecutable) {
-                $this->processBuilder->setPrefix(
-                    ProcessUtils::escapeArgument($phpExecutable).' '.
-                    ProcessUtils::escapeArgument(__DIR__.'/../../../../../../bin/console')
-                );
-            } else {
+            if (false === $phpExecutable) {
                 throw new \RuntimeException('No PHP executable found on the current system.');
             }
+
+            // Symfony 2.3 does not support array prefix, so we have to implement it ourselves
+            $this->prefix = array($phpExecutable, __DIR__.'/../../../../../../bin/console');
         } else {
             $this->processBuilder = $processBuilder;
         }
@@ -112,7 +111,7 @@ class DatabaseTestListener implements \PHPUnit_Framework_TestListener
         echo PHP_EOL.PHP_EOL;
 
         $process = $this->processBuilder
-            ->setArguments(array('doctrine:phpcr:init:dbal', '--drop'))
+            ->setArguments(array_merge($this->prefix, array('doctrine:phpcr:init:dbal', '--drop')))
             ->getProcess();
         $process->run();
 
@@ -123,7 +122,7 @@ class DatabaseTestListener implements \PHPUnit_Framework_TestListener
                     $suite->markTestSuiteSkipped('[PHPCR] Error when initializing dbal: '.$output);
                 } else {
                     $process = $this->processBuilder
-                        ->setArguments(array('doctrine:phpcr:repository:init'))
+                        ->setArguments(array_merge($this->prefix, array('doctrine:phpcr:repository:init')))
                         ->getProcess();
                     $process->run();
 
@@ -151,7 +150,7 @@ class DatabaseTestListener implements \PHPUnit_Framework_TestListener
         echo PHP_EOL.PHP_EOL;
 
         $process = $this->processBuilder
-            ->setArguments(array('doctrine:schema:drop', '--env=orm', '--force'))
+            ->setArguments(array_merge($this->prefix, array('doctrine:schema:drop', '--env=orm', '--force')))
             ->getProcess();
         $process->run();
 
@@ -167,7 +166,7 @@ class DatabaseTestListener implements \PHPUnit_Framework_TestListener
         }
 
         $process = $this->processBuilder
-            ->setArguments(array('doctrine:database:create', '--env=orm'))
+            ->setArguments(array_merge($this->prefix, array('doctrine:database:create', '--env=orm')))
             ->getProcess();
         $process->run();
 
@@ -178,7 +177,7 @@ class DatabaseTestListener implements \PHPUnit_Framework_TestListener
                     $suite->markTestSuiteSkipped('[ORM] Error when creating database: '.$output);
                 } else {
                     $process = $this->processBuilder
-                        ->setArguments(array('doctrine:schema:create', '--env=orm'))
+                        ->setArguments(array_merge($this->prefix, array('doctrine:schema:create', '--env=orm')))
                         ->getProcess();
                     $process->run();
 
@@ -208,7 +207,7 @@ class DatabaseTestListener implements \PHPUnit_Framework_TestListener
         }
 
         $process = $this->processBuilder
-            ->setArguments(array('doctrine:database:drop', '--force'))
+            ->setArguments(array_merge($this->prefix, array('doctrine:database:drop', '--force')))
             ->getProcess();
         $process->run();
 
