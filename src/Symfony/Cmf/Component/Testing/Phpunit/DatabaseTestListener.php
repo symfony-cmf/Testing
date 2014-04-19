@@ -100,7 +100,7 @@ class DatabaseTestListener implements \PHPUnit_Framework_TestListener
                 break;
 
             default:
-                if (!class_exists($suite->getName())) {
+                if (!class_exists($suite->getName()) && false === strpos($suite->getName(), '::')) {
                     echo PHP_EOL.PHP_EOL.'['.$suite->getName().']'.PHP_EOL;
                 }
         }
