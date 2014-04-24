@@ -63,6 +63,26 @@ abstract class TestKernel extends Kernel
             'FOS\JsRoutingBundle\FOSJsRoutingBundle',
         ));
 
+        $this->registerBundleSet('sonata_admin_orm', array(
+            '\Sonata\BlockBundle\SonataBlockBundle',
+            '\Sonata\CoreBundle\SonataCoreBundle',
+            '\Sonata\AdminBundle\SonataAdminBundle',
+            '\Sonata\jQueryBundle\SonatajQueryBundle',
+            'Knp\Bundle\MenuBundle\KnpMenuBundle',
+            'FOS\JsRoutingBundle\FOSJsRoutingBundle',
+        ));
+
+        $this->registerBundleSet('sonata_admin_phpcr', array(
+            '\Sonata\BlockBundle\SonataBlockBundle',
+            '\Sonata\CoreBundle\SonataCoreBundle',
+            '\Sonata\AdminBundle\SonataAdminBundle',
+            '\Sonata\jQueryBundle\SonatajQueryBundle',
+            'Knp\Bundle\MenuBundle\KnpMenuBundle',
+            '\Sonata\DoctrinePHPCRAdminBundle\SonataDoctrinePHPCRAdminBundle',
+            'Symfony\Cmf\Bundle\TreeBrowserBundle\CmfTreeBrowserBundle',
+            'FOS\JsRoutingBundle\FOSJsRoutingBundle',
+        ));
+
         parent::init();
         $this->configure();
     }
