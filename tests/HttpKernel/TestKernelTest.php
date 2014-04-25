@@ -27,14 +27,23 @@ class TestKernelTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testBundleSetRequire()
+    /**
+     * @dataProvider bundleSetProvider
+     */
+    public function testBundleSetRequire(array $bundleSets, $count)
     {
         $this->kernel->init();
-        $this->kernel->requireBundleSets(array(
-            'default', 'phpcr_odm'
-        ));
+        $this->kernel->requireBundleSets($bundleSets);
         $bundles = $this->kernel->registerBundles();
-        $this->assertCount(6, $bundles);
+        $this->assertCount($count, $bundles);
+    }
+
+    public function bundleSetProvider()
+    {
+        return array(
+            array(array('default', 'phpcr_odm'), 6),
+            array(array('default', 'doctrine_orm'), 5),
+        );
     }
 
     public function testBundleAdd()

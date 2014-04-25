@@ -37,28 +37,48 @@ abstract class TestKernel extends Kernel
     public function init()
     {
         $this->registerBundleSet('default', array(
-            '\Symfony\Bundle\FrameworkBundle\FrameworkBundle',
-            '\Symfony\Bundle\SecurityBundle\SecurityBundle',
-            '\Symfony\Bundle\TwigBundle\TwigBundle',
-            '\Symfony\Bundle\MonologBundle\MonologBundle',
+            'Symfony\Bundle\FrameworkBundle\FrameworkBundle',
+            'Symfony\Bundle\SecurityBundle\SecurityBundle',
+            'Symfony\Bundle\TwigBundle\TwigBundle',
+            'Symfony\Bundle\MonologBundle\MonologBundle',
         ));
 
         $this->registerBundleSet('phpcr_odm', array(
-            '\Doctrine\Bundle\DoctrineBundle\DoctrineBundle',
-            '\Doctrine\Bundle\PHPCRBundle\DoctrinePHPCRBundle',
+            'Doctrine\Bundle\DoctrineBundle\DoctrineBundle',
+            'Doctrine\Bundle\PHPCRBundle\DoctrinePHPCRBundle',
         ));
 
         $this->registerBundleSet('doctrine_orm', array(
-            '\Doctrine\Bundle\DoctrineBundle\DoctrineBundle',
+            'Doctrine\Bundle\DoctrineBundle\DoctrineBundle',
         ));
 
         $this->registerBundleSet('sonata_admin', array(
-            '\Sonata\BlockBundle\SonataBlockBundle',
-            '\Sonata\CoreBundle\SonataCoreBundle',
-            '\Sonata\AdminBundle\SonataAdminBundle',
-            '\Sonata\jQueryBundle\SonatajQueryBundle',
+            'Sonata\BlockBundle\SonataBlockBundle',
+            'Sonata\CoreBundle\SonataCoreBundle',
+            'Sonata\AdminBundle\SonataAdminBundle',
+            'Sonata\jQueryBundle\SonatajQueryBundle',
             'Knp\Bundle\MenuBundle\KnpMenuBundle',
-            '\Sonata\DoctrinePHPCRAdminBundle\SonataDoctrinePHPCRAdminBundle',
+            'Sonata\DoctrinePHPCRAdminBundle\SonataDoctrinePHPCRAdminBundle',
+            'Symfony\Cmf\Bundle\TreeBrowserBundle\CmfTreeBrowserBundle',
+            'FOS\JsRoutingBundle\FOSJsRoutingBundle',
+        ));
+
+        $this->registerBundleSet('sonata_admin_orm', array(
+            'Sonata\BlockBundle\SonataBlockBundle',
+            'Sonata\CoreBundle\SonataCoreBundle',
+            'Sonata\AdminBundle\SonataAdminBundle',
+            'Sonata\jQueryBundle\SonatajQueryBundle',
+            'Knp\Bundle\MenuBundle\KnpMenuBundle',
+            'FOS\JsRoutingBundle\FOSJsRoutingBundle',
+        ));
+
+        $this->registerBundleSet('sonata_admin_phpcr', array(
+            'Sonata\BlockBundle\SonataBlockBundle',
+            'Sonata\CoreBundle\SonataCoreBundle',
+            'Sonata\AdminBundle\SonataAdminBundle',
+            'Sonata\jQueryBundle\SonatajQueryBundle',
+            'Knp\Bundle\MenuBundle\KnpMenuBundle',
+            'Sonata\DoctrinePHPCRAdminBundle\SonataDoctrinePHPCRAdminBundle',
             'Symfony\Cmf\Bundle\TreeBrowserBundle\CmfTreeBrowserBundle',
             'FOS\JsRoutingBundle\FOSJsRoutingBundle',
         ));
