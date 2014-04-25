@@ -4,8 +4,9 @@ Changelog
 1.1.0-RC2
 ---------
 
-* **2014-04-24**: add bundle sets: sonata_admin_orm and sonata_admin_phpcr
-* **2014-04-11**: drop Symfony 2.2 compatibility
+* **2014-04-24**: [DEPRECATE] Deprecated the `sonata_admin` bundle set
+* **2014-04-24**: added bundle sets: `sonata_admin_orm` and `sonata_admin_phpcr`
+* **2014-04-11**: dropped Symfony 2.2 compatibility
 
 1.1.0-RC1
 ---------
