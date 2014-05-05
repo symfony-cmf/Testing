@@ -70,6 +70,7 @@ abstract class TestKernel extends Kernel
             'Sonata\jQueryBundle\SonatajQueryBundle',
             'Knp\Bundle\MenuBundle\KnpMenuBundle',
             'FOS\JsRoutingBundle\FOSJsRoutingBundle',
+            'Sonata\DoctrineORMAdminBundle\SonataDoctrineORMAdminBundle',
         ));
 
         $this->registerBundleSet('sonata_admin_phpcr', array(
