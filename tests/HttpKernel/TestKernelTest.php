@@ -43,6 +43,7 @@ class TestKernelTest extends \PHPUnit_Framework_TestCase
         return array(
             array(array('default', 'phpcr_odm'), 6),
             array(array('default', 'doctrine_orm'), 5),
+            array(array('default', 'doctrine_orm', 'phpcr_odm'), 6),
         );
     }
 

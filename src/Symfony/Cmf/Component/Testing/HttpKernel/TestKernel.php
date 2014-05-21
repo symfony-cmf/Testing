@@ -145,7 +145,7 @@ abstract class TestKernel extends Kernel
                 ));
             }
 
-            $this->requiredBundles[] = new $bundle;
+            $this->requiredBundles[$bundle] = new $bundle;
         }
     }
 
