@@ -59,12 +59,13 @@ class ORM
     /**
      * Gets the Doctrine ObjectManager
      *
+     * @param null $managerName
      * @return ObjectManager
      */
-    public function getOm()
+    public function getOm($managerName = null)
     {
         if (!$this->om) {
-            $this->om = $this->getRegistry()->getManager();
+            $this->om = $this->getRegistry()->getManager($managerName);
         }
 
         return $this->om;
