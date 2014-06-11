@@ -35,10 +35,14 @@ class PHPCR
         return $this->container->get('doctrine_phpcr');
     }
 
-    public function getOm()
+    /**
+     * @param null|string $managerName
+     * @return DocumentManager
+     */
+    public function getOm($managerName = null)
     {
         if (!$this->om) {
-            $this->om = $this->getRegistry()->getManager();
+            $this->om = $this->getRegistry()->getManager($managerName);
         }
 
         return $this->om;
