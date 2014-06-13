@@ -18,7 +18,9 @@
         "doctrine/phpcr-bundle": "1.*",
         "doctrine/data-fixtures": "1.0.*",
         "jackalope/jackalope": "1.*",
-        "jackalope/jackalope-doctrine-dbal": "1.*",
+        "jackalope/jackalope-doctrine-dbal": "1.*"
+    },
+    "require-dev": {
         "phpunit/phpunit": "3.7.*"
     },
     "autoload": {
