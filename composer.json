@@ -24,7 +24,9 @@
         "phpunit/phpunit": "3.7.*"
     },
     "autoload": {
-        "psr-0": { "Symfony\\Cmf\\Component\\Testing": "src/" }
+        "psr-4": {
+            "Symfony\\Cmf\\Component\\Testing\\": "src/"
+        }
     },
     "extra": {
         "branch-alias": {
