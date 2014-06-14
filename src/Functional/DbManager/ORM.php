@@ -1,5 +1,15 @@
 <?php
 
+/*
+ * This file is part of the Symfony CMF package.
+ *
+ * (c) 2011-2014 Symfony CMF
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+
 namespace Symfony\Cmf\Component\Testing\Functional\DbManager;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -49,12 +59,13 @@ class ORM
     /**
      * Gets the Doctrine ObjectManager
      *
+     * @param null $managerName
      * @return ObjectManager
      */
-    public function getOm()
+    public function getOm($managerName = null)
     {
         if (!$this->om) {
-            $this->om = $this->getRegistry()->getManager();
+            $this->om = $this->getRegistry()->getManager($managerName);
         }
 
         return $this->om;
