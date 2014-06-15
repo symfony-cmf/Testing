@@ -36,7 +36,7 @@ class DatabaseTestListener implements \PHPUnit_Framework_TestListener
             }
 
             // Symfony 2.3 does not support array prefix, so we have to implement it ourselves
-            $this->prefix = array($phpExecutable, __DIR__.'/../../../../../../bin/console');
+            $this->prefix = array($phpExecutable, __DIR__.'/../../../../bin/console');
         } else {
             $this->processBuilder = $processBuilder;
         }
