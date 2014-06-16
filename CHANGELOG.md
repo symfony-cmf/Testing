@@ -1,6 +1,7 @@
 Changelog
 =========
 
+* **2014-06-16**: Initializer for phpcr fixture loading
 * **2014-06-06**: Updated to PSR-4 autoloading
 
 1.1.0-RC2
