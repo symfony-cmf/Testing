@@ -19,7 +19,7 @@ $config = array(
             'test_default' => array(
                 'type' => 'annotation',
                 'prefix' => 'Symfony\Cmf\Component\Testing\Document',
-                'dir' => CMF_TEST_ROOT_DIR.'/src/Symfony/Cmf/Component/Testing/Document',
+                'dir' => CMF_TEST_ROOT_DIR.'/src/Document',
                 'is_bundle' => false,
             ),
         ),
