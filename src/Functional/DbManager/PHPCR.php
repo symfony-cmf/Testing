@@ -12,8 +12,8 @@
 
 namespace Symfony\Cmf\Component\Testing\Functional\DbManager;
 
+use Doctrine\Bundle\PHPCRBundle\DataFixtures\PHPCRExecutor;
 use Doctrine\Common\DataFixtures\Purger\PHPCRPurger;
-use Doctrine\Common\DataFixtures\Executor\PHPCRExecutor;
 use Symfony\Bridge\Doctrine\DataFixtures\ContainerAwareLoader;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\ODM\PHPCR\DocumentManager;
@@ -48,11 +48,13 @@ class PHPCR
         return $this->om;
     }
 
-    public function loadFixtures(array $classNames)
+    public function loadFixtures(array $classNames, $initialize = false)
     {
+        $initializerManager = $initialize ? $this->container->get('doctrine_phpcr.initializer_manager') : null;
+
         $loader = new ContainerAwareLoader($this->container);;
         $purger = new PHPCRPurger();
-        $executor = new PHPCRExecutor($this->getOm(), $purger);
+        $executor = new PHPCRExecutor($this->getOm(), $purger, $initializerManager);
 
         $referenceRepository = new ProxyReferenceRepository($this->getOm());
 
