@@ -77,6 +77,11 @@ class ORM
         return $this->om;
     }
 
+    /**
+     * Loads fixture classes.
+     * 
+     * @param string[] $classNames
+     */
     public function loadFixtures(array $classNames)
     {
         $loader = new ContainerAwareLoader($this->container);;
@@ -95,7 +100,13 @@ class ORM
         $executor->execute($loader->getFixtures(), true);
     }
 
-    public function loadFixtureClass(Loader $loader, $className)
+    /**
+     * Loads a single fixture.
+     * 
+     * @param Loader $loader
+     * @param string $className
+     */
+    protected function loadFixtureClass(Loader $loader, $className)
     {
         if (!class_exists($className)) {
             throw new \InvalidArgumentException(sprintf(
