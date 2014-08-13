@@ -57,8 +57,8 @@ class DatabaseTestListener implements \PHPUnit_Framework_TestListener
     public function addSkippedTest(\PHPUnit_Framework_Test $test, \Exception $e, $time)
     {
     }
-    
-    public function addRiskyTest(PHPUnit_Framework_Test $test, Exception $e, $time)
+
+    public function addRiskyTest(\PHPUnit_Framework_Test $test, \Exception $e, $time)
     {
     }
  
