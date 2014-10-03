@@ -30,7 +30,7 @@ class DatabaseTestListener implements \PHPUnit_Framework_TestListener
         if (null === $processBuilder) {
             $this->processBuilder = new ProcessBuilder();
             $phpExecutableFinder = new PhpExecutableFinder();
-            $phpExecutable = $phpExecutableFinder->find();
+            $phpExecutable = $phpExecutableFinder->find(false);
             if (false === $phpExecutable) {
                 throw new \RuntimeException('No PHP executable found on the current system.');
             }
