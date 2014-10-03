@@ -12,8 +12,14 @@
 
 namespace Symfony\Cmf\Component\Testing\Functional\DbManager;
 
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
+use Doctrine\Common\DataFixtures\Loader;
+use Doctrine\Common\DataFixtures\ProxyReferenceRepository;
+use Symfony\Bridge\Doctrine\DataFixtures\ContainerAwareLoader;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
+use Doctrine\Common\DataFixtures\Purger\ORMPurger;
+use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\Common\Persistence\ObjectManager;
 
@@ -69,5 +75,59 @@ class ORM
         }
 
         return $this->om;
+    }
+
+    /**
+     * Loads fixture classes.
+     * 
+     * @param string[] $classNames
+     */
+    public function loadFixtures(array $classNames)
+    {
+        $loader = new ContainerAwareLoader($this->container);;
+        $purger = new ORMPurger();
+        $executor = new ORMExecutor($this->getOm(), $purger);
+
+        $referenceRepository = new ProxyReferenceRepository($this->getOm());
+
+        $executor->setReferenceRepository($referenceRepository);
+        $executor->purge();
+
+        foreach ($classNames as $className) {
+            $this->loadFixtureClass($loader, $className);
+        }
+
+        $executor->execute($loader->getFixtures(), true);
+    }
+
+    /**
+     * Loads a single fixture.
+     * 
+     * @param Loader $loader
+     * @param string $className
+     */
+    protected function loadFixtureClass(Loader $loader, $className)
+    {
+        if (!class_exists($className)) {
+            throw new \InvalidArgumentException(sprintf(
+                'Fixture class "%s" does not exist.',
+                $className
+            ));
+        }
+
+        $fixture = new $className();
+
+        if ($loader->hasFixture($fixture)) {
+            unset($fixture);
+            return;
+        }
+
+        $loader->addFixture($fixture);
+
+        if ($fixture instanceof DependentFixtureInterface) {
+            foreach ($fixture->getDependencies() as $dependency) {
+                $this->loadFixtureClass($loader, $dependency);
+            }
+        }
     }
 }
