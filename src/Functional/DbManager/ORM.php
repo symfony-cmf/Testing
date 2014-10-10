@@ -33,6 +33,11 @@ use Doctrine\Common\Persistence\ObjectManager;
 class ORM
 {
     /**
+     * @var ORMExecutor
+     */
+    private $executor;
+
+    /**
      * @var ContainerInterface
      */
     protected $container;
@@ -78,26 +83,30 @@ class ORM
     }
 
     /**
+     * Purge the database
+     */
+    public function purgeDatabase()
+    {
+        $referenceRepository = new ProxyReferenceRepository($this->getOm());
+        $this->getExecutor()->setReferenceRepository($referenceRepository);
+        $this->getExecutor()->purge();
+    }
+
+    /**
      * Loads fixture classes.
      * 
      * @param string[] $classNames
      */
     public function loadFixtures(array $classNames)
     {
+        $this->purgeDatabase();
         $loader = new ContainerAwareLoader($this->container);;
-        $purger = new ORMPurger();
-        $executor = new ORMExecutor($this->getOm(), $purger);
-
-        $referenceRepository = new ProxyReferenceRepository($this->getOm());
-
-        $executor->setReferenceRepository($referenceRepository);
-        $executor->purge();
 
         foreach ($classNames as $className) {
             $this->loadFixtureClass($loader, $className);
         }
 
-        $executor->execute($loader->getFixtures(), true);
+        $this->getExecutor()->execute($loader->getFixtures(), true);
     }
 
     /**
@@ -129,5 +138,22 @@ class ORM
                 $this->loadFixtureClass($loader, $dependency);
             }
         }
+    }
+
+    /**
+     * Return the ORM Executor class
+     *
+     * @return ORMExecutor
+     */
+    private function getExecutor()
+    {
+        if ($this->executor) {
+            return $this->executor;
+        }
+
+        $purger = new ORMPurger();
+        $this->executor = new ORMExecutor($this->getOm(), $purger);
+
+        return $this->executor;
     }
 }
