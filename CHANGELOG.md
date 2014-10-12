@@ -1,8 +1,8 @@
 Changelog
 =========
 
-dev-master
-----------
+1.2.0-RC2
+---------
 
 * **2014-10-06**: Added purgeDatabase method to ORM manager
 
