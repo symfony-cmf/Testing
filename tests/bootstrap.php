@@ -10,3 +10,7 @@ if (!$loader = include $vendorDir.'/autoload.php') {
         'curl -s http://getcomposer.org/installer | php'.$nl.
         'php composer.phar install'.$nl);
 }
+
+$loader->addPsr4('Symfony\\Testing\\', array(
+    __DIR__ . '/tests'
+));
