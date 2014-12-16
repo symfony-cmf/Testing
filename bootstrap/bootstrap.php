@@ -1,5 +1,12 @@
 <?php
 
+// by default, don't report user deprecation errors
+// report them only if the CMF_REPORT_DEPRECATIONS
+// environment variable is set
+if (!getenv('CMF_REPORT_DEPRECATIONS')) {
+    error_reporting(E_ALL ^ E_USER_DEPRECATED);
+}
+
 $vendorDir = realpath(__DIR__.'/../../..');
 
 if (!$loader = include $vendorDir.'/autoload.php') {
