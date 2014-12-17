@@ -7,8 +7,7 @@ php:
     - hhvm
 
 env:
-  - SYMFONY_VERSION=2.5.*
-  - COMPONENTS=high
+  - SYMFONY_VERSION=2.5.* COMPONENTS=high
 
 matrix:
   include:
