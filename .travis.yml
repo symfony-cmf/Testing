@@ -22,8 +22,8 @@ matrix:
 
 before_script:
   - composer self-update
-  - sh -c 'if [ "$COMPONENTS" = "high" ]; composer require symfony/symfony:${SYMFONY_VERSION} --prefer-source; fi;'
-  - sh -c 'if [ "$COMPONENTS" = "low" ]; composer require symfony/symfony:${SYMFONY_VERSION} --prefer-stable --prefer-lowest --prefer-source; fi;'
+  - sh -c 'if [ "$COMPONENTS" = "high" ]; then composer require symfony/symfony:${SYMFONY_VERSION} --prefer-source; fi;'
+  - sh -c 'if [ "$COMPONENTS" = "low" ]; then composer require symfony/symfony:${SYMFONY_VERSION} --prefer-stable --prefer-lowest --prefer-source; fi;'
 
 script: phpunit --coverage-text
 
