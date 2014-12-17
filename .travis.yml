@@ -8,9 +8,12 @@ php:
 
 env:
   - SYMFONY_VERSION=2.5.*
+  - COMPONENTS=high
 
 matrix:
   include:
+    - php: 5.3.3:
+      env: COMPONENTS=low
     - php: 5.5
       env: SYMFONY_VERSION=2.3.*
     - php: 5.5
@@ -20,7 +23,8 @@ matrix:
 
 before_script:
   - composer self-update
-  - composer require symfony/symfony:${SYMFONY_VERSION} --prefer-source
+  - sh -c 'if [ "$COMPONENTS" = "high" ]; composer require symfony/symfony:${SYMFONY_VERSION} --prefer-source; fi;'
+  - sh -c 'if [ "$COMPONENTS" = "low" ]; composer require symfony/symfony:${SYMFONY_VERSION} --prefer-stable --prefer-lowest --prefer-source; fi;'
 
 script: phpunit --coverage-text
 
