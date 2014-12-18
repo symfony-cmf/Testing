@@ -4,26 +4,35 @@ php:
     - 5.3
     - 5.4
     - 5.5
+    - 5.6
     - hhvm
 
 env:
-  - SYMFONY_VERSION=2.5.* COMPONENTS=high
+  - SYMFONY_VERSION=2.6.* COMPONENTS=high
 
 matrix:
   include:
     - php: 5.3.3
       env: SYMFONY_VERSION=2.3.* COMPONENTS=low
-    - php: 5.5
+    - php: 5.6
       env: SYMFONY_VERSION=2.3.* COMPONENTS=high
-    - php: 5.5
-      env: SYMFONY_VERSION=2.4.* COMPONENTS=high
-    - php: 5.5
-      env: SYMFONY_VERSION=2.6.* COMPONENTS=high
+    - php: 5.6
+      env: SYMFONY_VERSION=2.5.* COMPONENTS=high
+    - php: 5.6
+      env: SYMFONY_VERSION=2.7.* COMPONENTS=high
+    - php: 5.6
+      env: SYMFONY_VERSION=3.0.*@dev COMPONENTS=high
+  allowed_failures:
+    - php: 5.6
+      env: SYMFONY_VERSION=2.7.* COMPONENTS=high
+    - php: 5.6
+      env: SYMFONY_VERSION=3.0.*@dev COMPONENTS=high
 
 before_script:
   - composer self-update
-  - sh -c 'if [ "$COMPONENTS" = "high" ]; then composer require symfony/symfony:${SYMFONY_VERSION} --prefer-source; fi;'
-  - sh -c 'if [ "$COMPONENTS" = "low" ]; then composer require symfony/symfony:${SYMFONY_VERSION} --prefer-stable --prefer-lowest --prefer-source; fi;'
+  - composer require symfony/symfony:${SYMFONY_VERSION} --no-update
+  - sh -c 'if [ "$COMPONENTS" = "high" ]; then composer update --prefer-source; fi;'
+  - sh -c 'if [ "$COMPONENTS" = "low" ]; then composer update --prefer-lowest --prefer-source; fi;'
 
 script: phpunit --coverage-text
 
