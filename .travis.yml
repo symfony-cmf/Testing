@@ -22,7 +22,7 @@ matrix:
       env: SYMFONY_VERSION=2.7.* COMPONENTS=high
     - php: 5.6
       env: SYMFONY_VERSION=3.0.*@dev COMPONENTS=high
-  allowed_failures:
+  allow_failures:
     - php: 5.6
       env: SYMFONY_VERSION=2.7.* COMPONENTS=high
     - php: 5.6
