@@ -10,8 +10,9 @@
  */
 
 
-namespace Tests\Functional;
+namespace Symfony\Cmf\Component\Testing\Tests\Functional;
 
+use Symfony\Cmf\Component\Testing\Tests\Fixtures\TestTestCase;
 use Symfony\Cmf\Component\Testing\HttpKernel\TestKernel;
 use Symfony\Component\Config\Loader\LoaderInterface;
 
@@ -19,44 +20,32 @@ class BaseTestCaseTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
+        $this->testCase = new TestTestCase();
+
+        $this->container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
+
         $me = $this;
-
-        $this->tc = $this->getMockBuilder(
-            'Symfony\Cmf\Component\Testing\Functional\BaseTestCase'
-        )->setMethods(array(
-            'createKernel',
-        ))->getMockForAbstractClass();
-
-        $this->container = $this->getMock(
-            'Symfony\Component\DependencyInjection\ContainerInterface'
-        );
-
-        $this->kernel = $this->getMock(
-            'Symfony\Component\HttpKernel\KernelInterface'
-        );
-
-        $this->client = $me->getMockBuilder(
-            'Symfony\Bundle\FrameworkBundle\Client'
-        )->disableOriginalConstructor()->getMock();
-
         $this->container->expects($this->any())
             ->method('get')
             ->will($this->returnCallback(function ($name) use ($me) {
                 $dic = array(
-                    'test.client' => $me->client
+                    'test.client' => $me->client,
                 );
 
                 return $dic[$name];
             }));
 
+        $this->kernel = $this->getMock('Symfony\Component\HttpKernel\KernelInterface');
+
+        $this->testCase->setKernel($this->kernel);
+
         $this->kernel->expects($this->any())
             ->method('getContainer')
             ->will($this->returnValue($this->container));
 
-        $tc = $this->tc;
-        $tc::staticExpects($this->any())
-            ->method('createKernel')
-            ->will($this->returnValue($this->kernel));
+        $this->client = $this->getMockBuilder('Symfony\Bundle\FrameworkBundle\Client')
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $this->client->expects($this->any())
             ->method('getContainer')
@@ -66,8 +55,7 @@ class BaseTestCaseTest extends \PHPUnit_Framework_TestCase
 
     public function testGetContainer()
     {
-        $res = $this->tc->getContainer();
-        $this->assertEquals($this->container, $res);
+        $this->assertEquals($this->container, $this->testCase->getContainer());
     }
 
     public function provideTestDb()
@@ -87,12 +75,10 @@ class BaseTestCaseTest extends \PHPUnit_Framework_TestCase
     public function testDb($dbName, $expected)
     {
         if (null === $expected) {
-            $this->setExpectedException('InvalidArgumentException',
-                $dbName.'" does not exist'
-            );
+            $this->setExpectedException('InvalidArgumentException', $dbName.'" does not exist');
         }
 
-        $res = $this->tc->getDbManager($dbName);
+        $res = $this->testCase->getDbManager($dbName);
 
         $className = sprintf(
             'Symfony\Cmf\Component\Testing\Functional\DbManager\%s',

@@ -10,7 +10,7 @@
  */
 
 
-namespace Tests\Phpunit;
+namespace Symfony\Cmf\Component\Testing\Tests\Phpunit;
 
 use Symfony\Cmf\Component\Testing\Phpunit\DatabaseTestListener;
 
