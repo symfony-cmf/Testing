@@ -10,7 +10,7 @@
  */
 
 
-namespace Tests\HttpKernel;
+namespace Symfony\Cmf\Component\Testing\Tests\HttpKernel;
 
 use Symfony\Cmf\Component\Testing\HttpKernel\TestKernel;
 use Symfony\Component\Config\Loader\LoaderInterface;

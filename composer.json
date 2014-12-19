@@ -20,12 +20,14 @@
         "jackalope/jackalope": "1.*",
         "jackalope/jackalope-doctrine-dbal": "1.*"
     },
-    "require-dev": {
-        "phpunit/phpunit": "3.7.*"
-    },
     "autoload": {
         "psr-4": {
             "Symfony\\Cmf\\Component\\Testing\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Symfony\\Cmf\\Component\\Testing\\Tests\\": "tests/"
         }
     },
     "extra": {
