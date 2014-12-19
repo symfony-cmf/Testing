@@ -10,7 +10,7 @@
  */
 
 
-namespace Tests\Unit;
+namespace Symfony\Cmf\Component\Testing\Tests\Unit;
 
 use Symfony\Cmf\Component\Testing\Unit\XmlSchemaTestCase;
 
