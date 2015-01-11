@@ -21,7 +21,7 @@ class TestKernelTest extends \PHPUnit_Framework_TestCase
     {
         $this->kernel = $this->getMockBuilder(
             'Symfony\Cmf\Component\Testing\HttpKernel\TestKernel'
-        )->disableOriginalConstructor()->getMockForAbstractClass();
+        )->setConstructorArgs(array('test', true))->getMockForAbstractClass();
         $this->mockBundle = $this->getMock(
             'Symfony\Component\HttpKernel\Bundle\BundleInterface'
         );

@@ -34,7 +34,7 @@ abstract class TestKernel extends Kernel
      * concrete kernel configure itself using the abstracvt
      * configure() command.
      */
-    public function init()
+    public function __construct($env, $debug)
     {
         $this->registerBundleSet('default', array(
             'Symfony\Bundle\FrameworkBundle\FrameworkBundle',
@@ -84,7 +84,7 @@ abstract class TestKernel extends Kernel
             'FOS\JsRoutingBundle\FOSJsRoutingBundle',
         ));
 
-        parent::init();
+        parent::__construct($env, $debug);
         $this->configure();
     }
 
