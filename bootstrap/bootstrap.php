@@ -14,7 +14,7 @@ if (!$loader = include $vendorDir.'/autoload.php') {
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use Symfony\Cmf\Component\Testing\ErrorHandler\DeprecationErrorHandler;
 
-if (class_exists('PHPUnit_Util_ErrorHandler')) {
+if (!getenv('CMF_DISABLE_DEPRECATION_HANDLER') && php_sapi_name() == 'cli' && class_exists('PHPUnit_Util_ErrorHandler')) {
     DeprecationErrorHandler::register();
 }
 
