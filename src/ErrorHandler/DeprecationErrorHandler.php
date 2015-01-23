@@ -42,7 +42,7 @@ class DeprecationErrorHandler
         );
         $deprecationHandler = function ($type, $msg, $file, $line, $context) use (&$deprecations) {
             if (E_USER_DEPRECATED !== $type) {
-                return PHPUnit_Util_ErrorHandler::handleError($type, $msg, $file, $line, $context);
+                return \PHPUnit_Util_ErrorHandler::handleError($type, $msg, $file, $line, $context);
             }
 
             $trace = debug_backtrace(PHP_VERSION_ID >= 50400 ? DEBUG_BACKTRACE_IGNORE_ARGS | DEBUG_BACKTRACE_PROVIDE_OBJECT : true);
