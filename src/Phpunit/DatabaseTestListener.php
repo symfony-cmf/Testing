@@ -111,7 +111,7 @@ class DatabaseTestListener implements \PHPUnit_Framework_TestListener
         echo PHP_EOL.PHP_EOL;
 
         $process = $this->processBuilder
-            ->setArguments(array_merge($this->prefix, array('doctrine:phpcr:init:dbal', '--drop')))
+            ->setArguments(array_merge($this->prefix, array('doctrine:phpcr:init:dbal', '--drop', '--force')))
             ->getProcess();
         $process->run();
 
