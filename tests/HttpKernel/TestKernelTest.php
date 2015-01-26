@@ -32,7 +32,6 @@ class TestKernelTest extends \PHPUnit_Framework_TestCase
      */
     public function testBundleSetRequire(array $bundleSets, $count)
     {
-        $this->kernel->init();
         $this->kernel->requireBundleSets($bundleSets);
         $bundles = $this->kernel->registerBundles();
         $this->assertCount($count, $bundles);
@@ -60,7 +59,6 @@ class TestKernelTest extends \PHPUnit_Framework_TestCase
      */
     public function testRequireInvalidBundleSet()
     {
-        $this->kernel->init();
         $this->kernel->requireBundleSet('foobar');
     }
 }
