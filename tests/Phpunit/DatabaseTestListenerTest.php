@@ -33,7 +33,7 @@ class DatabaseTestListenerTest extends \PHPUnit_Framework_TestCase
             ->method('getName')
             ->will($this->returnValue('phpcr'));
 
-        $this->assertProcessExecuted(array('doctrine:phpcr:init:dbal', '--drop'));
+        $this->assertProcessExecuted(array('doctrine:phpcr:init:dbal', '--drop', '--force'));
         $this->assertProcessExecuted(array('doctrine:phpcr:repository:init'));
 
         ob_start();
