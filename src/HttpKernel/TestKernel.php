@@ -78,7 +78,7 @@ abstract class TestKernel extends Kernel
             'Sonata\DoctrinePHPCRAdminBundle\SonataDoctrinePHPCRAdminBundle',
             'Symfony\Cmf\Bundle\TreeBrowserBundle\CmfTreeBrowserBundle',
             'FOS\JsRoutingBundle\FOSJsRoutingBundle',
-        ), $basSonataBundles));
+        ), $baseSonataBundles));
 
         parent::__construct($env, $debug);
         $this->configure();
