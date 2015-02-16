@@ -52,37 +52,33 @@ abstract class TestKernel extends Kernel
             'Doctrine\Bundle\DoctrineBundle\DoctrineBundle',
         ));
 
-        $this->registerBundleSet('sonata_admin', array(
+        $baseSonataBundles = array(
             'Sonata\BlockBundle\SonataBlockBundle',
             'Sonata\CoreBundle\SonataCoreBundle',
             'Sonata\AdminBundle\SonataAdminBundle',
-            'Sonata\jQueryBundle\SonatajQueryBundle',
             'Knp\Bundle\MenuBundle\KnpMenuBundle',
+        );
+        
+        if (class_exists('Sonata\jQueryBundle\SonatajQueryBundle')) {
+            $baseSonataBundles[] = 'Sonata\jQueryBundle\SonatajQueryBundle';
+        }
+
+        $this->registerBundleSet('sonata_admin', array_merge(array(
             'Sonata\DoctrinePHPCRAdminBundle\SonataDoctrinePHPCRAdminBundle',
             'Symfony\Cmf\Bundle\TreeBrowserBundle\CmfTreeBrowserBundle',
             'FOS\JsRoutingBundle\FOSJsRoutingBundle',
-        ));
+        ), $baseSonataBundles));
 
-        $this->registerBundleSet('sonata_admin_orm', array(
-            'Sonata\BlockBundle\SonataBlockBundle',
-            'Sonata\CoreBundle\SonataCoreBundle',
-            'Sonata\AdminBundle\SonataAdminBundle',
-            'Sonata\jQueryBundle\SonatajQueryBundle',
-            'Knp\Bundle\MenuBundle\KnpMenuBundle',
+        $this->registerBundleSet('sonata_admin_orm', array_merge(array(
             'FOS\JsRoutingBundle\FOSJsRoutingBundle',
             'Sonata\DoctrineORMAdminBundle\SonataDoctrineORMAdminBundle',
-        ));
+        ), $baseSonataBundles));
 
-        $this->registerBundleSet('sonata_admin_phpcr', array(
-            'Sonata\BlockBundle\SonataBlockBundle',
-            'Sonata\CoreBundle\SonataCoreBundle',
-            'Sonata\AdminBundle\SonataAdminBundle',
-            'Sonata\jQueryBundle\SonatajQueryBundle',
-            'Knp\Bundle\MenuBundle\KnpMenuBundle',
+        $this->registerBundleSet('sonata_admin_phpcr', array_merge(array(
             'Sonata\DoctrinePHPCRAdminBundle\SonataDoctrinePHPCRAdminBundle',
             'Symfony\Cmf\Bundle\TreeBrowserBundle\CmfTreeBrowserBundle',
             'FOS\JsRoutingBundle\FOSJsRoutingBundle',
-        ));
+        ), $basSonataBundles));
 
         parent::__construct($env, $debug);
         $this->configure();
