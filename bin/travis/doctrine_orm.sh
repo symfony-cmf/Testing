@@ -1,5 +1,4 @@
 #!/bin/bash
-
 DIR_NAME=`dirname $0`
 CONSOLE_DIR=$DIR_NAME"/.."
 
