@@ -12,11 +12,6 @@ if (!$loader = include $vendorDir.'/autoload.php') {
 }
 
 use Doctrine\Common\Annotations\AnnotationRegistry;
-use Symfony\Cmf\Component\Testing\ErrorHandler\DeprecationErrorHandler;
-
-if (class_exists('PHPUnit_Util_ErrorHandler')) {
-    DeprecationErrorHandler::register();
-}
 
 AnnotationRegistry::registerLoader(function($class) use ($loader) {
     $loader->loadClass($class);
