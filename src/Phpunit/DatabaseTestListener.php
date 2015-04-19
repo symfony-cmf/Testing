@@ -110,39 +110,44 @@ class DatabaseTestListener implements \PHPUnit_Framework_TestListener
     {
         echo PHP_EOL.PHP_EOL;
 
+        // initialize PHPCR DBAL (new way)
         $process = $this->processBuilder
             ->setArguments(array_merge($this->prefix, array('doctrine:phpcr:init:dbal', '--drop', '--force')))
             ->getProcess();
+
         $process->run();
 
-        while (true) {
-            if ($process->isTerminated()) {
-                if (!$process->isSuccessful()) {
-                    $output = null !== $process->getErrorOutput() ? $process->getErrorOutput() : $process->getOutput();
-                    $suite->markTestSuiteSkipped('[PHPCR] Error when initializing dbal: '.$output);
-                } else {
-                    $process = $this->processBuilder
-                        ->setArguments(array_merge($this->prefix, array('doctrine:phpcr:repository:init')))
-                        ->getProcess();
-                    $process->run();
+        if (!$process->isSuccessful()) {
+            // try initializing the old way (Jackalope <1.2)
+            $process = $this->processBuilder
+                ->setArguments(array_merge($this->prefix, array('doctrine:phpcr:init:dbal', '--drop')))
+                ->getProcess();
 
-                    while (true) {
-                        if ($process->isTerminated()) {
-                            if (!$process->isSuccessful()) {
-                                $output = null !== $process->getErrorOutput() ? $process->getErrorOutput() : $process->getOutput();
-                                $suite->markTestSuiteSkipped('[PHPCR] Error when initializing repositories: '.$output);
-                            } else {
-                                echo '[PHPCR]'.PHP_EOL;
-                            }
-                        }
+            $process->run();
 
-                        break;
-                    }
-                }
+            if (!$process->isSuccessful()) {
+                $output = null !== $process->getErrorOutput() ? $process->getErrorOutput() : $process->getOutput();
+                $suite->markTestSuiteSkipped('[PHPCR] Error when initializing dbal: '.$output);
 
-                break;
+                return;
             }
+        } 
+
+        // initialize repositories
+        $process = $this->processBuilder
+            ->setArguments(array_merge($this->prefix, array('doctrine:phpcr:repository:init')))
+            ->getProcess();
+
+        $process->run();
+
+        if (!$process->isSuccessful()) {
+            $output = null !== $process->getErrorOutput() ? $process->getErrorOutput() : $process->getOutput();
+            $suite->markTestSuiteSkipped('[PHPCR] Error when initializing repositories: '.$output);
+
+            return;
         }
+
+        echo '[PHPCR]'.PHP_EOL;
     }
 
     private function setUpOrmDatabase($suite)
@@ -152,52 +157,42 @@ class DatabaseTestListener implements \PHPUnit_Framework_TestListener
         $process = $this->processBuilder
             ->setArguments(array_merge($this->prefix, array('doctrine:schema:drop', '--env=orm', '--force')))
             ->getProcess();
+
         $process->run();
 
-        while (true) {
-            if ($process->isTerminated()) {
-                if (!$process->isSuccessful()) {
-                    $output = null !== $process->getErrorOutput() ? $process->getErrorOutput() : $process->getOutput();
-                    $suite->markTestSuiteSkipped('[ORM] Error when dropping database: '.$output);
-                    return;
-                }
-                break;
-            }
+        if (!$process->isSuccessful()) {
+            $output = null !== $process->getErrorOutput() ? $process->getErrorOutput() : $process->getOutput();
+            $suite->markTestSuiteSkipped('[ORM] Error when dropping database: '.$output);
+
+            return;
         }
 
         $process = $this->processBuilder
             ->setArguments(array_merge($this->prefix, array('doctrine:database:create', '--env=orm')))
             ->getProcess();
+
         $process->run();
 
-        while (true) {
-            if ($process->isTerminated()) {
-                if (!$process->isSuccessful()) {
-                    $output = null !== $process->getErrorOutput() ? $process->getErrorOutput() : $process->getOutput();
-                    $suite->markTestSuiteSkipped('[ORM] Error when creating database: '.$output);
-                } else {
-                    $process = $this->processBuilder
-                        ->setArguments(array_merge($this->prefix, array('doctrine:schema:create', '--env=orm')))
-                        ->getProcess();
-                    $process->run();
+        if (!$process->isSuccessful()) {
+            $output = null !== $process->getErrorOutput() ? $process->getErrorOutput() : $process->getOutput();
+            $suite->markTestSuiteSkipped('[ORM] Error when creating database: '.$output);
 
-                    while (true) {
-                        if ($process->isTerminated()) {
-                            if (!$process->isSuccessful()) {
-                                $output = null !== $process->getErrorOutput() ? $process->getErrorOutput() : $process->getOutput();
-                                $suite->markTestSuiteSkipped('[ORM] Error when creating schema: '.$output);
-                            } else {
-                                echo '[ORM]'.PHP_EOL;
-                            }
-                        }
-
-                        break;
-                    }
-                }
-
-                break;
-            }
+            return;
         }
+
+        $process = $this->processBuilder
+            ->setArguments(array_merge($this->prefix, array('doctrine:schema:create', '--env=orm')))
+            ->getProcess();
+        $process->run();
+
+        if (!$process->isSuccessful()) {
+            $output = null !== $process->getErrorOutput() ? $process->getErrorOutput() : $process->getOutput();
+            $suite->markTestSuiteSkipped('[ORM] Error when creating schema: '.$output);
+
+            return;
+        }
+
+        echo '[ORM]'.PHP_EOL;
     }
  
     public function endTestSuite(\PHPUnit_Framework_TestSuite $suite)
@@ -209,16 +204,12 @@ class DatabaseTestListener implements \PHPUnit_Framework_TestListener
         $process = $this->processBuilder
             ->setArguments(array_merge($this->prefix, array('doctrine:database:drop', '--force')))
             ->getProcess();
+
         $process->run();
 
-        while (true) {
-            if ($process->isTerminated()) {
-                if (!$process->isSuccessful()) {
-                    $output = null !== $process->getErrorOutput() ? $process->getErrorOutput() : $process->getOutput();
-                    $suite->markTestSuiteSkipped('Error when dropping database: '.$output);
-                }
-            }
-            break;
+        if (!$process->isSuccessful()) {
+            $output = null !== $process->getErrorOutput() ? $process->getErrorOutput() : $process->getOutput();
+            $suite->markTestSuiteSkipped('Error when dropping database: '.$output);
         }
     }
 }
