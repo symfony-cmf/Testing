@@ -1,4 +1,7 @@
 #!/bin/bash
+# make the script display the commands it runs to help debugging failures
+set -x
+
 DIR_NAME=`dirname $0`
 CONSOLE_DIR=$DIR_NAME"/.."
 
