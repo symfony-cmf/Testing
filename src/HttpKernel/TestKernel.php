@@ -62,22 +62,23 @@ abstract class TestKernel extends Kernel
         if (class_exists('Sonata\jQueryBundle\SonatajQueryBundle')) {
             $baseSonataBundles[] = 'Sonata\jQueryBundle\SonatajQueryBundle';
         }
+        
+        if (class_exists('FOS\JsRoutingBundle\FOSJsRoutingBundle')) {
+            $baseSonataBundles[] = 'FOS\JsRoutingBundle\FOSJsRoutingBundle';
+        }
 
         $this->registerBundleSet('sonata_admin', array_merge(array(
             'Sonata\DoctrinePHPCRAdminBundle\SonataDoctrinePHPCRAdminBundle',
             'Symfony\Cmf\Bundle\TreeBrowserBundle\CmfTreeBrowserBundle',
-            'FOS\JsRoutingBundle\FOSJsRoutingBundle',
         ), $baseSonataBundles));
 
         $this->registerBundleSet('sonata_admin_orm', array_merge(array(
-            'FOS\JsRoutingBundle\FOSJsRoutingBundle',
             'Sonata\DoctrineORMAdminBundle\SonataDoctrineORMAdminBundle',
         ), $baseSonataBundles));
 
         $this->registerBundleSet('sonata_admin_phpcr', array_merge(array(
             'Sonata\DoctrinePHPCRAdminBundle\SonataDoctrinePHPCRAdminBundle',
             'Symfony\Cmf\Bundle\TreeBrowserBundle\CmfTreeBrowserBundle',
-            'FOS\JsRoutingBundle\FOSJsRoutingBundle',
         ), $baseSonataBundles));
 
         parent::__construct($env, $debug);
