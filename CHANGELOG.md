@@ -1,6 +1,11 @@
 Changelog
 =========
 
+2.0.0
+-----
+
+* **2015-05-29**: [BC BREAK] Moved `BaseTestCase#assertResponseOk()` to `Assert#responseOk()`
+
 1.2.0-RC2
 ---------
 
