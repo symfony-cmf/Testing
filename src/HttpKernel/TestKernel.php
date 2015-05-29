@@ -58,19 +58,14 @@ abstract class TestKernel extends Kernel
             'Sonata\AdminBundle\SonataAdminBundle',
             'Knp\Bundle\MenuBundle\KnpMenuBundle',
         );
-        
+
         if (class_exists('Sonata\jQueryBundle\SonatajQueryBundle')) {
             $baseSonataBundles[] = 'Sonata\jQueryBundle\SonatajQueryBundle';
         }
-        
+
         if (class_exists('FOS\JsRoutingBundle\FOSJsRoutingBundle')) {
             $baseSonataBundles[] = 'FOS\JsRoutingBundle\FOSJsRoutingBundle';
         }
-
-        $this->registerBundleSet('sonata_admin', array_merge(array(
-            'Sonata\DoctrinePHPCRAdminBundle\SonataDoctrinePHPCRAdminBundle',
-            'Symfony\Cmf\Bundle\TreeBrowserBundle\CmfTreeBrowserBundle',
-        ), $baseSonataBundles));
 
         $this->registerBundleSet('sonata_admin_orm', array_merge(array(
             'Sonata\DoctrineORMAdminBundle\SonataDoctrineORMAdminBundle',
@@ -175,7 +170,7 @@ abstract class TestKernel extends Kernel
     }
 
     /**
-     * Returns the KernelDir of the CHILD class, 
+     * Returns the KernelDir of the CHILD class,
      * i.e. the concrete implementation in the bundles
      * src/ directory (or wherever).
      */

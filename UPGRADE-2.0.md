@@ -1,6 +1,9 @@
 How to upgrade to from 1.x to 2.0
 =================================
 
+Assertions
+----------
+
 * The `BaseTestCase#assertResponseOk()` method was moved and renamed to `Assert#responseOk()`.
 
   **Before**
@@ -39,3 +42,11 @@ How to upgrade to from 1.x to 2.0
       }
   }
   ```
+
+PHPCR Implementations
+---------------------
+
+* The `Content` document was removed, include it in your project's test fixtures instead.
+* The `LoadBaseData` data fixture was removed, include it in your project's data fixtures instead.
+* The `sonata_admin` bundle set was removed, use `sonata_admin_orm` or `sonata_admin_phpcr` instead.
+
