@@ -43,6 +43,44 @@ Assertions
   }
   ```
 
+* The assertions in `XmlSchemaTestCase` have been moved to the PHPUnit `Assert` class.
+
+  **Before**
+  ```php
+  // ...
+  use Symfony\Cmf\Component\Testing\Unit\XmlSchemaTestCase;
+
+  class XmlSchemaTest extends XmlSchemaTestCase
+  {
+      public function testSchema()
+      {
+          // ...
+
+          $this->assertSchemaAcceptsXml($dom, __DIR__.'/../Resources/config/schema-1.0.xsd');
+          // or
+          // $this->assertSchemaRefusesXml($dom, __DIR__.'/../Resources/config/schema-1.0.xsd');
+      }
+  }
+  ```
+
+  **After**
+  ```php
+  // ...
+  use Symfony\Cmf\Component\Testing\Extension\Phpunit\Assert;
+
+  class XmlSchemaTest extends \PHPUnit_Framework_TestCase
+  {
+      public function testSchema()
+      {
+          // ...
+
+          Assert::schemaAcceptsXml($dom, __DIR__.'/../Resources/config/schema-1.0.xsd');
+          // or
+          // Assert::schemaRefusesXml($dom, __DIR__.'/../Resources/config/schema-1.0.xsd');
+      }
+  }
+  ```
+
 PHPCR Implementations
 ---------------------
 

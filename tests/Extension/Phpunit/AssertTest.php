@@ -3,31 +3,31 @@
 /*
  * This file is part of the Symfony CMF package.
  *
- * (c) 2011-2014 Symfony CMF
+ * (c) 2011-2015 Symfony CMF
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
+namespace Symfony\Cmf\Component\Testing\Tests\Extension\Phpunit;
 
-namespace Symfony\Cmf\Component\Testing\Tests\Unit;
+use Symfony\Cmf\Component\Testing\Extension\Phpunit\Assert;
 
-use Symfony\Cmf\Component\Testing\Unit\XmlSchemaTestCase;
-
-class XmlSchemaTestCaseTest extends XmlSchemaTestCase
+class AssertTest extends \PHPUnit_Framework_TestCase
 {
-    public function testAcceptsSingleDomsWithoutArray()
+    public function testSchemaAcceptsXmlWithSingleDom()
     {
         $dom = new \DomDocument();
         $dom->loadXML('<container><config xmlns="http://cmf.symfony.com/schema/dic/foo" required="f"/></container>');
-        $this->assertSchemaAcceptsXml($dom, __DIR__.'/../Fixtures/schema/schema1.xsd');
+
+        Assert::schemaAcceptsXml($dom, __DIR__.'/../Fixtures/schema/schema1.xsd');
     }
 
-    public function testNegativeAssertion()
+    public function testSchemaRefusesXml()
     {
         $dom = new \DomDocument();
         $dom->loadXML('<container><config xmlns="http://cmf.symfony.com/schema/dic/foo" /></container>');
 
-        $this->assertSchemaRefusesXml($dom, __DIR__.'/../Fixtures/schema/schema1.xsd');
+        Assert::schemaRefusesXml($dom, __DIR__.'/../Fixtures/schema/schema1.xsd');
     }
 }

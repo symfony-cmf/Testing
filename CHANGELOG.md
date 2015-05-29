@@ -4,6 +4,7 @@ Changelog
 2.0.0
 -----
 
+* **2015-05-29**: [BC BREAK] Moved `XmlSchemaTestCase#assertSchemaAcceptsXml()` and `XmlSchemaTestCase#assertSchemaRefusesXml()` to `Assert#schemaAcceptsXml()` and `Assert#schemaRefusesXml()`
 * **2015-05-29**: [BC BREAK] Deleted the `sonata_admin` bundle set
 * **2015-05-29**: [BC BREAK] Deleted the `LoadBaseData` data fixtures
 * **2015-05-29**: [BC BREAK] Deleted the `Content` document
