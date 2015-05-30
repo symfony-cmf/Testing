@@ -10,7 +10,7 @@
  */
 
 
-namespace Tests\HttpKernel;
+namespace Symfony\Cmf\Component\Testing\Tests\HttpKernel;
 
 use Symfony\Cmf\Component\Testing\HttpKernel\TestKernel;
 use Symfony\Component\Config\Loader\LoaderInterface;
@@ -21,20 +21,29 @@ class TestKernelTest extends \PHPUnit_Framework_TestCase
     {
         $this->kernel = $this->getMockBuilder(
             'Symfony\Cmf\Component\Testing\HttpKernel\TestKernel'
-        )->disableOriginalConstructor()->getMockForAbstractClass();
+        )->setConstructorArgs(array('test', true))->getMockForAbstractClass();
         $this->mockBundle = $this->getMock(
             'Symfony\Component\HttpKernel\Bundle\BundleInterface'
         );
     }
 
-    public function testBundleSetRequire()
+    /**
+     * @dataProvider bundleSetProvider
+     */
+    public function testBundleSetRequire(array $bundleSets, $count)
     {
-        $this->kernel->init();
-        $this->kernel->requireBundleSets(array(
-            'default', 'phpcr_odm'
-        ));
+        $this->kernel->requireBundleSets($bundleSets);
         $bundles = $this->kernel->registerBundles();
-        $this->assertCount(6, $bundles);
+        $this->assertCount($count, $bundles);
+    }
+
+    public function bundleSetProvider()
+    {
+        return array(
+            array(array('default', 'phpcr_odm'), 6),
+            array(array('default', 'doctrine_orm'), 5),
+            array(array('default', 'doctrine_orm', 'phpcr_odm'), 6),
+        );
     }
 
     public function testBundleAdd()
@@ -50,7 +59,6 @@ class TestKernelTest extends \PHPUnit_Framework_TestCase
      */
     public function testRequireInvalidBundleSet()
     {
-        $this->kernel->init();
         $this->kernel->requireBundleSet('foobar');
     }
 }

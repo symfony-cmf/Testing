@@ -2,9 +2,6 @@
 
 use Symfony\Component\HttpFoundation\Request;
 
-ini_set('display_errors', 'On');
-error_reporting(E_ALL);
-
 require_once __DIR__.'/../../bootstrap/bootstrap.php';
 
 $request = Request::createFromGlobals();

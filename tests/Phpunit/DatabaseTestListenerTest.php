@@ -10,7 +10,7 @@
  */
 
 
-namespace Tests\Phpunit;
+namespace Symfony\Cmf\Component\Testing\Tests\Phpunit;
 
 use Symfony\Cmf\Component\Testing\Phpunit\DatabaseTestListener;
 
@@ -33,13 +33,29 @@ class DatabaseTestListenerTest extends \PHPUnit_Framework_TestCase
             ->method('getName')
             ->will($this->returnValue('phpcr'));
 
-        $this->assertProcessExecuted(array('doctrine:phpcr:init:dbal', '--drop'));
+        $this->assertProcessExecuted(array('doctrine:phpcr:init:dbal', '--drop', '--force'));
         $this->assertProcessExecuted(array('doctrine:phpcr:repository:init'));
 
         ob_start();
         $this->listener->startTestSuite($suite);
 
         $this->assertEquals(PHP_EOL.PHP_EOL.'[PHPCR]'.PHP_EOL, ob_get_clean());
+    }
+
+    public function testFallsBackToOldInitDbalCommand()
+    {
+        $suite = $this->getMock('PHPUnit_Framework_TestSuite');
+        $suite->expects($this->any())
+            ->method('getName')
+            ->will($this->returnValue('phpcr'));
+
+        $this->assertProcessExecuted(array('doctrine:phpcr:init:dbal', '--drop', '--force'), false);
+        $this->assertProcessExecuted(array('doctrine:phpcr:init:dbal', '--drop'), true);
+        $this->assertProcessExecuted(array('doctrine:phpcr:repository:init'));
+
+        ob_start();
+        $this->listener->startTestSuite($suite);
+        ob_end_clean();
     }
 
     public function testOrmTestSuite()
@@ -85,11 +101,7 @@ class DatabaseTestListenerTest extends \PHPUnit_Framework_TestCase
         $process->expects($this->once())
             ->method('run');
 
-        $process->expects($this->once())
-            ->method('isTerminated')
-            ->will($this->returnValue(true));
-
-        $process->expects($this->once())
+        $process->expects($this->any())
             ->method('isSuccessful')
             ->will($this->returnValue($successfull));
 

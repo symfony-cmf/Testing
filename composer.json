@@ -5,27 +5,35 @@
     "authors": [
         {
             "name": "Symfony CMF Community",
-            "homepage": "https://github.com/symfony-cmf/MenuBundle/contributors"
+            "homepage": "https://github.com/symfony-cmf/Testing/contributors"
         }
     ],
     "minimum-stability": "dev",
     "require": {
-        "symfony/symfony": "~2.1",
+        "symfony/symfony": "~2.3",
+        "symfony/phpunit-bridge": "~2.7@dev",
         "symfony/monolog-bundle": "~2.1",
         "doctrine/common": "~2.4",
-        "doctrine/doctrine-bundle": "1.*",
-        "doctrine/phpcr-odm": "1.*",
-        "doctrine/phpcr-bundle": "1.*",
-        "doctrine/data-fixtures": "1.0.*",
-        "jackalope/jackalope": "1.*",
-        "jackalope/jackalope-doctrine-dbal": "1.*"
+        "doctrine/doctrine-bundle": "~1.0",
+        "doctrine/phpcr-odm": "~1.1,>=1.1.0-beta2",
+        "doctrine/phpcr-bundle": "~1.1,>=1.1.0-beta2",
+        "doctrine/data-fixtures": "1.*,>=1.0.0-alpha3",
+        "jackalope/jackalope": "~1.1,>=1.1.5",
+        "jackalope/jackalope-doctrine-dbal": "~1.1,>=1.1.5"
     },
     "autoload": {
-        "psr-0": { "Symfony\\Cmf\\Component\\Testing": "src/" }
+        "psr-4": {
+            "Symfony\\Cmf\\Component\\Testing\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Symfony\\Cmf\\Component\\Testing\\Tests\\": "tests/"
+        }
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "1.1-dev"
+            "dev-master": "1.3-dev"
         }
     }
 }

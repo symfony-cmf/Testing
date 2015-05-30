@@ -11,8 +11,8 @@ if (!$loader = include $vendorDir.'/autoload.php') {
         'php composer.phar install'.$nl);
 }
 
-
 use Doctrine\Common\Annotations\AnnotationRegistry;
+
 AnnotationRegistry::registerLoader(function($class) use ($loader) {
     $loader->loadClass($class);
 

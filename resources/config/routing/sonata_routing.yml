@@ -10,7 +10,7 @@ sonata_admin:
         id:  .+
 
 admin_dashboard:
-    pattern: /admin/
+    path: /admin/
     defaults:
         _controller: FrameworkBundle:Redirect:redirect
         route: sonata_admin_dashboard

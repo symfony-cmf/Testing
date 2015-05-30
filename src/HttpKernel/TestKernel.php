@@ -34,36 +34,54 @@ abstract class TestKernel extends Kernel
      * concrete kernel configure itself using the abstracvt
      * configure() command.
      */
-    public function init()
+    public function __construct($env, $debug)
     {
         $this->registerBundleSet('default', array(
-            '\Symfony\Bundle\FrameworkBundle\FrameworkBundle',
-            '\Symfony\Bundle\SecurityBundle\SecurityBundle',
-            '\Symfony\Bundle\TwigBundle\TwigBundle',
-            '\Symfony\Bundle\MonologBundle\MonologBundle',
+            'Symfony\Bundle\FrameworkBundle\FrameworkBundle',
+            'Symfony\Bundle\SecurityBundle\SecurityBundle',
+            'Symfony\Bundle\TwigBundle\TwigBundle',
+            'Symfony\Bundle\MonologBundle\MonologBundle',
         ));
 
         $this->registerBundleSet('phpcr_odm', array(
-            '\Doctrine\Bundle\DoctrineBundle\DoctrineBundle',
-            '\Doctrine\Bundle\PHPCRBundle\DoctrinePHPCRBundle',
+            'Doctrine\Bundle\DoctrineBundle\DoctrineBundle',
+            'Doctrine\Bundle\PHPCRBundle\DoctrinePHPCRBundle',
         ));
 
         $this->registerBundleSet('doctrine_orm', array(
-            '\Doctrine\Bundle\DoctrineBundle\DoctrineBundle',
+            'Doctrine\Bundle\DoctrineBundle\DoctrineBundle',
         ));
 
-        $this->registerBundleSet('sonata_admin', array(
-            '\Sonata\BlockBundle\SonataBlockBundle',
-            '\Sonata\CoreBundle\SonataCoreBundle',
-            '\Sonata\AdminBundle\SonataAdminBundle',
-            '\Sonata\jQueryBundle\SonatajQueryBundle',
+        $baseSonataBundles = array(
+            'Sonata\BlockBundle\SonataBlockBundle',
+            'Sonata\CoreBundle\SonataCoreBundle',
+            'Sonata\AdminBundle\SonataAdminBundle',
             'Knp\Bundle\MenuBundle\KnpMenuBundle',
-            '\Sonata\DoctrinePHPCRAdminBundle\SonataDoctrinePHPCRAdminBundle',
-            'Symfony\Cmf\Bundle\TreeBrowserBundle\CmfTreeBrowserBundle',
-            'FOS\JsRoutingBundle\FOSJsRoutingBundle',
-        ));
+        );
+        
+        if (class_exists('Sonata\jQueryBundle\SonatajQueryBundle')) {
+            $baseSonataBundles[] = 'Sonata\jQueryBundle\SonatajQueryBundle';
+        }
+        
+        if (class_exists('FOS\JsRoutingBundle\FOSJsRoutingBundle')) {
+            $baseSonataBundles[] = 'FOS\JsRoutingBundle\FOSJsRoutingBundle';
+        }
 
-        parent::init();
+        $this->registerBundleSet('sonata_admin', array_merge(array(
+            'Sonata\DoctrinePHPCRAdminBundle\SonataDoctrinePHPCRAdminBundle',
+            'Symfony\Cmf\Bundle\TreeBrowserBundle\CmfTreeBrowserBundle',
+        ), $baseSonataBundles));
+
+        $this->registerBundleSet('sonata_admin_orm', array_merge(array(
+            'Sonata\DoctrineORMAdminBundle\SonataDoctrineORMAdminBundle',
+        ), $baseSonataBundles));
+
+        $this->registerBundleSet('sonata_admin_phpcr', array_merge(array(
+            'Sonata\DoctrinePHPCRAdminBundle\SonataDoctrinePHPCRAdminBundle',
+            'Symfony\Cmf\Bundle\TreeBrowserBundle\CmfTreeBrowserBundle',
+        ), $baseSonataBundles));
+
+        parent::__construct($env, $debug);
         $this->configure();
     }
 
@@ -124,7 +142,7 @@ abstract class TestKernel extends Kernel
                 ));
             }
 
-            $this->requiredBundles[] = new $bundle;
+            $this->requiredBundles[$bundle] = new $bundle;
         }
     }
 

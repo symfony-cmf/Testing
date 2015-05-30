@@ -10,7 +10,7 @@
  */
 
 
-namespace Tests\Unit\Constraint;
+namespace Symfony\Cmf\Component\Testing\Tests\Unit\Constraint;
 
 use Symfony\Cmf\Component\Testing\Unit\Constraint\SchemaAcceptsXml;
 
