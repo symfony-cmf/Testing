@@ -13,6 +13,9 @@
 namespace Symfony\Cmf\Component\Testing\Functional;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Cmf\Component\Testing\Database\Manager\ManagerInterface;
+use Symfony\Cmf\Component\Testing\RequiresDatabaseInterface;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\DependencyInjection\Container;
 
@@ -20,16 +23,11 @@ use Symfony\Component\DependencyInjection\Container;
  * The base class for Functional and Web tests.
  *
  * @author Daniel Leech <daniel@dantleech.com>
- * @author Wouter J <waldio.webdesign@gmail.com>
+ * @author Wouter J <wouter@wouterj.nl>
  */
-abstract class BaseTestCase extends WebTestCase
+abstract class BaseTestCase extends WebTestCase implements RequiresDatabaseInterface
 {
-    /**
-     * Use this property to save the DbManager.
-     */
     protected $db;
-
-    protected $dbManagers = array();
 
     /**
      * @var Container
@@ -56,7 +54,7 @@ abstract class BaseTestCase extends WebTestCase
      *
      * @return Container
      */
-    public function getContainer()
+    protected function getContainer()
     {
         if (null === $this->container) {
             $client = $this->createClient($this->getKernelConfiguration());
@@ -71,41 +69,43 @@ abstract class BaseTestCase extends WebTestCase
      *
      * @see self::getDbManager
      */
-    public function db($type)
+    protected function db()
     {
-        return $this->getDbManager($type);
+        return $this->getDbManager();
     }
 
     /**
      * Gets the DbManager.
      *
-     * @param string $type The Db type
-     *
      * @return object
      */
-    public function getDbManager($type)
+    protected function getDbManager()
     {
-        if (isset($this->dbManagers[$type])) {
-            return $this->dbManagers[$type];
+        if (null === $this->db) {
+            throw new \InvalidArgumentException('No database manager found.');
         }
 
-        $className = sprintf(
-            'Symfony\Cmf\Component\Testing\Functional\DbManager\%s',
-            $type
-        );
+        return $this->db;
+    }
 
-        if (!class_exists($className)) {
-            throw new \InvalidArgumentException(sprintf(
-                'Test DBManager "%s" does not exist.',
-                $className
-            ));
+    /**
+     * @param ManagerInterface $manager
+     */
+    public function setDbManager(ManagerInterface $manager)
+    {
+        if ($manager instanceof ContainerAwareInterface) {
+            $manager->setContainer($this->getContainer());
         }
 
-        $dbManager = new $className($this->getContainer());
+        $this->db = $manager;
+    }
 
-        $this->dbManagers[$type] = $dbManager;
-
-        return $this->getDbManager($type);
+    /**
+     * {@inheritdoc}
+     */
+    public function getDatabaseDriverName()
+    {
+        return 'phpcr';
     }
 
     /**

@@ -4,6 +4,9 @@ Changelog
 2.0.0
 -----
 
+* **2015-05-31**: Changed visibility of `BaseTestCase#db()`, `BaseTestCase#getDbManager()` and `BaseTestCase#getContainer()` to protected
+* **2015-05-31**: Removed `$type` parameter from `BaseTestCase#db()` and `BaseTestCase#getDbManager()`
+* **2015-05-31**: [BC BREAK] Deleted `Functional\DbManager\PHPCR` and `Functional\DbManager\ORM` in favor of `Database\Manager\PhpcrManager` and `Database\Manager\OrmManager`
 * **2015-05-29**: [BC BREAK] Moved `XmlSchemaTestCase#assertSchemaAcceptsXml()` and `XmlSchemaTestCase#assertSchemaRefusesXml()` to `Assert#schemaAcceptsXml()` and `Assert#schemaRefusesXml()`
 * **2015-05-29**: [BC BREAK] Deleted the `sonata_admin` bundle set
 * **2015-05-29**: [BC BREAK] Deleted the `LoadBaseData` data fixtures

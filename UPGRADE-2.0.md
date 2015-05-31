@@ -88,3 +88,44 @@ PHPCR Implementations
 * The `LoadBaseData` data fixture was removed, include it in your project's data fixtures instead.
 * The `sonata_admin` bundle set was removed, use `sonata_admin_orm` or `sonata_admin_phpcr` instead.
 
+BaseTestCase
+------------
+
+* The name of the test suite no longer determines the database driver used for the tests. Implement
+  `RequiresDatabaseInterface` instead to configure the database driver.
+
+  **Before**
+  ```xml
+  <!-- phpunit.xml.dist -->
+
+  <!-- ... -->
+  <testsuites>
+      <testsuite name="phpcr">
+          <!-- ... -->
+      </testsuite>
+  </testsuites>
+  ```
+
+  **After**
+  ```php
+  // Tests/Functional/PhpcrRequiredTest.php
+
+  // ...
+  use Symfony\Cmf\Component\Testing\RequiresDatabaseInterface;
+  use Symfony\Cmf\Component\Testing\Database\Manager\ManagerInterface;
+
+  class PhpcrRequiredTest extends \PHPUnit_Framework_TestCase implements RequiresDatabaseInterface
+  {
+      private $dbManager;
+
+      public function getDatabaseDriverName()
+      {
+          return 'phpcr';
+      }
+
+      public function setDbManager(ManagerInterface $manager)
+      {
+          $this->dbManager = $manager;
+      }
+  }
+  ```

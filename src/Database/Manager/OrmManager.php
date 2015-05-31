@@ -1,36 +1,22 @@
 <?php
 
-/*
- * This file is part of the Symfony CMF package.
- *
- * (c) 2011-2014 Symfony CMF
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
-
-namespace Symfony\Cmf\Component\Testing\Functional\DbManager;
+namespace Symfony\Cmf\Component\Testing\Database\Manager;
 
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\DataFixtures\Loader;
 use Doctrine\Common\DataFixtures\ProxyReferenceRepository;
 use Symfony\Bridge\Doctrine\DataFixtures\ContainerAwareLoader;
+use Symfony\Bridge\Doctrine\RegistryInterface;
+use Symfony\Cmf\Component\Testing\Exception\SetupFailedException;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-
+use Symfony\Component\Process\ProcessBuilder;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
-use Doctrine\Common\Persistence\ManagerRegistry;
-use Doctrine\Common\Persistence\ObjectManager;
 
 /**
- * The DbManager for the Doctrine2 ORM.
- *
- * This manager needs the DoctrineBundle to work.
- *
- * @author Wouter J <waldio.webdesign@gmail.com>
+ * @author Wouter J <wouter@wouterj.nl>
  */
-class ORM
+class OrmManager extends DoctrineManager
 {
     /**
      * @var ORMExecutor
@@ -38,48 +24,51 @@ class ORM
     private $executor;
 
     /**
-     * @var ContainerInterface
-     */
-    protected $container;
-
-    /**
-     * @var ObjectManager
-     */
-    protected $om;
-
-    /**
-     * Constructor.
-     *
-     * @param ContainerInterface $container
-     */
-    public function __construct(ContainerInterface $container)
-    {
-        $this->container = $container;
-    }
-
-    /**
      * Gets the Doctrine ManagerRegistry
      *
-     * @return ManagerRegistry
+     * @return RegistryInterface
      */
     public function getRegistry()
     {
+        $this->assertContainerIsSet();
+
         return $this->container->get('doctrine');
     }
 
-    /**
-     * Gets the Doctrine ObjectManager
-     *
-     * @param null $managerName
-     * @return ObjectManager
-     */
-    public function getOm($managerName = null)
+    public function setUpDatabase(ProcessBuilder $processBuilder)
     {
-        if (!$this->om) {
-            $this->om = $this->getRegistry()->getManager($managerName);
+        $process = $processBuilder
+            ->setArguments(array('doctrine:schema:drop', '--env=orm', '--force'))
+            ->getProcess();
+        $process->run();
+
+        if (!$process->isSuccessful()) {
+            $output = null !== $process->getErrorOutput() ? $process->getErrorOutput() : $process->getOutput();
+
+            throw new SetupFailedException('Error when dropping database: '.$output);
         }
 
-        return $this->om;
+        $process = $processBuilder
+            ->setArguments(array('doctrine:database:create', '--env=orm'))
+            ->getProcess();
+        $process->run();
+
+        if (!$process->isSuccessful()) {
+            $output = null !== $process->getErrorOutput() ? $process->getErrorOutput() : $process->getOutput();
+
+            throw new SetupFailedException('Error when creating database: '.$output);
+        }
+
+        $process = $processBuilder
+            ->setArguments(array('doctrine:schema:create', '--env=orm'))
+            ->getProcess();
+        $process->run();
+
+        if (!$process->isSuccessful()) {
+            $output = null !== $process->getErrorOutput() ? $process->getErrorOutput() : $process->getOutput();
+
+            throw new SetupFailedException('Error when creating schema: '.$output);
+        }
     }
 
     /**
@@ -94,13 +83,16 @@ class ORM
 
     /**
      * Loads fixture classes.
-     * 
+     *
      * @param string[] $classNames
      */
     public function loadFixtures(array $classNames)
     {
+        $this->assertContainerIsSet();
+
         $this->purgeDatabase();
-        $loader = new ContainerAwareLoader($this->container);;
+
+        $loader = new ContainerAwareLoader($this->container);
 
         foreach ($classNames as $className) {
             $this->loadFixtureClass($loader, $className);
@@ -111,11 +103,11 @@ class ORM
 
     /**
      * Loads a single fixture.
-     * 
+     *
      * @param Loader $loader
      * @param string $className
      */
-    protected function loadFixtureClass(Loader $loader, $className)
+    public function loadFixtureClass(Loader $loader, $className)
     {
         if (!class_exists($className)) {
             throw new \InvalidArgumentException(sprintf(
@@ -155,5 +147,17 @@ class ORM
         $this->executor = new ORMExecutor($this->getOm(), $purger);
 
         return $this->executor;
+    }
+
+    public function getDriver()
+    {
+        return 'orm';
+    }
+
+    private function assertContainerIsSet()
+    {
+        if (null === $this->container) {
+            throw new \BadMethodCallException('This method cannot be executed without a container.');
+        }
     }
 }

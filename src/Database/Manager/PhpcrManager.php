@@ -1,28 +1,23 @@
 <?php
 
-/*
- * This file is part of the Symfony CMF package.
- *
- * (c) 2011-2014 Symfony CMF
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
-
-namespace Symfony\Cmf\Component\Testing\Functional\DbManager;
+namespace Symfony\Cmf\Component\Testing\Database\Manager;
 
 use Doctrine\Bundle\PHPCRBundle\DataFixtures\PHPCRExecutor;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
+use Doctrine\Common\DataFixtures\Loader;
+use Doctrine\Common\DataFixtures\ProxyReferenceRepository;
 use Doctrine\Common\DataFixtures\Purger\PHPCRPurger;
 use Symfony\Bridge\Doctrine\DataFixtures\ContainerAwareLoader;
-use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\ODM\PHPCR\DocumentManager;
+use Symfony\Bridge\Doctrine\RegistryInterface;
+use Symfony\Cmf\Component\Testing\Exception\SetupFailedException;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Doctrine\Common\DataFixtures\ProxyReferenceRepository;
+use Symfony\Component\Process\ProcessBuilder;
 
-class PHPCR
+/**
+ * @author Wouter J <wouter@wouterj.nl>
+ */
+class PhpcrManager extends DoctrineManager
 {
-    protected $container;
     protected $om;
 
     /**
@@ -30,43 +25,62 @@ class PHPCR
      */
     private $executor;
 
-    /**
-     * @param ContainerInterface
-     */
-    public function __construct(ContainerInterface $container)
+    public function setUpDatabase(ProcessBuilder $processBuilder)
     {
-        $this->container = $container;
+        // initialize PHPCR DBAL (new way)
+        $process = $processBuilder
+            ->setArguments(array('doctrine:phpcr:init:dbal', '--drop', '--force'))
+            ->getProcess();
+
+        $process->run();
+
+        if (!$process->isSuccessful()) {
+            // try initializing the old way (Jackalope <1.2)
+            $process = $processBuilder
+                ->setArguments(array('doctrine:phpcr:init:dbal', '--drop'))
+                ->getProcess();
+
+            $process->run();
+
+            if (!$process->isSuccessful()) {
+                $output = null !== $process->getErrorOutput() ? $process->getErrorOutput() : $process->getOutput();
+
+                throw new SetupFailedException('Error when initializing DBAL: '.$output);
+            }
+        }
+
+        // initialize repositories
+        $process = $processBuilder
+            ->setArguments(array('doctrine:phpcr:repository:init'))
+            ->getProcess();
+
+        $process->run();
+
+        if (!$process->isSuccessful()) {
+            $output = null !== $process->getErrorOutput() ? $process->getErrorOutput() : $process->getOutput();
+
+            throw new SetupFailedException('Error when initializing repositories: '.$output);
+        }
     }
 
     /**
-     * Return the PHPCR ODM registry
+     * Return the PHPCR ODM registry.
      *
-     * @return Symfony\Bridge\Doctrine\RegistryInterface
+     * @return RegistryInterface
      */
     public function getRegistry()
     {
+        $this->assertContainerIsSet();
+
         return $this->container->get('doctrine_phpcr');
     }
 
     /**
-     * @param null|string $managerName
-     * @return DocumentManager
-     */
-    public function getOm($managerName = null)
-    {
-        if (!$this->om) {
-            $this->om = $this->getRegistry()->getManager($managerName);
-        }
-
-        return $this->om;
-    }
-
-    /**
-     * Purge the database
+     * Purge the database.
      *
      * @param boolean $initialize If the ODM repository initializers should be executed.
      */
-    public function purgeRepository($initialize = false)
+    public function purgeDatabase($initialize = false)
     {
         $purger = new PHPCRPurger();
         $this->getExecutor($initialize)->purge();
@@ -80,9 +94,11 @@ class PHPCR
      */
     public function loadFixtures(array $classNames, $initialize = false)
     {
-        $this->purgeRepository();
+        $this->assertContainerIsSet();
 
-        $loader = new ContainerAwareLoader($this->container);;
+        $this->purgeDatabase();
+
+        $loader = new ContainerAwareLoader($this->container);
 
         foreach ($classNames as $className) {
             $this->loadFixtureClass($loader, $className);
@@ -94,10 +110,10 @@ class PHPCR
     /**
      * Load the named fixture class with the given loader.
      *
-     * @param \Doctrine\Common\DataFixtures\Loader $loader
+     * @param Loader $loader
      * @param string $className
      */
-    public function loadFixtureClass($loader, $className)
+    public function loadFixtureClass(Loader $loader, $className)
     {
         if (!class_exists($className)) {
             throw new \InvalidArgumentException(sprintf(
@@ -127,6 +143,8 @@ class PHPCR
      */
     public function createTestNode()
     {
+        $this->assertContainerIsSet();
+
         $session = $this->container->get('doctrine_phpcr.session');
 
         if ($session->nodeExists('/test')) {
@@ -145,6 +163,8 @@ class PHPCR
      */
     private function getExecutor($initialize = false)
     {
+        $this->assertContainerIsSet();
+
         static $lastInitialize = null;
 
         if ($this->executor && $initialize === $lastInitialize) {
@@ -161,5 +181,17 @@ class PHPCR
         $lastInitialize = $initialize;
 
         return $executor;
+    }
+
+    public function getDriver()
+    {
+        return 'phpcr';
+    }
+
+    private function assertContainerIsSet()
+    {
+        if (null === $this->container) {
+            throw new \BadMethodCallException('This method cannot be executed without a container.');
+        }
     }
 }
