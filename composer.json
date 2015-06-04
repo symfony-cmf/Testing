@@ -10,6 +10,7 @@
     ],
     "minimum-stability": "dev",
     "require": {
+        "php": ">=5.3.9",
         "symfony/symfony": "~2.3",
         "symfony/phpunit-bridge": "~2.7@dev",
         "symfony/monolog-bundle": "~2.1",
