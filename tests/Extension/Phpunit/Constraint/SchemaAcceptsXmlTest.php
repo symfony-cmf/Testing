@@ -17,10 +17,15 @@ class SchemaAcceptsXmlTest extends \PHPUnit_Framework_TestCase
 {
     public function testCount()
     {
-        $constraint = new SchemaAcceptsXml(array('config1', 'config2', 'config3'));
+        $constraint = new SchemaAcceptsXml(array_map(function ($xml) {
+            $dom = new \DOMDocument();
+            $dom->loadXML($xml);
+
+            return $dom;
+        }, array('<config1></config1>', '<config2></config2>', '<config3></config3>')));
 
         try {
-            $this->matches('schema_file.xsd');
+            $constraint->matches('schema_file.xsd');
         } catch (\Exception $e) {
         }
 
@@ -48,7 +53,7 @@ class SchemaAcceptsXmlTest extends \PHPUnit_Framework_TestCase
 
     public function getAssertingData()
     {
-        $schema1 = __DIR__.'/../../Fixtures/schema/schema1.xsd';
+        $schema1 = __DIR__.'/../../../Fixtures/schema/schema1.xsd';
 
         $data = array();
 

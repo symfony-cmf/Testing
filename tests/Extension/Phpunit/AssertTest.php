@@ -20,7 +20,7 @@ class AssertTest extends \PHPUnit_Framework_TestCase
         $dom = new \DomDocument();
         $dom->loadXML('<container><config xmlns="http://cmf.symfony.com/schema/dic/foo" required="f"/></container>');
 
-        Assert::schemaAcceptsXml($dom, __DIR__.'/../Fixtures/schema/schema1.xsd');
+        Assert::schemaAcceptsXml($dom, __DIR__.'/../../Fixtures/schema/schema1.xsd');
     }
 
     public function testSchemaRefusesXml()
@@ -28,6 +28,6 @@ class AssertTest extends \PHPUnit_Framework_TestCase
         $dom = new \DomDocument();
         $dom->loadXML('<container><config xmlns="http://cmf.symfony.com/schema/dic/foo" /></container>');
 
-        Assert::schemaRefusesXml($dom, __DIR__.'/../Fixtures/schema/schema1.xsd');
+        Assert::schemaRefusesXml($dom, __DIR__.'/../../Fixtures/schema/schema1.xsd');
     }
 }
