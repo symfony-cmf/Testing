@@ -61,4 +61,11 @@ abstract class DoctrineManager implements ManagerInterface, ContainerAwareInterf
 
         return $this->om;
     }
+
+    protected function assertContainerIsSet()
+    {
+        if (null === $this->container) {
+            throw new \BadMethodCallException('This method cannot be executed without a container.');
+        }
+    }
 }

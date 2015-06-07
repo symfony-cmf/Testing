@@ -82,7 +82,6 @@ class PhpcrManager extends DoctrineManager
      */
     public function purgeDatabase($initialize = false)
     {
-        $purger = new PHPCRPurger();
         $this->getExecutor($initialize)->purge();
     }
 
@@ -186,12 +185,5 @@ class PhpcrManager extends DoctrineManager
     public function getDriver()
     {
         return 'phpcr';
-    }
-
-    private function assertContainerIsSet()
-    {
-        if (null === $this->container) {
-            throw new \BadMethodCallException('This method cannot be executed without a container.');
-        }
     }
 }

@@ -153,11 +153,4 @@ class OrmManager extends DoctrineManager
     {
         return 'orm';
     }
-
-    private function assertContainerIsSet()
-    {
-        if (null === $this->container) {
-            throw new \BadMethodCallException('This method cannot be executed without a container.');
-        }
-    }
 }
