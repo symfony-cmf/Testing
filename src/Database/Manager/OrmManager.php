@@ -30,9 +30,7 @@ class OrmManager extends DoctrineManager
      */
     public function getRegistry()
     {
-        $this->assertContainerIsSet();
-
-        return $this->container->get('doctrine');
+        return $this->getContainer()->get('doctrine');
     }
 
     public function setUpDatabase(ProcessBuilder $processBuilder)
@@ -88,11 +86,9 @@ class OrmManager extends DoctrineManager
      */
     public function loadFixtures(array $classNames)
     {
-        $this->assertContainerIsSet();
-
         $this->purgeDatabase();
 
-        $loader = new ContainerAwareLoader($this->container);
+        $loader = new ContainerAwareLoader($this->getContainer());
 
         foreach ($classNames as $className) {
             $this->loadFixtureClass($loader, $className);

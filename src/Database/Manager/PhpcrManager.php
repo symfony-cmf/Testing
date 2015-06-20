@@ -70,9 +70,7 @@ class PhpcrManager extends DoctrineManager
      */
     public function getRegistry()
     {
-        $this->assertContainerIsSet();
-
-        return $this->container->get('doctrine_phpcr');
+        return $this->getContainer()->get('doctrine_phpcr');
     }
 
     /**
@@ -93,11 +91,9 @@ class PhpcrManager extends DoctrineManager
      */
     public function loadFixtures(array $classNames, $initialize = false)
     {
-        $this->assertContainerIsSet();
-
         $this->purgeDatabase();
 
-        $loader = new ContainerAwareLoader($this->container);
+        $loader = new ContainerAwareLoader($this->getContainer());
 
         foreach ($classNames as $className) {
             $this->loadFixtureClass($loader, $className);
@@ -142,9 +138,7 @@ class PhpcrManager extends DoctrineManager
      */
     public function createTestNode()
     {
-        $this->assertContainerIsSet();
-
-        $session = $this->container->get('doctrine_phpcr.session');
+        $session = $this->getContainer()->get('doctrine_phpcr.session');
 
         if ($session->nodeExists('/test')) {
             $session->getNode('/test')->remove();
@@ -162,15 +156,13 @@ class PhpcrManager extends DoctrineManager
      */
     private function getExecutor($initialize = false)
     {
-        $this->assertContainerIsSet();
-
         static $lastInitialize = null;
 
         if ($this->executor && $initialize === $lastInitialize) {
             return $this->executor;
         }
 
-        $initializerManager = $initialize ? $this->container->get('doctrine_phpcr.initializer_manager') : null;
+        $initializerManager = $initialize ? $this->getContainer()->get('doctrine_phpcr.initializer_manager') : null;
         $purger = new PHPCRPurger();
         $executor = new PHPCRExecutor($this->getOm(), $purger, $initializerManager);
         $referenceRepository = new ProxyReferenceRepository($this->getOm());

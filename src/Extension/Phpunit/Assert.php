@@ -3,6 +3,7 @@
 namespace Symfony\Cmf\Component\Testing\Extension\Phpunit;
 
 use Symfony\Cmf\Component\Testing\Assert as BaseAssert;
+use Symfony\Cmf\Component\Testing\Exception\AssertionFailedException;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -18,7 +19,7 @@ class Assert extends BaseAssert
     {
         try {
             parent::responseOk($response);
-        } catch (\LogicException $e) {
+        } catch (AssertionFailedException $e) {
             throw new \PHPUnit_Framework_ExpectationFailedException($e->getMessage());
         }
     }

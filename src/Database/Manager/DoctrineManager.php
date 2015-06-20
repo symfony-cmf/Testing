@@ -21,14 +21,25 @@ abstract class DoctrineManager implements ManagerInterface, ContainerAwareInterf
     /**
      * @var ContainerInterface
      */
-    protected $container;
+    private $container;
 
-    /**
-     * @param ContainerInterface $container
-     */
     public function setContainer(ContainerInterface $container = null)
     {
         $this->container = $container;
+    }
+
+    /**
+     * @return ContainerInterface
+     *
+     * @throws \BadMethodCallException When no container was set
+     */
+    protected function getContainer()
+    {
+        if (null === $this->container) {
+            throw new \BadMethodCallException('This method cannot be executed without a container.');
+        }
+
+        return $this->container;
     }
 
     public function dropDatabase(ProcessBuilder $processBuilder)
@@ -60,12 +71,5 @@ abstract class DoctrineManager implements ManagerInterface, ContainerAwareInterf
         }
 
         return $this->om;
-    }
-
-    protected function assertContainerIsSet()
-    {
-        if (null === $this->container) {
-            throw new \BadMethodCallException('This method cannot be executed without a container.');
-        }
     }
 }

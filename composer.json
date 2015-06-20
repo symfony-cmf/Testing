@@ -19,18 +19,16 @@
         "doctrine/phpcr-bundle": "~1.1,>=1.1.0-beta2",
         "doctrine/data-fixtures": "1.*,>=1.0.0-alpha3",
         "jackalope/jackalope": "~1.1,>=1.1.5",
-        "jackalope/jackalope-doctrine-dbal": "~1.1,>=1.1.5",
-        "mockery/mockery": "^1.0@dev"
+        "jackalope/jackalope-doctrine-dbal": "~1.1,>=1.1.5"
+    },
+    "require-dev": {
+        "mockery/mockery": "0.9.*"
     },
     "autoload": {
-        "psr-4": {
-            "Symfony\\Cmf\\Component\\Testing\\": "src/"
-        }
+        "psr-4": { "Symfony\\Cmf\\Component\\Testing\\": "src/" }
     },
     "autoload-dev": {
-        "psr-4": {
-            "Symfony\\Cmf\\Component\\Testing\\Tests\\": "tests/"
-        }
+        "psr-4": { "Symfony\\Cmf\\Component\\Testing\\Tests\\": "tests/" }
     },
     "extra": {
         "branch-alias": {

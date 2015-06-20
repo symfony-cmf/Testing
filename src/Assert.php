@@ -2,6 +2,7 @@
 
 namespace Symfony\Cmf\Component\Testing;
 
+use Symfony\Cmf\Component\Testing\Exception\AssertionFailedException;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -14,22 +15,25 @@ class Assert
     public static function responseOk(Response $response)
     {
         if (200 === $response->getStatusCode()) {
-            return true;
+            return;
         }
 
         // extract exception message from output (assuming the output is the default Symfony exception page)
-        libxml_use_internal_errors(true);
+        $previousUseErrors = libxml_use_internal_errors(true);
 
         $dom = new \DomDocument();
         $dom->loadHTML($response->getContent());
 
         $xpath = new \DOMXpath($dom);
         $exceptionElement = $xpath->query('//div[contains(@class,"text-exception")]/h1');
+        $exceptionMessage = $exceptionElement->length ? trim($exceptionElement->item(0)->nodeValue) : false;
 
-        throw new \LogicException(sprintf(
+        libxml_use_internal_errors($previousUseErrors);
+
+        throw new AssertionFailedException(sprintf(
             'Status code for response was %d instead of the expected 200.%s',
             $response->getStatusCode(),
-            $exceptionElement->length ? ' Exception message: "'.trim($exceptionElement->item(0)->nodeValue).'"."' : null
+            $exceptionMessage ? ' Exception message: "'.$exceptionMessage.'"' : ''
         ));
     }
 }
