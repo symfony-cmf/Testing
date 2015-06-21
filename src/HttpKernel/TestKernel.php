@@ -57,14 +57,11 @@ abstract class TestKernel extends Kernel
             'Sonata\CoreBundle\SonataCoreBundle',
             'Sonata\AdminBundle\SonataAdminBundle',
             'Knp\Bundle\MenuBundle\KnpMenuBundle',
+            'FOS\JsRoutingBundle\FOSJsRoutingBundle',
         );
         
         if (class_exists('Sonata\jQueryBundle\SonatajQueryBundle')) {
             $baseSonataBundles[] = 'Sonata\jQueryBundle\SonatajQueryBundle';
-        }
-        
-        if (class_exists('FOS\JsRoutingBundle\FOSJsRoutingBundle')) {
-            $baseSonataBundles[] = 'FOS\JsRoutingBundle\FOSJsRoutingBundle';
         }
 
         $this->registerBundleSet('sonata_admin', array_merge(array(
