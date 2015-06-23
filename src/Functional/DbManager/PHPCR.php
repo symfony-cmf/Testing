@@ -19,6 +19,7 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\ODM\PHPCR\DocumentManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Doctrine\Common\DataFixtures\ProxyReferenceRepository;
+use Doctrine\Common\Persistence\ManagerRegistry;
 
 class PHPCR
 {
@@ -41,7 +42,7 @@ class PHPCR
     /**
      * Return the PHPCR ODM registry
      *
-     * @return Symfony\Bridge\Doctrine\RegistryInterface
+     * @return ManagerRegistry
      */
     public function getRegistry()
     {
@@ -68,7 +69,6 @@ class PHPCR
      */
     public function purgeRepository($initialize = false)
     {
-        $purger = new PHPCRPurger();
         $this->getExecutor($initialize)->purge();
     }
 
