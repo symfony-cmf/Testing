@@ -13,6 +13,8 @@
 namespace Symfony\Cmf\Component\Testing\Functional;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Bundle\FrameworkBundle\Client;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\DependencyInjection\Container;
 
 /**
@@ -24,16 +26,21 @@ use Symfony\Component\DependencyInjection\Container;
 abstract class BaseTestCase extends WebTestCase
 {
     /**
-     * Use this property to save the DbManager.
+     * Use this property to save the DbManagers
+     *
+     * @var array
      */
-    protected $db;
-
     protected $dbManagers = array();
 
     /**
      * @var Container
      */
     protected $container;
+
+    /**
+     * @var Client
+     */
+    protected $client;
 
     /**
      * Return the configuration to use when creating the Kernel.
@@ -51,6 +58,20 @@ abstract class BaseTestCase extends WebTestCase
     }
 
     /**
+     * Gets the Client.
+     *
+     * @return Client
+     */
+    public function getClient()
+    {
+        if (null === $this->client) {
+            $this->client = $this->createClient($this->getKernelConfiguration());
+        }
+
+        return $this->client;
+    }
+
+    /**
      * Gets the container.
      *
      * @return Container
@@ -58,8 +79,7 @@ abstract class BaseTestCase extends WebTestCase
     public function getContainer()
     {
         if (null === $this->container) {
-            $client = $this->createClient($this->getKernelConfiguration());
-            $this->container = $client->getContainer();
+            $this->container = $this->getClient()->getContainer();
         }
 
         return $this->container;
@@ -104,7 +124,7 @@ abstract class BaseTestCase extends WebTestCase
 
         $this->dbManagers[$type] = $dbManager;
 
-        return $this->getDbManager($type);
+        return $dbManager;
     }
 
     /**
