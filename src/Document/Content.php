@@ -42,7 +42,7 @@ class Content
     protected $name;
 
     /**
-     * @PHPCRODM\String
+     * @PHPCRODM\Field(type="string")
      */
     protected $title;
 
