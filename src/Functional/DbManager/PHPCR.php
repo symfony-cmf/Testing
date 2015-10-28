@@ -79,15 +79,13 @@ class PHPCR
      */
     public function loadFixtures(array $classNames, $initialize = false)
     {
-        $this->purgeRepository();
-
         $loader = new ContainerAwareLoader($this->container);;
 
         foreach ($classNames as $className) {
             $this->loadFixtureClass($loader, $className);
         }
 
-        $this->getExecutor($initialize)->execute($loader->getFixtures(), true);
+        $this->getExecutor($initialize)->execute($loader->getFixtures(), false);
     }
 
     /**
