@@ -15,9 +15,9 @@ if (preg_match('&/([a-zA-Z]+?)Bundle&', $kernelRootDir, $matches)) {
 }
 
 $loader->import('dist/parameters.yml');
-$loader->import('dist/framework.yml');
 if (class_exists('Symfony\Bundle\MonologBundle\MonologBundle')) {
     $loader->import('dist/monolog.yml');
 }
 $loader->import('dist/doctrine.yml');
 $loader->import('dist/security.yml');
+$loader->import('dist/framework.php');
