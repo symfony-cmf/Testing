@@ -13,6 +13,8 @@ namespace Symfony\Cmf\Component\Testing\Document;
 
 use Doctrine\ODM\PHPCR\Mapping\Annotations as PHPCRODM;
 
+@trigger_error('The '.__NAMESPACE.'\Content document is deprecated as of version 1.1 and will be removed in 2.0.', E_USER_DEPRECATED);
+
 /**
  * Test content document
  *

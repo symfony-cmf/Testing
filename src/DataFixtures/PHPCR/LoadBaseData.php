@@ -22,6 +22,8 @@ class LoadBaseData implements FixtureInterface
 {
     public function load(ObjectManager $manager)
     {
+        @trigger_error('The '.__NAMESPACE__.'\LoadBaseData data fixture is deprecated since version 1.1 and will be removed in 2.0.', E_USER_DEPRECATED);
+
         $root = $manager->find(null, '/');
         $base = new Generic;
         $base->setNodename('test');
