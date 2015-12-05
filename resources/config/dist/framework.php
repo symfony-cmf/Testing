@@ -23,14 +23,6 @@ $config = array(
     ),
 );
 
-if (Symfony\Component\HttpKernel\Kernel::VERSION_ID >= 20800) {
-    $config['form'] = array(
-        'csrf_protection' => true
-    );
-} else {
-    $config['csrf_protection'] = true;
-}
-
 $container->loadFromExtension('framework', $config);
 
 $container->loadFromExtension('twig', array(
