@@ -1,5 +1,5 @@
 admin:
-    resource: "@SonataAdminBundle/Resources/config/routing/sonata_admin.xml"
+    resource: '@SonataAdminBundle/Resources/config/routing/sonata_admin.xml'
     prefix: /admin
 
 sonata_admin:
@@ -20,4 +20,4 @@ cmf_tree:
     type: 'cmf_tree'
 
 fos_js_routing:
-    resource: @FOSJsRoutingBundle/Resources/config/routing/routing.xml
+    resource: '@FOSJsRoutingBundle/Resources/config/routing/routing.xml'
