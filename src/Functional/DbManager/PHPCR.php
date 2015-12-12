@@ -136,6 +136,30 @@ class PHPCR
     }
 
     /**
+     * Creates a /test node if it does not already exists.
+     */
+    public function initTestNode()
+    {
+        if (!$this->getOm()->find(null, '/test')) {
+            $this->createTestNode();
+        }
+    }
+
+    /**
+     * Removes a node.
+     */
+    public function removeNode($path)
+    {
+        $root = $this->getOm()->find(null, $path);
+
+        if ($root) {
+            $this->getOm()->remove($root);
+            $this->getOm()->flush();
+            $this->getOm()->clear();
+        }
+    }
+
+    /**
      * Return the PHPCR Executor class
      *
      * @return PHPCRExecutor
