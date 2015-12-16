@@ -12,10 +12,7 @@
 namespace Symfony\Cmf\Component\Testing\Phpunit;
 
 use Symfony\Component\Process\ProcessBuilder;
-use Symfony\Component\Process\Process;
-use Symfony\Component\Process\ProcessUtils;
 use Symfony\Component\Process\PhpExecutableFinder;
-use Symfony\Component\HttpKernel\Kernel;
 use Doctrine\Common\DataFixtures\Purger;
 
 class DatabaseTestListener implements \PHPUnit_Framework_TestListener
@@ -44,7 +41,7 @@ class DatabaseTestListener implements \PHPUnit_Framework_TestListener
     public function addError(\PHPUnit_Framework_Test $test, \Exception $e, $time)
     {
     }
- 
+
     public function addFailure(\PHPUnit_Framework_Test $test, \PHPUnit_Framework_AssertionFailedError $e, $time)
     {
     }
@@ -56,15 +53,15 @@ class DatabaseTestListener implements \PHPUnit_Framework_TestListener
     public function addIncompleteTest(\PHPUnit_Framework_Test $test, \Exception $e, $time)
     {
     }
- 
+
     public function addSkippedTest(\PHPUnit_Framework_Test $test, \Exception $e, $time)
     {
     }
-    
+
     public function addRiskyTest(\PHPUnit_Framework_Test $test, \Exception $e, $time)
     {
     }
- 
+
     public function startTest(\PHPUnit_Framework_Test $test)
     {
         switch (static::$currentSuite->getName()) {
@@ -79,16 +76,17 @@ class DatabaseTestListener implements \PHPUnit_Framework_TestListener
                 break;
 
             default;
+
                 return;
         }
 
         $purger->purge();
     }
- 
+
     public function endTest(\PHPUnit_Framework_Test $test, $time)
     {
     }
- 
+
     public function startTestSuite(\PHPUnit_Framework_TestSuite $suite)
     {
         static::$currentSuite = $suite;
@@ -134,7 +132,7 @@ class DatabaseTestListener implements \PHPUnit_Framework_TestListener
 
                 return;
             }
-        } 
+        }
 
         // initialize repositories
         $process = $this->processBuilder
@@ -197,7 +195,7 @@ class DatabaseTestListener implements \PHPUnit_Framework_TestListener
 
         echo '[ORM]'.PHP_EOL;
     }
- 
+
     public function endTestSuite(\PHPUnit_Framework_TestSuite $suite)
     {
         if (!in_array($suite->getName(), array('phpcr', 'orm'))) {

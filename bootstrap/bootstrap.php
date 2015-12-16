@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Symfony CMF package.
+ *
+ * (c) 2011-2015 Symfony CMF
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 $vendorDir = realpath(__DIR__.'/../../..');
 
 if (!$loader = include $vendorDir.'/autoload.php') {
@@ -13,7 +22,7 @@ if (!$loader = include $vendorDir.'/autoload.php') {
 
 use Doctrine\Common\Annotations\AnnotationRegistry;
 
-AnnotationRegistry::registerLoader(function($class) use ($loader) {
+AnnotationRegistry::registerLoader(function ($class) use ($loader) {
     $loader->loadClass($class);
 
     // this was class_exists($class, false) i.e. do not autoload.
