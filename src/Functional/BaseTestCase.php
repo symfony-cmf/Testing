@@ -25,7 +25,7 @@ use Symfony\Component\DependencyInjection\Container;
 abstract class BaseTestCase extends WebTestCase
 {
     /**
-     * Use this property to save the DbManagers
+     * Use this property to save the DbManagers.
      *
      * @var array
      */
@@ -127,7 +127,7 @@ abstract class BaseTestCase extends WebTestCase
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      *
      * This is overriden to set the default environment to 'phpcr'
      */

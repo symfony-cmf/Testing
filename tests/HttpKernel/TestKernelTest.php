@@ -11,9 +11,6 @@
 
 namespace Symfony\Cmf\Component\Testing\Tests\HttpKernel;
 
-use Symfony\Cmf\Component\Testing\HttpKernel\TestKernel;
-use Symfony\Component\Config\Loader\LoaderInterface;
-
 class TestKernelTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()

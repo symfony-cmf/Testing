@@ -16,7 +16,6 @@ use Doctrine\Common\DataFixtures\Loader;
 use Doctrine\Common\DataFixtures\ProxyReferenceRepository;
 use Symfony\Bridge\Doctrine\DataFixtures\ContainerAwareLoader;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\Persistence\ManagerRegistry;
@@ -57,7 +56,7 @@ class ORM
     }
 
     /**
-     * Gets the Doctrine ManagerRegistry
+     * Gets the Doctrine ManagerRegistry.
      *
      * @return ManagerRegistry
      */
@@ -67,9 +66,10 @@ class ORM
     }
 
     /**
-     * Gets the Doctrine ObjectManager
+     * Gets the Doctrine ObjectManager.
      *
      * @param null $managerName
+     *
      * @return ObjectManager
      */
     public function getOm($managerName = null)
@@ -82,7 +82,7 @@ class ORM
     }
 
     /**
-     * Purge the database
+     * Purge the database.
      */
     public function purgeDatabase()
     {
@@ -99,7 +99,7 @@ class ORM
     public function loadFixtures(array $classNames)
     {
         $this->purgeDatabase();
-        $loader = new ContainerAwareLoader($this->container);;
+        $loader = new ContainerAwareLoader($this->container);
 
         foreach ($classNames as $className) {
             $this->loadFixtureClass($loader, $className);
@@ -127,6 +127,7 @@ class ORM
 
         if ($loader->hasFixture($fixture)) {
             unset($fixture);
+
             return;
         }
 
@@ -140,7 +141,7 @@ class ORM
     }
 
     /**
-     * Return the ORM Executor class
+     * Return the ORM Executor class.
      *
      * @return ORMExecutor
      */

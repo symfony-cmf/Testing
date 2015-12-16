@@ -11,8 +11,6 @@
 
 namespace Symfony\Cmf\Component\Testing\HttpKernel;
 
-use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 
@@ -58,7 +56,7 @@ abstract class TestKernel extends Kernel
             'Knp\Bundle\MenuBundle\KnpMenuBundle',
             'FOS\JsRoutingBundle\FOSJsRoutingBundle',
         );
-        
+
         if (class_exists('Sonata\jQueryBundle\SonatajQueryBundle')) {
             $baseSonataBundles[] = 'Sonata\jQueryBundle\SonatajQueryBundle';
         }
@@ -88,12 +86,11 @@ abstract class TestKernel extends Kernel
      *    $this->requireBundleSets('default', 'phpcr_odm');
      *    $this->addBundle(new MyBundle);
      *    $this->addBundles(array(new Bundle1, new Bundle2));
-     *
      */
     abstract protected function configure();
 
     /**
-     * Register a set of bundles with the given name
+     * Register a set of bundles with the given name.
      *
      * This method does not add the bundles to the kernel,
      * it just makes a set available.
@@ -142,12 +139,12 @@ abstract class TestKernel extends Kernel
                 ));
             }
 
-            $this->requiredBundles[$bundle] = new $bundle;
+            $this->requiredBundles[$bundle] = new $bundle();
         }
     }
 
     /**
-     * Add concrete bundles to the kernel
+     * Add concrete bundles to the kernel.
      */
     public function addBundles(array $bundles)
     {
@@ -157,7 +154,7 @@ abstract class TestKernel extends Kernel
     }
 
     /**
-     * Add a concrete bundle to the kernel
+     * Add a concrete bundle to the kernel.
      */
     public function addBundle(BundleInterface $bundle)
     {
@@ -165,7 +162,7 @@ abstract class TestKernel extends Kernel
     }
 
     /**
-     * {inheritDoc}
+     * {inheritDoc}.
      *
      * Here we return our list of bundles
      */
@@ -184,6 +181,7 @@ abstract class TestKernel extends Kernel
         $refl = new \ReflectionClass($this);
         $fname = $refl->getFileName();
         $kernelDir = dirname($fname);
+
         return $kernelDir;
     }
 
@@ -191,7 +189,7 @@ abstract class TestKernel extends Kernel
     {
         return implode('/', array(
             $this->getKernelDir(),
-            'cache'
+            'cache',
         ));
     }
 }

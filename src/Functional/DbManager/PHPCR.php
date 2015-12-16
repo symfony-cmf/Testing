@@ -39,7 +39,7 @@ class PHPCR
     }
 
     /**
-     * Return the PHPCR ODM registry
+     * Return the PHPCR ODM registry.
      *
      * @return ManagerRegistry
      */
@@ -50,6 +50,7 @@ class PHPCR
 
     /**
      * @param null|string $managerName
+     *
      * @return DocumentManager
      */
     public function getOm($managerName = null)
@@ -62,9 +63,9 @@ class PHPCR
     }
 
     /**
-     * Purge the database
+     * Purge the database.
      *
-     * @param boolean $initialize If the ODM repository initializers should be executed.
+     * @param bool $initialize If the ODM repository initializers should be executed.
      */
     public function purgeRepository($initialize = false)
     {
@@ -72,14 +73,14 @@ class PHPCR
     }
 
     /**
-     * Load fixtures
+     * Load fixtures.
      *
      * @param array $classNames Fixture classes to load
-     * @param boolean $initialize  If the ODM repository initializers should be executed.
+     * @param bool  $initialize If the ODM repository initializers should be executed.
      */
     public function loadFixtures(array $classNames, $initialize = false)
     {
-        $loader = new ContainerAwareLoader($this->container);;
+        $loader = new ContainerAwareLoader($this->container);
 
         foreach ($classNames as $className) {
             $this->loadFixtureClass($loader, $className);
@@ -92,7 +93,7 @@ class PHPCR
      * Load the named fixture class with the given loader.
      *
      * @param \Doctrine\Common\DataFixtures\Loader $loader
-     * @param string $className
+     * @param string                               $className
      */
     public function loadFixtureClass($loader, $className)
     {
@@ -107,6 +108,7 @@ class PHPCR
 
         if ($loader->hasFixture($fixture)) {
             unset($fixture);
+
             return;
         }
 
@@ -136,7 +138,7 @@ class PHPCR
     }
 
     /**
-     * Return the PHPCR Executor class
+     * Return the PHPCR Executor class.
      *
      * @return PHPCRExecutor
      */

@@ -25,11 +25,10 @@ class LoadBaseData implements FixtureInterface
         @trigger_error('The '.__NAMESPACE__.'\LoadBaseData data fixture is deprecated since version 1.1 and will be removed in 2.0.', E_USER_DEPRECATED);
 
         $root = $manager->find(null, '/');
-        $base = new Generic;
+        $base = new Generic();
         $base->setNodename('test');
         $base->setParent($root);
         $manager->persist($base);
         $manager->flush();
     }
 }
-

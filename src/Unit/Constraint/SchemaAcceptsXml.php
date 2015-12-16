@@ -51,12 +51,14 @@ class SchemaAcceptsXml extends \PHPUnit_Framework_Constraint
         return count($this->xml);
     }
 
-    public function toString() { }
+    public function toString()
+    {
+    }
 
     protected function failureDescription($schemaFile)
     {
         return sprintf(
-            "Xml is accepted by the XML schema \"%s\"",
+            'Xml is accepted by the XML schema "%s"',
             $schemaFile
         );
     }
