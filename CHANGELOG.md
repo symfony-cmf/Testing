@@ -1,6 +1,18 @@
 Changelog
 =========
 
+1.3.0-RC1
+---------
+
+* **2015-10-17**: Symfony 3 is supported
+* **2015-10-17**: [BC Break] `resources/config/dist/framework.yml` has been
+                  renamed to `resources/config/dist/framework.php`
+* **2015-04-26**: Added `BaseTestCase::assertResponseSuccess()` to provide
+                  helpfull output in case the response errored
+* **2015-04-19**: The package now requires `symfony/phpunit-bridge`
+* **2015-01-18**: Added required `--force` for the `doctrine:phpcr:init:dbal`
+                  command to support Jackalope 1.2
+
 1.2.0-RC2
 ---------
 
