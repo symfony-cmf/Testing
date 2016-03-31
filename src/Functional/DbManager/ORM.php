@@ -93,7 +93,7 @@ class ORM
 
     /**
      * Loads fixture classes.
-     * 
+     *
      * @param string[] $classNames
      */
     public function loadFixtures(array $classNames)
@@ -110,7 +110,7 @@ class ORM
 
     /**
      * Loads a single fixture.
-     * 
+     *
      * @param Loader $loader
      * @param string $className
      */
