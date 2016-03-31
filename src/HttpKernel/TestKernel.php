@@ -172,7 +172,7 @@ abstract class TestKernel extends Kernel
     }
 
     /**
-     * Returns the KernelDir of the CHILD class, 
+     * Returns the KernelDir of the CHILD class,
      * i.e. the concrete implementation in the bundles
      * src/ directory (or wherever).
      */

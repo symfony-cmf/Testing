@@ -75,7 +75,7 @@ class DatabaseTestListener implements \PHPUnit_Framework_TestListener
                 $purger = new Purger\PHPCRPurger($db->getOm());
                 break;
 
-            default;
+            default:
 
                 return;
         }
