@@ -1,6 +1,6 @@
 # Symfony CMF Testing Component
 
-[![Build Status](https://travis-ci.org/symfony-cmf/Testing.png?branch=master)](https://travis-ci.org/symfony-cmf/Testing)
+[![Build Status](https://travis-ci.org/symfony-cmf/testing.svg?branch=master)](https://travis-ci.org/symfony-cmf/testing)
 [![StyleCI](https://styleci.io/repos/9807986/shield)](https://styleci.io/repos/9807986)
 
 **NOTE**: This is an internal tool and is not intended to be used outside of
