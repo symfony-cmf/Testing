@@ -8,15 +8,14 @@
             "homepage": "https://github.com/symfony-cmf/Routing/contributors"
         }
     ],
-    "prefer-stable": true,
     "require": {
         "php": "^5.3.9|^7.0",
-        "symfony/symfony": "^2.3|3.*",
-        "symfony/phpunit-bridge": "^2.8.1|3.*",
-        "symfony/monolog-bundle": "^2.1|3.*",
+        "symfony/symfony": "^2.3|^3.0",
+        "symfony/phpunit-bridge": "^2.8.1|^3.0",
+        "symfony/monolog-bundle": "^2.1|^3.0",
         "doctrine/common": "^2.4",
         "doctrine/doctrine-bundle": "^1.0",
-        "doctrine/phpcr-odm": "^1.1",
+        "doctrine/phpcr-odm": "^1.1|^2.0",
         "doctrine/phpcr-bundle": "^1.1",
         "doctrine/data-fixtures": "^1.0",
         "jackalope/jackalope": "^1.1.5",
