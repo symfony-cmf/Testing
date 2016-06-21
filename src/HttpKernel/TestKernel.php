@@ -61,11 +61,6 @@ abstract class TestKernel extends Kernel
             $baseSonataBundles[] = 'Sonata\jQueryBundle\SonatajQueryBundle';
         }
 
-        $this->registerBundleSet('sonata_admin', array_merge(array(
-            'Sonata\DoctrinePHPCRAdminBundle\SonataDoctrinePHPCRAdminBundle',
-            'Symfony\Cmf\Bundle\TreeBrowserBundle\CmfTreeBrowserBundle',
-        ), $baseSonataBundles));
-
         $this->registerBundleSet('sonata_admin_orm', array_merge(array(
             'Sonata\DoctrineORMAdminBundle\SonataDoctrineORMAdminBundle',
         ), $baseSonataBundles));
@@ -119,10 +114,6 @@ abstract class TestKernel extends Kernel
      */
     public function requireBundleSet($name)
     {
-        if ('sonata_admin' === $name) {
-            @trigger_error('The "sonata_admin" bundleset is deprecated since version 1.1 and will be removed in 2.0. Use the "sonata_admin_phpcr" bundleset instead.', E_USER_DEPRECATED);
-        }
-
         if (!isset($this->bundleSets[$name])) {
             throw new \InvalidArgumentException(sprintf(
                 'Bundle set %s has not been registered, available bundle sets: %s',
