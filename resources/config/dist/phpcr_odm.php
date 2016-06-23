@@ -24,14 +24,6 @@ $config = array(
             'de' => array('en', 'fr'),
             'fr' => array('en', 'de'),
         ),
-        'mappings' => array(
-            'test_default' => array(
-                'type' => 'annotation',
-                'prefix' => 'Symfony\Cmf\Component\Testing\Document',
-                'dir' => CMF_TEST_ROOT_DIR.'/src/Document',
-                'is_bundle' => false,
-            ),
-        ),
     ),
 );
 
