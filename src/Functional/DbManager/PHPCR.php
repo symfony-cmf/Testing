@@ -65,7 +65,7 @@ class PHPCR
     /**
      * Purge the database.
      *
-     * @param bool $initialize If the ODM repository initializers should be executed.
+     * @param bool $initialize if the ODM repository initializers should be executed
      */
     public function purgeRepository($initialize = false)
     {
@@ -76,7 +76,7 @@ class PHPCR
      * Load fixtures.
      *
      * @param array $classNames Fixture classes to load
-     * @param bool  $initialize If the ODM repository initializers should be executed.
+     * @param bool  $initialize if the ODM repository initializers should be executed
      */
     public function loadFixtures(array $classNames, $initialize = false)
     {
