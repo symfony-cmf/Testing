@@ -1,6 +1,9 @@
 Changelog
 =========
 
+2.0.0-RC1
+---------
+
  * **2016-06-21**: [BC BREAK] Deleted the `sonata_admin` bundle set.
  * **2016-06-21**: [BC BREAK] Deleted the `LoadBaseData` data fixtures.
  * **2016-06-21**: [BC BREAK] Deleted the `Content` document.
