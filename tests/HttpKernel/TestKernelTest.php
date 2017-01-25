@@ -11,6 +11,12 @@
 
 namespace Symfony\Cmf\Component\Testing\Tests\HttpKernel;
 
+use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
+use Symfony\Bundle\SecurityBundle\SecurityBundle;
+use Symfony\Bundle\TwigBundle\TwigBundle;
+use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
+use Doctrine\Bundle\PHPCRBundle\DoctrinePHPCRBundle;
+
 class TestKernelTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
@@ -26,20 +32,21 @@ class TestKernelTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider bundleSetProvider
      */
-    public function testBundleSetRequire(array $bundleSets, $count)
+    public function testBundleSetRequire(array $bundleSets, array $expectedBundles)
     {
         $this->kernel->requireBundleSets($bundleSets);
-        $bundles = $this->kernel->registerBundles();
-        $this->assertCount($count, $bundles);
+        $bundles = array_keys($this->kernel->registerBundles());
+
+            $this->assertArraySubset($expectedBundles, $bundles);
     }
 
     public function bundleSetProvider()
     {
-        return array(
-            array(array('default', 'phpcr_odm'), 6),
-            array(array('default', 'doctrine_orm'), 5),
-            array(array('default', 'doctrine_orm', 'phpcr_odm'), 6),
-        );
+        return [
+            [['default'], [FrameworkBundle::class, SecurityBundle::class, TwigBundle::class]],
+            [['phpcr_odm'], [DoctrineBundle::class, DoctrinePHPCRBundle::class]],
+            [['doctrine_orm'], [DoctrineBundle::class]],
+        ];
     }
 
     public function testBundleAdd()
