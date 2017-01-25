@@ -12,8 +12,8 @@ cache:
     - .phpunit
 
 env:
-  - SYMFONY_VERSION=3.2.*
-  - SYMFONY_PHPUNIT_DIR=.phpunit SYMFONY_PHPUNIT_VERSION=5.7
+  matrix: SYMFONY_VERSION=3.2.*
+  global: SYMFONY_PHPUNIT_DIR=.phpunit SYMFONY_PHPUNIT_VERSION=5.7
 
 matrix:
   include:
