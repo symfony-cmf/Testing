@@ -1,14 +1,20 @@
 Changelog
 =========
 
+2.0.0-RC2
+---------
+
+ * **2017-01-25**: Added WebServerBundle support
+ * **2017-01-25**: Dropped PHP <5.6 support
+
 2.0.0-RC1
 ---------
 
- * **2016-06-21**: [BC BREAK] Deleted the `sonata_admin` bundle set.
- * **2016-06-21**: [BC BREAK] Deleted the `LoadBaseData` data fixtures.
- * **2016-06-21**: [BC BREAK] Deleted the `Content` document.
- * **2016-06-21**: [BC BREAK] Dropped PHP <5.5 support.
- * **2016-06-21**: [BC BREAK] Dropped Symfony <2.8 support.
+ * **2016-06-21**: [BC BREAK] Deleted the `sonata_admin` bundle set
+ * **2016-06-21**: [BC BREAK] Deleted the `LoadBaseData` data fixtures
+ * **2016-06-21**: [BC BREAK] Deleted the `Content` document
+ * **2016-06-21**: [BC BREAK] Dropped PHP <5.5 support
+ * **2016-06-21**: [BC BREAK] Dropped Symfony <2.8 support
 
 1.3.0
 -----
