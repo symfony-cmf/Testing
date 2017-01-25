@@ -11,8 +11,24 @@
 
 namespace Symfony\Cmf\Component\Testing\HttpKernel;
 
-use Symfony\Component\HttpKernel\Kernel;
+use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
+use Doctrine\Bundle\PHPCRBundle\DoctrinePHPCRBundle;
+use FOS\JsRoutingBundle\FOSJsRoutingBundle;
+use Knp\Bundle\MenuBundle\KnpMenuBundle;
+use Sonata\AdminBundle\SonataAdminBundle;
+use Sonata\BlockBundle\SonataBlockBundle;
+use Sonata\CoreBundle\SonataCoreBundle;
+use Sonata\DoctrineORMAdminBundle\SonataDoctrineORMAdminBundle;
+use Sonata\DoctrinePHPCRAdminBundle\SonataDoctrinePHPCRAdminBundle;
+use Sonata\jQueryBundle\SonatajQueryBundle;
+use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
+use Symfony\Bundle\MonologBundle\MonologBundle;
+use Symfony\Bundle\SecurityBundle\SecurityBundle;
+use Symfony\Bundle\TwigBundle\TwigBundle;
+use Symfony\Bundle\WebServerBundle\WebServerBundle;
+use Symfony\Cmf\Bundle\TreeBrowserBundle\CmfTreeBrowserBundle;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
+use Symfony\Component\HttpKernel\Kernel;
 
 /**
  * TestKernel base class for Symfony CMF Bundle
@@ -33,42 +49,43 @@ abstract class TestKernel extends Kernel
      */
     public function __construct($env, $debug)
     {
-        $this->registerBundleSet('default', array(
-            'Symfony\Bundle\FrameworkBundle\FrameworkBundle',
-            'Symfony\Bundle\SecurityBundle\SecurityBundle',
-            'Symfony\Bundle\TwigBundle\TwigBundle',
-            'Symfony\Bundle\MonologBundle\MonologBundle',
-        ));
+        $defaultBundles = [
+            FrameworkBundle::class,
+            SecurityBundle::class,
+            TwigBundle::class,
+            MonologBundle::class,
+        ];
 
-        $this->registerBundleSet('phpcr_odm', array(
-            'Doctrine\Bundle\DoctrineBundle\DoctrineBundle',
-            'Doctrine\Bundle\PHPCRBundle\DoctrinePHPCRBundle',
-        ));
-
-        $this->registerBundleSet('doctrine_orm', array(
-            'Doctrine\Bundle\DoctrineBundle\DoctrineBundle',
-        ));
-
-        $baseSonataBundles = array(
-            'Sonata\BlockBundle\SonataBlockBundle',
-            'Sonata\CoreBundle\SonataCoreBundle',
-            'Sonata\AdminBundle\SonataAdminBundle',
-            'Knp\Bundle\MenuBundle\KnpMenuBundle',
-            'FOS\JsRoutingBundle\FOSJsRoutingBundle',
-        );
-
-        if (class_exists('Sonata\jQueryBundle\SonatajQueryBundle')) {
-            $baseSonataBundles[] = 'Sonata\jQueryBundle\SonatajQueryBundle';
+        if (class_exists(WebServerBundle::class)) {
+            $defaultBundles[] = WebServerBundle::class;
         }
 
-        $this->registerBundleSet('sonata_admin_orm', array_merge(array(
-            'Sonata\DoctrineORMAdminBundle\SonataDoctrineORMAdminBundle',
-        ), $baseSonataBundles));
+        $this->registerBundleSet('default', $defaultBundles);
 
-        $this->registerBundleSet('sonata_admin_phpcr', array_merge(array(
-            'Sonata\DoctrinePHPCRAdminBundle\SonataDoctrinePHPCRAdminBundle',
-            'Symfony\Cmf\Bundle\TreeBrowserBundle\CmfTreeBrowserBundle',
-        ), $baseSonataBundles));
+        $this->registerBundleSet('phpcr_odm', [DoctrineBundle::class, DoctrinePHPCRBundle::class]);
+        $this->registerBundleSet('doctrine_orm', [DoctrineBundle::class]);
+
+        $baseSonataBundles = [
+            SonataBlockBundle::class,
+            SonataCoreBundle::class,
+            SonataAdminBundle::class,
+            KnpMenuBundle::class,
+            FOSJsRoutingBundle::class,
+        ];
+
+        if (class_exists(SonatajQueryBundle::class)) {
+            $baseSonataBundles[] = SonatajQueryBundle::class;
+        }
+
+        $this->registerBundleSet('sonata_admin_orm', array_merge(
+            [SonataDoctrineORMAdminBundle::class],
+            $baseSonataBundles
+        ));
+
+        $this->registerBundleSet('sonata_admin_phpcr', array_merge([
+            SonataDoctrinePHPCRAdminBundle::class,
+            CmfTreeBrowserBundle::class,
+        ], $baseSonataBundles));
 
         parent::__construct($env, $debug);
         $this->configure();
