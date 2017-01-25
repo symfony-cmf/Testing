@@ -15,38 +15,36 @@ use Symfony\Cmf\Component\Testing\Tests\Fixtures\TestTestCase;
 
 class BaseTestCaseTest extends \PHPUnit_Framework_TestCase
 {
-    public function setUp()
+    private $container;
+    private $kernel;
+    private $testCase;
+    private $client;
+
+    protected function setUp()
     {
-        $this->testCase = new TestTestCase();
-
-        $this->container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
-
-        $me = $this;
+        $this->container = $this->createMock('Symfony\Component\DependencyInjection\ContainerInterface');
         $this->container->expects($this->any())
             ->method('get')
-            ->will($this->returnCallback(function ($name) use ($me) {
-                $dic = array(
-                    'test.client' => $me->client,
-                );
+            ->will($this->returnCallback(function ($name) {
+                $dic = [
+                    'test.client' => $this->client,
+                ];
 
                 return $dic[$name];
             }));
 
-        $this->kernel = $this->getMock('Symfony\Component\HttpKernel\KernelInterface');
-
-        $this->testCase->setKernel($this->kernel);
-
+        $this->kernel = $this->createMock('Symfony\Component\HttpKernel\KernelInterface');
         $this->kernel->expects($this->any())
             ->method('getContainer')
-            ->will($this->returnValue($this->container));
+            ->willReturn($this->container);
 
-        $this->client = $this->getMockBuilder('Symfony\Bundle\FrameworkBundle\Client')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->testCase = new TestTestCase();
+        $this->testCase->setKernel($this->kernel);
 
+        $this->client = $this->createMock('Symfony\Bundle\FrameworkBundle\Client');
         $this->client->expects($this->any())
             ->method('getContainer')
-            ->will($this->returnValue($this->container));
+            ->willReturn($this->container);
     }
 
     public function testGetContainer()
@@ -56,12 +54,12 @@ class BaseTestCaseTest extends \PHPUnit_Framework_TestCase
 
     public function provideTestDb()
     {
-        return array(
-            array('PHPCR', 'PHPCR'),
-            array('Phpcr', 'PHPCR'),
-            array('ORM', 'ORM'),
-            array('foobar', null),
-        );
+        return [
+            ['PHPCR', 'PHPCR'],
+            ['Phpcr', 'PHPCR'],
+            ['ORM', 'ORM'],
+            ['foobar', null],
+        ];
     }
 
     /**

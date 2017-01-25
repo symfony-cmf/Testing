@@ -19,7 +19,7 @@ class DatabaseTestListenerTest extends \PHPUnit_Framework_TestCase
     private $processBuilder;
     private static $i;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->listener = new DatabaseTestListener($this->getProcessBuilder());
         self::$i = 0;
@@ -27,30 +27,30 @@ class DatabaseTestListenerTest extends \PHPUnit_Framework_TestCase
 
     public function testPhpcrTestSuite()
     {
-        $suite = $this->getMock('PHPUnit_Framework_TestSuite');
+        $suite = $this->createMock('PHPUnit_Framework_TestSuite');
         $suite->expects($this->any())
             ->method('getName')
-            ->will($this->returnValue('phpcr'));
+            ->willReturn('phpcr');
 
-        $this->assertProcessExecuted(array('doctrine:phpcr:init:dbal', '--drop', '--force'));
-        $this->assertProcessExecuted(array('doctrine:phpcr:repository:init'));
+        $this->assertProcessExecuted(['doctrine:phpcr:init:dbal', '--drop', '--force']);
+        $this->assertProcessExecuted(['doctrine:phpcr:repository:init']);
 
         ob_start();
         $this->listener->startTestSuite($suite);
 
-        $this->assertEquals(PHP_EOL.PHP_EOL.'[PHPCR]'.PHP_EOL, ob_get_clean());
+        $this->assertContains('[PHPCR]', ob_get_clean());
     }
 
     public function testFallsBackToOldInitDbalCommand()
     {
-        $suite = $this->getMock('PHPUnit_Framework_TestSuite');
+        $suite = $this->createMock('PHPUnit_Framework_TestSuite');
         $suite->expects($this->any())
             ->method('getName')
-            ->will($this->returnValue('phpcr'));
+            ->willReturn('phpcr');
 
-        $this->assertProcessExecuted(array('doctrine:phpcr:init:dbal', '--drop', '--force'), false);
-        $this->assertProcessExecuted(array('doctrine:phpcr:init:dbal', '--drop'), true);
-        $this->assertProcessExecuted(array('doctrine:phpcr:repository:init'));
+        $this->assertProcessExecuted(['doctrine:phpcr:init:dbal', '--drop', '--force'], false);
+        $this->assertProcessExecuted(['doctrine:phpcr:init:dbal', '--drop'], true);
+        $this->assertProcessExecuted(['doctrine:phpcr:repository:init']);
 
         ob_start();
         $this->listener->startTestSuite($suite);
@@ -59,67 +59,64 @@ class DatabaseTestListenerTest extends \PHPUnit_Framework_TestCase
 
     public function testOrmTestSuite()
     {
-        $suite = $this->getMock('PHPUnit_Framework_TestSuite');
+        $suite = $this->createMock('PHPUnit_Framework_TestSuite');
         $suite->expects($this->any())
             ->method('getName')
-            ->will($this->returnValue('orm'));
+            ->willReturn('orm');
 
-        $this->assertProcessExecuted(array('doctrine:schema:drop', '--env=orm', '--force'));
-        $this->assertProcessExecuted(array('doctrine:database:create', '--env=orm'));
-        $this->assertProcessExecuted(array('doctrine:schema:create', '--env=orm'));
+        $this->assertProcessExecuted(['doctrine:schema:drop', '--env=orm', '--force']);
+        $this->assertProcessExecuted(['doctrine:database:create', '--env=orm']);
+        $this->assertProcessExecuted(['doctrine:schema:create', '--env=orm']);
 
         ob_start();
         $this->listener->startTestSuite($suite);
 
-        $this->assertEquals(PHP_EOL.PHP_EOL.'[ORM]'.PHP_EOL, ob_get_clean());
+        $this->assertContains('[ORM]', ob_get_clean());
     }
 
     public function testUnknownTestSuite()
     {
-        $suite = $this->getMock('PHPUnit_Framework_TestSuite');
+        $suite = $this->createMock('PHPUnit_Framework_TestSuite');
         $suite->expects($this->any())
             ->method('getName')
-            ->will($this->returnValue('not orm or phpcr tests'));
+            ->willReturn('not orm or phpcr tests');
 
-        $this->getProcessBuilder()
-            ->expects($this->never())
-            ->method('setArguments');
+        $this->getProcessBuilder()->expects($this->never())->method('setArguments');
 
         ob_start();
         $this->listener->startTestSuite($suite);
 
-        $this->assertEquals(PHP_EOL.PHP_EOL.'[not orm or phpcr tests]'.PHP_EOL, ob_get_clean());
+        $this->assertContains('[not orm or phpcr tests]', ob_get_clean());
     }
 
     protected function assertProcessExecuted(array $arguments, $successfull = true)
     {
-        $process = $this->getMockBuilder('Symfony\Component\Process\Process')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $process = $this->createMock('Symfony\Component\Process\Process');
 
-        $process->expects($this->once())
-            ->method('run');
+        $process->expects($this->once())->method('run');
 
         $process->expects($this->any())
             ->method('isSuccessful')
-            ->will($this->returnValue($successfull));
+            ->willReturn($successfull);
 
-        $processPlaceholder = $this->getMock('ProcessPlaceholder', array('getProcess'));
+        $processPlaceholder = $this->getMockBuilder('ProcessPlaceholder')
+            ->setMethods(['getProcess'])
+            ->getMock();
         $processPlaceholder->expects($this->once())
             ->method('getProcess')
-            ->will($this->returnValue($process));
+            ->willReturn($process);
 
         $this->getProcessBuilder()
             ->expects($this->at(self::$i++))
             ->method('setArguments')
             ->with($this->equalTo($arguments))
-            ->will($this->returnValue($processPlaceholder));
+            ->willReturn($processPlaceholder);
     }
 
     protected function getProcessBuilder()
     {
         if (null === $this->processBuilder) {
-            $this->processBuilder = $this->getMock('Symfony\Component\Process\ProcessBuilder');
+            $this->processBuilder = $this->createMock('Symfony\Component\Process\ProcessBuilder');
         }
 
         return $this->processBuilder;

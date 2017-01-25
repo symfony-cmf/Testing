@@ -19,14 +19,16 @@ use Doctrine\Bundle\PHPCRBundle\DoctrinePHPCRBundle;
 
 class TestKernelTest extends \PHPUnit_Framework_TestCase
 {
-    public function setUp()
+    private $kernel;
+    private $mockBundle;
+
+    protected function setUp()
     {
-        $this->kernel = $this->getMockBuilder(
-            'Symfony\Cmf\Component\Testing\HttpKernel\TestKernel'
-        )->setConstructorArgs(array('test', true))->getMockForAbstractClass();
-        $this->mockBundle = $this->getMock(
-            'Symfony\Component\HttpKernel\Bundle\BundleInterface'
-        );
+        $this->kernel = $this->getMockBuilder('Symfony\Cmf\Component\Testing\HttpKernel\TestKernel')
+            ->setConstructorArgs(array('test', true))
+            ->getMockForAbstractClass();
+
+        $this->mockBundle = $this->createMock('Symfony\Component\HttpKernel\Bundle\BundleInterface');
     }
 
     /**
@@ -37,7 +39,7 @@ class TestKernelTest extends \PHPUnit_Framework_TestCase
         $this->kernel->requireBundleSets($bundleSets);
         $bundles = array_keys($this->kernel->registerBundles());
 
-            $this->assertArraySubset($expectedBundles, $bundles);
+        $this->assertArraySubset($expectedBundles, $bundles);
     }
 
     public function bundleSetProvider()
