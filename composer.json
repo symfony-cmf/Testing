@@ -24,8 +24,10 @@
     },
     "autoload": {
         "psr-4": {
-            "Symfony\\Cmf\\Component\\Testing\\": "src/"
-        }
+            "Symfony\\Cmf\\Component\\Testing\\": "src/",
+            "": "phpunit"
+        },
+        "files": ["phpunit/prepare.php"]
     },
     "autoload-dev": {
         "psr-4": {

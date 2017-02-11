@@ -11,7 +11,9 @@
 
 namespace Symfony\Cmf\Component\Testing\Unit;
 
-abstract class XmlSchemaTestCase extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+abstract class XmlSchemaTestCase extends TestCase
 {
     public static function assertSchemaAcceptsXml($xmlDoms, $schemaPath, $message = '')
     {
@@ -22,7 +24,7 @@ abstract class XmlSchemaTestCase extends \PHPUnit_Framework_TestCase
     {
         return self::assertThat(
             $schemaPath,
-            new \PHPUnit_Framework_Constraint_Not(self::getSchemaAcceptsXmlConstraint($xmlDoms)),
+            self::logicalNot(self::getSchemaAcceptsXmlConstraint($xmlDoms)),
             $message
         );
     }

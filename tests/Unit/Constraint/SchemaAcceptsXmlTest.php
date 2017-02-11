@@ -12,8 +12,9 @@
 namespace Symfony\Cmf\Component\Testing\Tests\Unit\Constraint;
 
 use Symfony\Cmf\Component\Testing\Unit\Constraint\SchemaAcceptsXml;
+use PHPUnit\Framework\TestCase;
 
-class SchemaAcceptsXmlTest extends \PHPUnit_Framework_TestCase
+class SchemaAcceptsXmlTest extends TestCase
 {
     public function testCount()
     {

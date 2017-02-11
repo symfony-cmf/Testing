@@ -16,8 +16,9 @@ use Symfony\Bundle\SecurityBundle\SecurityBundle;
 use Symfony\Bundle\TwigBundle\TwigBundle;
 use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
 use Doctrine\Bundle\PHPCRBundle\DoctrinePHPCRBundle;
+use PHPUnit\Framework\TestCase;
 
-class TestKernelTest extends \PHPUnit_Framework_TestCase
+class TestKernelTest extends TestCase
 {
     private $kernel;
     private $mockBundle;

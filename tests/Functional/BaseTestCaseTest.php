@@ -12,8 +12,9 @@
 namespace Symfony\Cmf\Component\Testing\Tests\Functional;
 
 use Symfony\Cmf\Component\Testing\Tests\Fixtures\TestTestCase;
+use PHPUnit\Framework\TestCase;
 
-class BaseTestCaseTest extends \PHPUnit_Framework_TestCase
+class BaseTestCaseTest extends TestCase
 {
     private $container;
     private $kernel;
@@ -69,7 +70,7 @@ class BaseTestCaseTest extends \PHPUnit_Framework_TestCase
     public function testDb($dbName, $expected)
     {
         if (null === $expected) {
-            $this->setExpectedException('InvalidArgumentException', $dbName.'" does not exist');
+            $this->expectException('InvalidArgumentException', $dbName.'" does not exist');
         }
 
         $res = $this->testCase->getDbManager($dbName);
