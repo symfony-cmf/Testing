@@ -1,6 +1,8 @@
 Changelog
 =========
 
+ * **2017-02-11**: Added PHPunit 6 compatibility
+
 2.0.0-RC2
 ---------
 

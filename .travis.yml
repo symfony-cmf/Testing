@@ -13,14 +13,14 @@ cache:
 
 env:
   matrix: SYMFONY_VERSION=3.2.*
-  global: SYMFONY_PHPUNIT_DIR=.phpunit SYMFONY_PHPUNIT_VERSION=5.7
+  global: SYMFONY_PHPUNIT_DIR=.phpunit SYMFONY_PHPUNIT_VERSION=6.0
 
 matrix:
   include:
     - php: 7.1
       env: SYMFONY_VERSION=3.3.* DEPS=dev
     - php: 5.6
-      env: SYMFONY_VERSION=2.8.* COMPOSER_FLAGS="--prefer-lowest"
+      env: SYMFONY_VERSION=2.8.* COMPOSER_FLAGS="--prefer-lowest" SYMFONY_PHPUNIT_VERSION=5.7
     - php: 7.1
       env: SYMFONY_VERSION=3.1.*
   fast_finish: true

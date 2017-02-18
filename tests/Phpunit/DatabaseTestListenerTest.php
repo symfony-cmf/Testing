@@ -12,8 +12,9 @@
 namespace Symfony\Cmf\Component\Testing\Tests\Phpunit;
 
 use Symfony\Cmf\Component\Testing\Phpunit\DatabaseTestListener;
+use PHPUnit\Framework\TestCase;
 
-class DatabaseTestListenerTest extends \PHPUnit_Framework_TestCase
+class DatabaseTestListenerTest extends TestCase
 {
     protected $listener;
     private $processBuilder;
