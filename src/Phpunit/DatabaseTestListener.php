@@ -68,11 +68,13 @@ class DatabaseTestListener implements \PHPUnit_Framework_TestListener
             case 'orm':
                 $db = $test->getDbManager('ORM');
                 $purger = new Purger\ORMPurger($db->getOm());
+
                 break;
 
             case 'phpcr':
                 $db = $test->getDbManager('PHPCR');
                 $purger = new Purger\PHPCRPurger($db->getOm());
+
                 break;
 
             default:
@@ -94,10 +96,12 @@ class DatabaseTestListener implements \PHPUnit_Framework_TestListener
         switch ($suite->getName()) {
             case 'orm':
                 $this->setUpOrmDatabase($suite);
+
                 break;
 
             case 'phpcr':
                 $this->setUpPhpcrDatabase($suite);
+
                 break;
 
             default:
