@@ -7,7 +7,7 @@
     >
 
     <testsuites>
-        <testsuite name="Symfony CmfMenuBundle Test Suite">
+        <testsuite name="Symfony Testing Component Test Suite">
             <directory>./tests</directory>
         </testsuite>
     </testsuites>
