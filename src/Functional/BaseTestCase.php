@@ -11,10 +11,10 @@
 
 namespace Symfony\Cmf\Component\Testing\Functional;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Bundle\FrameworkBundle\Client;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DependencyInjection\Container;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * The base class for Functional and Web tests.
@@ -29,7 +29,7 @@ abstract class BaseTestCase extends WebTestCase
      *
      * @var array
      */
-    protected $dbManagers = array();
+    protected $dbManagers = [];
 
     /**
      * @var Container
@@ -53,7 +53,7 @@ abstract class BaseTestCase extends WebTestCase
      */
     protected function getKernelConfiguration()
     {
-        return array();
+        return [];
     }
 
     /**
@@ -131,7 +131,7 @@ abstract class BaseTestCase extends WebTestCase
      *
      * This is overriden to set the default environment to 'phpcr'
      */
-    protected static function createKernel(array $options = array())
+    protected static function createKernel(array $options = [])
     {
         // default environment is 'phpcr'
         if (!isset($options['environment'])) {

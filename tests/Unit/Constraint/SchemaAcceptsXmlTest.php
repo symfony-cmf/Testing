@@ -17,7 +17,7 @@ class SchemaAcceptsXmlTest extends \PHPUnit_Framework_TestCase
 {
     public function testCount()
     {
-        $constraint = new SchemaAcceptsXml(array('config1', 'config2', 'config3'));
+        $constraint = new SchemaAcceptsXml(['config1', 'config2', 'config3']);
 
         try {
             $this->matches('schema_file.xsd');
@@ -50,19 +50,19 @@ class SchemaAcceptsXmlTest extends \PHPUnit_Framework_TestCase
     {
         $schema1 = __DIR__.'/../../Fixtures/schema/schema1.xsd';
 
-        $data = array();
+        $data = [];
 
         $dom1 = new \DomDocument();
         $dom1->loadXML('<container><config xmlns="http://cmf.symfony.com/schema/dic/foo" required="f"/></container>');
-        $data[] = array(array($dom1), $schema1, true);
+        $data[] = [[$dom1], $schema1, true];
 
         $dom2 = new \DomDocument();
         $dom2->loadXML('<container><config xmlns="http://cmf.symfony.com/schema/dic/foo" /></container>');
-        $data[] = array(array($dom2), $schema1, false);
+        $data[] = [[$dom2], $schema1, false];
 
-        $data[] = array(array($dom1, $dom1), $schema1, true);
-        $data[] = array(array($dom1, $dom2), $schema1, false);
-        $data[] = array(array($dom2, $dom1), $schema1, false);
+        $data[] = [[$dom1, $dom1], $schema1, true];
+        $data[] = [[$dom1, $dom2], $schema1, false];
+        $data[] = [[$dom2, $dom1], $schema1, false];
 
         return $data;
     }
@@ -75,7 +75,7 @@ class SchemaAcceptsXmlTest extends \PHPUnit_Framework_TestCase
         $dom = new \DomDocument();
         $dom->loadXML('<container></container>');
 
-        $constraint = new SchemaAcceptsXml(array($dom));
+        $constraint = new SchemaAcceptsXml([$dom]);
         $constraint->matches(__DIR__.'/../Fixtures/schema/schema1.xsd');
     }
 }

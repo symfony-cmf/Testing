@@ -38,8 +38,8 @@ use Symfony\Component\HttpKernel\Kernel;
  */
 abstract class TestKernel extends Kernel
 {
-    protected $bundleSets = array();
-    protected $requiredBundles = array();
+    protected $bundleSets = [];
+    protected $requiredBundles = [];
 
     /**
      * Register commonly needed bundle sets and then
@@ -195,9 +195,9 @@ abstract class TestKernel extends Kernel
 
     public function getCacheDir()
     {
-        return implode('/', array(
+        return implode('/', [
             $this->getKernelDir(),
             'cache',
-        ));
+        ]);
     }
 }

@@ -9,8 +9,8 @@
  * file that was distributed with this source code.
  */
 
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Debug\Debug;
+use Symfony\Component\HttpFoundation\Request;
 
 require_once __DIR__.'/../../bootstrap/bootstrap.php';
 

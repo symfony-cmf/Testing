@@ -30,7 +30,7 @@ abstract class XmlSchemaTestCase extends \PHPUnit_Framework_TestCase
     private static function getSchemaAcceptsXmlConstraint($xmlDoms)
     {
         if (!is_array($xmlDoms)) {
-            $xmlDoms = array($xmlDoms);
+            $xmlDoms = [$xmlDoms];
         }
 
         $xmlDoms = array_map(function ($dom) {

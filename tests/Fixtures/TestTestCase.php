@@ -21,7 +21,7 @@ class TestTestCase extends BaseTestCase
         self::$kernel = $kernel;
     }
 
-    protected static function createKernel(array $options = array())
+    protected static function createKernel(array $options = [])
     {
         if (null === self::$kernel) {
             return parent::createKernel($options);

@@ -9,32 +9,32 @@
  * file that was distributed with this source code.
  */
 
-$config = array(
+$config = [
     'secret' => 'test',
     'test' => null,
-    'session' => array(
+    'session' => [
         'storage_id' => 'session.storage.filesystem',
-    ),
+    ],
     'form' => true,
-    'validation' => array(
+    'validation' => [
         'enabled' => true,
         'enable_annotations' => true,
-    ),
-    'router' => array(
+    ],
+    'router' => [
         'resource' => '%kernel.root_dir%/config/routing.php',
-    ),
+    ],
     'default_locale' => 'en',
-    'templating' => array(
-        'engines' => array('twig'),
-    ),
-    'translator' => array(
+    'templating' => [
+        'engines' => ['twig'],
+    ],
+    'translator' => [
         'fallback' => 'en',
-    ),
-);
+    ],
+];
 
 $container->loadFromExtension('framework', $config);
 
-$container->loadFromExtension('twig', array(
+$container->loadFromExtension('twig', [
     'debug' => '%kernel.debug%',
     'strict_variables' => '%kernel.debug%',
-));
+]);
