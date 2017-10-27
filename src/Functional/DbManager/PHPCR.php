@@ -12,13 +12,13 @@
 namespace Symfony\Cmf\Component\Testing\Functional\DbManager;
 
 use Doctrine\Bundle\PHPCRBundle\DataFixtures\PHPCRExecutor;
-use Doctrine\Common\DataFixtures\Purger\PHPCRPurger;
-use Symfony\Bridge\Doctrine\DataFixtures\ContainerAwareLoader;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\ODM\PHPCR\DocumentManager;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Doctrine\Common\DataFixtures\ProxyReferenceRepository;
+use Doctrine\Common\DataFixtures\Purger\PHPCRPurger;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ODM\PHPCR\DocumentManager;
+use Symfony\Bridge\Doctrine\DataFixtures\ContainerAwareLoader;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class PHPCR
 {

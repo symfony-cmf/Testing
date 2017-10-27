@@ -14,7 +14,7 @@ $asset = preg_replace('/\?.*/', '', __DIR__.$req);
 
 // If this looks like a file request then return
 // false and serve the file
-if ($asset != __DIR__.'/' && file_exists($asset)) {
+if ($asset !== __DIR__.'/' && file_exists($asset)) {
     return false;
 }
 

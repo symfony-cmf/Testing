@@ -11,11 +11,11 @@
 
 namespace Symfony\Cmf\Component\Testing\Tests\HttpKernel;
 
+use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
+use Doctrine\Bundle\PHPCRBundle\DoctrinePHPCRBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\SecurityBundle\SecurityBundle;
 use Symfony\Bundle\TwigBundle\TwigBundle;
-use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
-use Doctrine\Bundle\PHPCRBundle\DoctrinePHPCRBundle;
 
 class TestKernelTest extends \PHPUnit_Framework_TestCase
 {
@@ -25,7 +25,7 @@ class TestKernelTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->kernel = $this->getMockBuilder('Symfony\Cmf\Component\Testing\HttpKernel\TestKernel')
-            ->setConstructorArgs(array('test', true))
+            ->setConstructorArgs(['test', true])
             ->getMockForAbstractClass();
 
         $this->mockBundle = $this->createMock('Symfony\Component\HttpKernel\Bundle\BundleInterface');
