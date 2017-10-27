@@ -13,7 +13,7 @@
 # file that was distributed with this source code.                         #
 ############################################################################
 
-ifeq ("Testing", "testing")
+ifeq ("symfony-cmf/testing", "symfony-cmf/testing")
 TESTING_SCRIPTS_DIR=bin
 else
 TESTING_SCRIPTS_DIR=vendor/symfony-cmf/testing/bin
