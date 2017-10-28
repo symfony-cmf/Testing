@@ -9,6 +9,11 @@
  * file that was distributed with this source code.
  */
 
+if (getenv('KERNEL_CLASS')) {
+    $kernelClassName = getenv('KERNEL_CLASS');
+
+    return new $kernelClassName($env, true);
+}
 $rootDir = realpath(__DIR__.'/../../../..');
 $phpUnitFile = $rootDir.'/phpunit.xml.dist';
 

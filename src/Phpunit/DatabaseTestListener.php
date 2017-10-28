@@ -11,31 +11,37 @@
 
 namespace Symfony\Cmf\Component\Testing\Phpunit;
 
-use Doctrine\Common\DataFixtures\Purger;
+use Symfony\Component\Process\Process;
 use Symfony\Component\Process\PhpExecutableFinder;
-use Symfony\Component\Process\ProcessBuilder;
+use Doctrine\Common\DataFixtures\Purger;
 
 class DatabaseTestListener implements \PHPUnit_Framework_TestListener
 {
     protected static $currentSuite;
-    private $processBuilder;
+    private $processCallable;
     private $prefix = [];
 
-    public function __construct($processBuilder = null)
+    public function __construct(callable $processCallable = null)
     {
-        if (null === $processBuilder) {
-            $this->processBuilder = new ProcessBuilder();
-            $phpExecutableFinder = new PhpExecutableFinder();
-            $phpExecutable = $phpExecutableFinder->find(false);
-            if (false === $phpExecutable) {
-                throw new \RuntimeException('No PHP executable found on the current system.');
-            }
-
-            // Symfony 2.3 does not support array prefix, so we have to implement it ourselves
-            $this->prefix = [$phpExecutable, __DIR__.'/../../bin/console'];
-        } else {
-            $this->processBuilder = $processBuilder;
+        $phpExecutableFinder = new PhpExecutableFinder();
+        $phpExecutable = $phpExecutableFinder->find(false);
+        if (false === $phpExecutable) {
+            throw new \RuntimeException('No PHP executable found on the current system.');
         }
+
+        // Symfony 2.3 does not support array prefix, so we have to implement it ourselves
+        $this->prefix = [$phpExecutable, __DIR__.'/../../bin/console'];
+        $this->processCallable = $processCallable;
+    }
+
+    public function getProcess($arguments)
+    {
+        if (is_callable($this->processCallable)) {
+            $callable = $this->processCallable;
+            return $callable($arguments);
+        }
+
+        return new Process($arguments);
     }
 
     public function addError(\PHPUnit_Framework_Test $test, \Exception $e, $time)
@@ -116,17 +122,13 @@ class DatabaseTestListener implements \PHPUnit_Framework_TestListener
         echo PHP_EOL.PHP_EOL;
 
         // initialize PHPCR DBAL (new way)
-        $process = $this->processBuilder
-            ->setArguments(array_merge($this->prefix, ['doctrine:phpcr:init:dbal', '--drop', '--force']))
-            ->getProcess();
+        $process = $this->getProcess(array_merge($this->prefix, ['doctrine:phpcr:init:dbal', '--drop', '--force']));
 
         $process->run();
 
         if (!$process->isSuccessful()) {
             // try initializing the old way (Jackalope <1.2)
-            $process = $this->processBuilder
-                ->setArguments(array_merge($this->prefix, ['doctrine:phpcr:init:dbal', '--drop']))
-                ->getProcess();
+            $process = $this->getProcess(array_merge($this->prefix, ['doctrine:phpcr:init:dbal', '--drop']));
 
             $process->run();
 
@@ -139,9 +141,7 @@ class DatabaseTestListener implements \PHPUnit_Framework_TestListener
         }
 
         // initialize repositories
-        $process = $this->processBuilder
-            ->setArguments(array_merge($this->prefix, ['doctrine:phpcr:repository:init']))
-            ->getProcess();
+        $process = $this->getProcess(array_merge($this->prefix, ['doctrine:phpcr:repository:init']));
 
         $process->run();
 
@@ -159,9 +159,7 @@ class DatabaseTestListener implements \PHPUnit_Framework_TestListener
     {
         echo PHP_EOL.PHP_EOL;
 
-        $process = $this->processBuilder
-            ->setArguments(array_merge($this->prefix, ['doctrine:schema:drop', '--env=orm', '--force']))
-            ->getProcess();
+        $process = $this->getProcess(array_merge($this->prefix, ['doctrine:schema:drop', '--env=orm', '--force']));
 
         $process->run();
 
@@ -172,9 +170,7 @@ class DatabaseTestListener implements \PHPUnit_Framework_TestListener
             return;
         }
 
-        $process = $this->processBuilder
-            ->setArguments(array_merge($this->prefix, ['doctrine:database:create', '--env=orm']))
-            ->getProcess();
+        $process = $this->getProcess(array_merge($this->prefix, ['doctrine:database:create', '--env=orm']));
 
         $process->run();
 
@@ -185,9 +181,7 @@ class DatabaseTestListener implements \PHPUnit_Framework_TestListener
             return;
         }
 
-        $process = $this->processBuilder
-            ->setArguments(array_merge($this->prefix, ['doctrine:schema:create', '--env=orm']))
-            ->getProcess();
+        $process = $this->getProcess(array_merge($this->prefix, ['doctrine:schema:create', '--env=orm']));
         $process->run();
 
         if (!$process->isSuccessful()) {
@@ -206,9 +200,7 @@ class DatabaseTestListener implements \PHPUnit_Framework_TestListener
             return;
         }
 
-        $process = $this->processBuilder
-            ->setArguments(array_merge($this->prefix, ['doctrine:database:drop', '--force']))
-            ->getProcess();
+        $process = $this->getProcess(array_merge($this->prefix, ['doctrine:database:drop', '--force']));
 
         $process->run();
 
