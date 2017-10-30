@@ -24,7 +24,7 @@ class ServiceVisibilityCompilerPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        $ids = ['doctrine_phpcr'];
+        $ids = ['doctrine_phpcr', 'doctrine_phpcr.initializer_manager'];
 
         foreach ($ids as $id) {
             if ($container->has($id)) {
