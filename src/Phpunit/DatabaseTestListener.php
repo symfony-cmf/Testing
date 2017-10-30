@@ -11,9 +11,9 @@
 
 namespace Symfony\Cmf\Component\Testing\Phpunit;
 
-use Symfony\Component\Process\Process;
-use Symfony\Component\Process\PhpExecutableFinder;
 use Doctrine\Common\DataFixtures\Purger;
+use Symfony\Component\Process\PhpExecutableFinder;
+use Symfony\Component\Process\Process;
 
 class DatabaseTestListener implements \PHPUnit_Framework_TestListener
 {
@@ -38,6 +38,7 @@ class DatabaseTestListener implements \PHPUnit_Framework_TestListener
     {
         if (is_callable($this->processCallable)) {
             $callable = $this->processCallable;
+
             return $callable($arguments);
         }
 

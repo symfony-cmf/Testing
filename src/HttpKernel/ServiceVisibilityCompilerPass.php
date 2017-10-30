@@ -11,8 +11,8 @@
 
 namespace Symfony\Cmf\Component\Testing\HttpKernel;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
  * @author Maximilian Berghoff <Maximilian.Berghoff@mayflower.de>
