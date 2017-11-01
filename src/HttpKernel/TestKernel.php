@@ -27,7 +27,6 @@ use Symfony\Bundle\SecurityBundle\SecurityBundle;
 use Symfony\Bundle\TwigBundle\TwigBundle;
 use Symfony\Bundle\WebServerBundle\WebServerBundle;
 use Symfony\Cmf\Bundle\TreeBrowserBundle\CmfTreeBrowserBundle;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\Kernel;
 
@@ -198,7 +197,17 @@ abstract class TestKernel extends Kernel
     {
         return implode('/', [
             $this->getKernelDir(),
+            'var',
             'cache',
+        ]);
+    }
+
+    public function getLogDir()
+    {
+        return implode('/', [
+            $this->getKernelDir(),
+            'var',
+            'logs',
         ]);
     }
 }

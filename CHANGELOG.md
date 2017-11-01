@@ -1,6 +1,9 @@
 Changelog
 =========
 
+ * **2017-11-08**: Removed php 5.6 and 7.0 support, removed Symfony 3.0.* and 3.1.* support
+ introduce KERNEL_CLASS handling to avoid deprecated KERNEL_DIR, removed usage of `ProcessBuilder`
+
 2.0.0
 -----
 

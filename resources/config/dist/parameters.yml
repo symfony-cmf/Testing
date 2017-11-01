@@ -11,6 +11,6 @@ parameters:
     phpcr_pass: admin
 
     database_driver: pdo_sqlite
-    database_path: '%kernel.root_dir%/cache/app.sqlite'
+    database_path: '%kernel.root_dir%/var/cache/app.sqlite'
 
     locale: en
