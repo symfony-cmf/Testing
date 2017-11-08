@@ -197,7 +197,17 @@ abstract class TestKernel extends Kernel
     {
         return implode('/', [
             $this->getKernelDir(),
+            'var',
             'cache',
+        ]);
+    }
+
+    public function getLogDir()
+    {
+        return implode('/', [
+            $this->getKernelDir(),
+            'var',
+            'logs',
         ]);
     }
 }
