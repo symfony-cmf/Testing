@@ -15,7 +15,7 @@
         "doctrine/common": "^2.4",
         "doctrine/doctrine-bundle": "^1.0|^2.0",
         "doctrine/phpcr-odm": "^1.1|^2.0",
-        "doctrine/phpcr-bundle": "^1.1|^2.0@dev",
+        "doctrine/phpcr-bundle": "^2.0@dev",
         "doctrine/data-fixtures": "^1.0",
         "jackalope/jackalope": "^1.1.5",
         "jackalope/jackalope-doctrine-dbal": "^1.1.5",
