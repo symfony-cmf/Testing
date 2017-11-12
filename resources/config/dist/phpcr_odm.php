@@ -29,8 +29,13 @@ $config = [
 
 $kernelRootDir = $container->getParameter('kernel.root_dir');
 $bundleFQN = $container->getParameter('cmf_testing.bundle_fqn');
-$phpcrOdmDocDir = sprintf('%s/../Document', $kernelRootDir);
-$phpcrOdmDocPrefix = sprintf('%s\Tests\Resources\Document', $bundleFQN);
+if (getenv('KERNEL_CLASS')) {
+    $phpcrOdmDocDir = sprintf('%s/Document', $kernelRootDir);
+    $phpcrOdmDocPrefix = sprintf('%s\Tests\Fixtures\App\Document', $bundleFQN);
+} else {
+    $phpcrOdmDocDir = sprintf('%s/../Document', $kernelRootDir);
+    $phpcrOdmDocPrefix = sprintf('%s\Tests\Resources\Document', $bundleFQN);
+}
 
 if (file_exists($phpcrOdmDocDir)) {
     $config['odm']['mappings']['test_additional'] = [
