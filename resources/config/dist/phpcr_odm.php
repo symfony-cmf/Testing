@@ -32,7 +32,6 @@ $bundleFQN = $container->getParameter('cmf_testing.bundle_fqn');
 if (getenv('KERNEL_CLASS')) {
     $phpcrOdmDocDir = sprintf('%s/Document', $kernelRootDir);
     $phpcrOdmDocPrefix = sprintf('%s\Tests\Fixtures\App\Document', $bundleFQN);
-
 } else {
     $phpcrOdmDocDir = sprintf('%s/../Document', $kernelRootDir);
     $phpcrOdmDocPrefix = sprintf('%s\Tests\Resources\Document', $bundleFQN);
