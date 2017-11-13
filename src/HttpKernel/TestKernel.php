@@ -210,4 +210,29 @@ abstract class TestKernel extends Kernel
             'logs',
         ]);
     }
+
+    /**
+     * Registers the bundles defined in config/bundles.php.
+     */
+    protected function registerConfiguredBundles()
+    {
+        $bundleFilePath = $this->getKernelDir().'/config/bundles.php';
+        if (!file_exists($bundleFilePath)) {
+            return;
+        }
+
+        $bundles = require $bundleFilePath;
+        foreach ($bundles as $class => $environments) {
+            if (isset($environments['all']) || isset($environments[$this->environment])) {
+                if (!class_exists($class)) {
+                    throw new \InvalidArgumentException(sprintf(
+                        'Bundle class "%s" does not exist.',
+                        $class
+                    ));
+                }
+
+                $this->requiredBundles[$class] = new $class();
+            }
+        }
+    }
 }
