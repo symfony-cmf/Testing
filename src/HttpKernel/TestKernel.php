@@ -13,14 +13,7 @@ namespace Symfony\Cmf\Component\Testing\HttpKernel;
 
 use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
 use Doctrine\Bundle\PHPCRBundle\DoctrinePHPCRBundle;
-use FOS\JsRoutingBundle\FOSJsRoutingBundle;
 use Knp\Bundle\MenuBundle\KnpMenuBundle;
-use Sonata\AdminBundle\SonataAdminBundle;
-use Sonata\BlockBundle\SonataBlockBundle;
-use Sonata\CoreBundle\SonataCoreBundle;
-use Sonata\DoctrineORMAdminBundle\SonataDoctrineORMAdminBundle;
-use Sonata\DoctrinePHPCRAdminBundle\SonataDoctrinePHPCRAdminBundle;
-use Sonata\jQueryBundle\SonatajQueryBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\MonologBundle\MonologBundle;
 use Symfony\Bundle\SecurityBundle\SecurityBundle;
@@ -64,28 +57,6 @@ abstract class TestKernel extends Kernel
 
         $this->registerBundleSet('phpcr_odm', [DoctrineBundle::class, DoctrinePHPCRBundle::class]);
         $this->registerBundleSet('doctrine_orm', [DoctrineBundle::class]);
-
-        $baseSonataBundles = [
-            SonataBlockBundle::class,
-            SonataCoreBundle::class,
-            SonataAdminBundle::class,
-            KnpMenuBundle::class,
-            FOSJsRoutingBundle::class,
-        ];
-
-        if (class_exists(SonatajQueryBundle::class)) {
-            $baseSonataBundles[] = SonatajQueryBundle::class;
-        }
-
-        $this->registerBundleSet('sonata_admin_orm', array_merge(
-            [SonataDoctrineORMAdminBundle::class],
-            $baseSonataBundles
-        ));
-
-        $this->registerBundleSet('sonata_admin_phpcr', array_merge([
-            SonataDoctrinePHPCRAdminBundle::class,
-            CmfTreeBrowserBundle::class,
-        ], $baseSonataBundles));
 
         parent::__construct($env, $debug);
         $this->configure();
