@@ -13,13 +13,11 @@ namespace Symfony\Cmf\Component\Testing\HttpKernel;
 
 use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
 use Doctrine\Bundle\PHPCRBundle\DoctrinePHPCRBundle;
-use Knp\Bundle\MenuBundle\KnpMenuBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\MonologBundle\MonologBundle;
 use Symfony\Bundle\SecurityBundle\SecurityBundle;
 use Symfony\Bundle\TwigBundle\TwigBundle;
 use Symfony\Bundle\WebServerBundle\WebServerBundle;
-use Symfony\Cmf\Bundle\TreeBrowserBundle\CmfTreeBrowserBundle;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\Kernel;
 
