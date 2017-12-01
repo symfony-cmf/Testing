@@ -35,5 +35,8 @@
         "branch-alias": {
             "dev-master": "2.1-dev"
         }
+    },
+    "require-dev": {
+        "symfony/monolog-bundle": "~2.4"
     }
 }
