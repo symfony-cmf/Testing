@@ -14,7 +14,7 @@
         "doctrine/data-fixtures": "^1.0",
         "doctrine/doctrine-bundle": "^1.0",
         "doctrine/phpcr-bundle": "^1.1",
-        "doctrine/phpcr-odm": "^1.1|^2.0",
+        "doctrine/phpcr-odm": "^1.1 || ^2.0",
         "friendsofsymfony/jsrouting-bundle": "^1.1",
         "jackalope/jackalope": "^1.1.5",
         "jackalope/jackalope-doctrine-dbal": "^1.1.5",
