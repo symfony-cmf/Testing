@@ -23,6 +23,7 @@ use Doctrine\Common\Persistence\ManagerRegistry;
 class PHPCR
 {
     protected $container;
+
     protected $om;
 
     /**
