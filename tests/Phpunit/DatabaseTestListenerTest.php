@@ -16,9 +16,7 @@ use Symfony\Cmf\Component\Testing\Phpunit\DatabaseTestListener;
 class DatabaseTestListenerTest extends \PHPUnit_Framework_TestCase
 {
     protected $listener;
-
     private $processBuilder;
-
     private static $i;
 
     protected function setUp()

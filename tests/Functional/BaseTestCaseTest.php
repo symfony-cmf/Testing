@@ -16,11 +16,8 @@ use Symfony\Cmf\Component\Testing\Tests\Fixtures\TestTestCase;
 class BaseTestCaseTest extends \PHPUnit_Framework_TestCase
 {
     private $container;
-
     private $kernel;
-
     private $testCase;
-
     private $client;
 
     protected function setUp()
