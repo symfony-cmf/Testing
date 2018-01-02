@@ -1,6 +1,12 @@
 Changelog
 =========
 
+2.0.1
+-----
+
+ * **2018-01-02**: Remove dependency on symfony/symfony in favor of more specific packages. Its a
+   bug of the package using testing if it does not declare its dependencies.
+
 2.0.0
 -----
 
