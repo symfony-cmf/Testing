@@ -20,7 +20,6 @@ use Doctrine\Bundle\PHPCRBundle\DoctrinePHPCRBundle;
 class TestKernelTest extends \PHPUnit_Framework_TestCase
 {
     private $kernel;
-
     private $mockBundle;
 
     protected function setUp()

@@ -18,9 +18,7 @@ use Doctrine\Common\DataFixtures\Purger;
 class DatabaseTestListener implements \PHPUnit_Framework_TestListener
 {
     protected static $currentSuite;
-
     private $processBuilder;
-
     private $prefix = array();
 
     public function __construct($processBuilder = null)
