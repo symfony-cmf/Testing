@@ -39,6 +39,7 @@ use Symfony\Component\HttpKernel\Kernel;
 abstract class TestKernel extends Kernel
 {
     protected $bundleSets = array();
+
     protected $requiredBundles = array();
 
     /**
