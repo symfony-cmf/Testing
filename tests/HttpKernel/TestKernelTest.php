@@ -20,6 +20,7 @@ use Symfony\Bundle\TwigBundle\TwigBundle;
 class TestKernelTest extends \PHPUnit_Framework_TestCase
 {
     private $kernel;
+
     private $mockBundle;
 
     protected function setUp()

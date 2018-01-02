@@ -18,7 +18,9 @@ use Symfony\Component\Process\Process;
 class DatabaseTestListener implements \PHPUnit_Framework_TestListener
 {
     protected static $currentSuite;
+
     private $processCallable;
+
     private $prefix = [];
 
     public function __construct(callable $processCallable = null)

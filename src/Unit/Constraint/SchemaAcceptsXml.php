@@ -14,7 +14,9 @@ namespace Symfony\Cmf\Component\Testing\Unit\Constraint;
 class SchemaAcceptsXml extends \PHPUnit_Framework_Constraint
 {
     protected $xml;
+
     protected $failingElement;
+
     protected $errors;
 
     public function __construct($xml)

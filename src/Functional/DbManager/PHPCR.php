@@ -23,6 +23,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class PHPCR
 {
     protected $container;
+
     protected $om;
 
     /**
