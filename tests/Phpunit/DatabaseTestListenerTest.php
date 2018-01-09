@@ -17,13 +17,13 @@ class DatabaseTestListenerTest extends \PHPUnit_Framework_TestCase
 {
     protected $listener;
 
-    private $processBuilder;
+    private $process;
 
     private static $i;
 
     protected function setUp()
     {
-        $this->listener = new DatabaseTestListener($this->getProcessBuilder());
+        $this->listener = new DatabaseTestListener($this->getProcess());
         self::$i = 0;
     }
 
@@ -83,7 +83,7 @@ class DatabaseTestListenerTest extends \PHPUnit_Framework_TestCase
             ->method('getName')
             ->willReturn('not orm or phpcr tests');
 
-        $this->getProcessBuilder()->expects($this->never())->method('setArguments');
+        $this->getProcess()->expects($this->never())->method('setCommandLine');
 
         ob_start();
         $this->listener->startTestSuite($suite);
@@ -93,34 +93,27 @@ class DatabaseTestListenerTest extends \PHPUnit_Framework_TestCase
 
     protected function assertProcessExecuted(array $arguments, $successfull = true)
     {
-        $process = $this->createMock('Symfony\Component\Process\Process');
+        $process = $this->getProcess();
 
-        $process->expects($this->once())->method('run');
+        $process
+            ->expects($this->at(self::$i++))
+            ->method('setCommandLine')
+            ->with($this->equalTo($arguments))
+            ->will($this->returnSelf());
+
+        $process->expects($this->any())->method('run');
 
         $process->expects($this->any())
             ->method('isSuccessful')
             ->willReturn($successfull);
-
-        $processPlaceholder = $this->getMockBuilder('ProcessPlaceholder')
-            ->setMethods(['getProcess'])
-            ->getMock();
-        $processPlaceholder->expects($this->once())
-            ->method('getProcess')
-            ->willReturn($process);
-
-        $this->getProcessBuilder()
-            ->expects($this->at(self::$i++))
-            ->method('setArguments')
-            ->with($this->equalTo($arguments))
-            ->willReturn($processPlaceholder);
     }
 
-    protected function getProcessBuilder()
+    protected function getProcess()
     {
-        if (null === $this->processBuilder) {
-            $this->processBuilder = $this->createMock('Symfony\Component\Process\ProcessBuilder');
+        if (null === $this->process) {
+            $this->process = $this->createMock('Symfony\Component\Process\Process');
         }
 
-        return $this->processBuilder;
+        return $this->process;
     }
 }
