@@ -11,9 +11,12 @@
 
 namespace Symfony\Cmf\Component\Testing\Tests\Phpunit;
 
+use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\TestSuite;
 use Symfony\Cmf\Component\Testing\Phpunit\DatabaseTestListener;
+use Symfony\Component\Process\Process;
 
-class DatabaseTestListenerTest extends \PHPUnit_Framework_TestCase
+class DatabaseTestListenerTest extends TestCase
 {
     protected $listener;
 
@@ -31,7 +34,7 @@ class DatabaseTestListenerTest extends \PHPUnit_Framework_TestCase
 
     public function testPhpcrTestSuite()
     {
-        $suite = $this->createMock('PHPUnit_Framework_TestSuite');
+        $suite = $this->createMock(TestSuite::class);
         $suite->expects($this->any())
             ->method('getName')
             ->willReturn('phpcr');
@@ -47,7 +50,7 @@ class DatabaseTestListenerTest extends \PHPUnit_Framework_TestCase
 
     public function testFallsBackToOldInitDbalCommand()
     {
-        $suite = $this->createMock('PHPUnit_Framework_TestSuite');
+        $suite = $this->createMock(TestSuite::class);
         $suite->expects($this->any())
             ->method('getName')
             ->willReturn('phpcr');
@@ -63,7 +66,7 @@ class DatabaseTestListenerTest extends \PHPUnit_Framework_TestCase
 
     public function testOrmTestSuite()
     {
-        $suite = $this->createMock('PHPUnit_Framework_TestSuite');
+        $suite = $this->createMock(TestSuite::class);
         $suite->expects($this->any())
             ->method('getName')
             ->willReturn('orm');
@@ -81,7 +84,7 @@ class DatabaseTestListenerTest extends \PHPUnit_Framework_TestCase
     public function testUnknownTestSuite()
     {
         $this->markTestSkipped('We have to rewrite that test code or delete it.');
-        $suite = $this->createMock('PHPUnit_Framework_TestSuite');
+        $suite = $this->createMock(TestSuite::class);
         $suite->expects($this->any())
             ->method('getName')
             ->willReturn('not orm or phpcr tests');
@@ -106,7 +109,7 @@ class DatabaseTestListenerTest extends \PHPUnit_Framework_TestCase
     protected function getProcessCallable()
     {
         if (null === $this->processCallable) {
-            $this->process = $this->createMock('Symfony\Component\Process\Process');
+            $this->process = $this->createMock(Process::class);
             $process = $this->process;
             $this->processCallable = function () use ($process) {
                 return $process;

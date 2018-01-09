@@ -13,11 +13,12 @@ namespace Symfony\Cmf\Component\Testing\Tests\HttpKernel;
 
 use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
 use Doctrine\Bundle\PHPCRBundle\DoctrinePHPCRBundle;
+use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\SecurityBundle\SecurityBundle;
 use Symfony\Bundle\TwigBundle\TwigBundle;
 
-class TestKernelTest extends \PHPUnit_Framework_TestCase
+class TestKernelTest extends TestCase
 {
     private $kernel;
 
