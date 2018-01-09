@@ -3,8 +3,8 @@ Changelog
 
 3.0.0
 -----
- **2018-01-09**: Added PHPUnit 6.5 support
- **2018-01-09**: Removed PHPUnit 5.7 support
+ * **2018-01-09**: Added PHPUnit 6.5 support
+ * **2018-01-09**: Removed PHPUnit 5.7 support
 
 2.1.0 (unreleased)
 ------------------
