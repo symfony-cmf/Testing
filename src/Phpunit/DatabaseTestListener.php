@@ -11,7 +11,7 @@
 
 namespace Symfony\Cmf\Component\Testing\Phpunit;
 
-use Symfony\Component\Process\ProcessBuilder;
+use Symfony\Component\Process\Process;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Doctrine\Common\DataFixtures\Purger;
 
@@ -19,14 +19,14 @@ class DatabaseTestListener implements \PHPUnit_Framework_TestListener
 {
     protected static $currentSuite;
 
-    private $processBuilder;
+    private $process;
 
     private $prefix = array();
 
-    public function __construct($processBuilder = null)
+    public function __construct($process = null)
     {
-        if (null === $processBuilder) {
-            $this->processBuilder = new ProcessBuilder();
+        if (null === $process) {
+            $this->process = new Process('');
             $phpExecutableFinder = new PhpExecutableFinder();
             $phpExecutable = $phpExecutableFinder->find(false);
             if (false === $phpExecutable) {
@@ -36,7 +36,7 @@ class DatabaseTestListener implements \PHPUnit_Framework_TestListener
             // Symfony 2.3 does not support array prefix, so we have to implement it ourselves
             $this->prefix = array($phpExecutable, __DIR__.'/../../bin/console');
         } else {
-            $this->processBuilder = $processBuilder;
+            $this->process = $process;
         }
     }
 
@@ -118,22 +118,18 @@ class DatabaseTestListener implements \PHPUnit_Framework_TestListener
         echo PHP_EOL.PHP_EOL;
 
         // initialize PHPCR DBAL (new way)
-        $process = $this->processBuilder
-            ->setArguments(array_merge($this->prefix, array('doctrine:phpcr:init:dbal', '--drop', '--force')))
-            ->getProcess();
+        $this->process->setCommandLine(array_merge($this->prefix, array('doctrine:phpcr:init:dbal', '--drop', '--force')));
 
-        $process->run();
+        $this->process->run();
 
-        if (!$process->isSuccessful()) {
+        if (!$this->process->isSuccessful()) {
             // try initializing the old way (Jackalope <1.2)
-            $process = $this->processBuilder
-                ->setArguments(array_merge($this->prefix, array('doctrine:phpcr:init:dbal', '--drop')))
-                ->getProcess();
+            $this->process->setCommandLine(array_merge($this->prefix, array('doctrine:phpcr:init:dbal', '--drop')));
 
-            $process->run();
+            $this->process->run();
 
-            if (!$process->isSuccessful()) {
-                $output = null !== $process->getErrorOutput() ? $process->getErrorOutput() : $process->getOutput();
+            if (!$this->process->isSuccessful()) {
+                $output = null !== $this->process->getErrorOutput() ? $this->process->getErrorOutput() : $this->process->getOutput();
                 $suite->markTestSuiteSkipped('[PHPCR] Error when initializing dbal: '.$output);
 
                 return;
@@ -141,14 +137,12 @@ class DatabaseTestListener implements \PHPUnit_Framework_TestListener
         }
 
         // initialize repositories
-        $process = $this->processBuilder
-            ->setArguments(array_merge($this->prefix, array('doctrine:phpcr:repository:init')))
-            ->getProcess();
+        $this->process->setCommandLine(array_merge($this->prefix, array('doctrine:phpcr:repository:init')));
 
-        $process->run();
+        $this->process->run();
 
-        if (!$process->isSuccessful()) {
-            $output = null !== $process->getErrorOutput() ? $process->getErrorOutput() : $process->getOutput();
+        if (!$this->process->isSuccessful()) {
+            $output = null !== $this->process->getErrorOutput() ? $this->process->getErrorOutput() : $this->process->getOutput();
             $suite->markTestSuiteSkipped('[PHPCR] Error when initializing repositories: '.$output);
 
             return;
@@ -161,39 +155,33 @@ class DatabaseTestListener implements \PHPUnit_Framework_TestListener
     {
         echo PHP_EOL.PHP_EOL;
 
-        $process = $this->processBuilder
-            ->setArguments(array_merge($this->prefix, array('doctrine:schema:drop', '--env=orm', '--force')))
-            ->getProcess();
+        $this->process->setCommandLine(array_merge($this->prefix, array('doctrine:schema:drop', '--env=orm', '--force')));
 
-        $process->run();
+        $this->process->run();
 
-        if (!$process->isSuccessful()) {
-            $output = null !== $process->getErrorOutput() ? $process->getErrorOutput() : $process->getOutput();
+        if (!$this->process->isSuccessful()) {
+            $output = null !== $this->process->getErrorOutput() ? $this->process->getErrorOutput() : $this->process->getOutput();
             $suite->markTestSuiteSkipped('[ORM] Error when dropping database: '.$output);
 
             return;
         }
 
-        $process = $this->processBuilder
-            ->setArguments(array_merge($this->prefix, array('doctrine:database:create', '--env=orm')))
-            ->getProcess();
+        $this->process->setCommandLine(array_merge($this->prefix, array('doctrine:database:create', '--env=orm')));
 
-        $process->run();
+        $this->process->run();
 
-        if (!$process->isSuccessful()) {
-            $output = null !== $process->getErrorOutput() ? $process->getErrorOutput() : $process->getOutput();
+        if (!$this->process->isSuccessful()) {
+            $output = null !== $this->process->getErrorOutput() ? $this->process->getErrorOutput() : $this->process->getOutput();
             $suite->markTestSuiteSkipped('[ORM] Error when creating database: '.$output);
 
             return;
         }
 
-        $process = $this->processBuilder
-            ->setArguments(array_merge($this->prefix, array('doctrine:schema:create', '--env=orm')))
-            ->getProcess();
-        $process->run();
+        $this->process->setCommandLine(array_merge($this->prefix, array('doctrine:schema:create', '--env=orm')));
+        $this->process->run();
 
-        if (!$process->isSuccessful()) {
-            $output = null !== $process->getErrorOutput() ? $process->getErrorOutput() : $process->getOutput();
+        if (!$this->process->isSuccessful()) {
+            $output = null !== $this->process->getErrorOutput() ? $this->process->getErrorOutput() : $this->process->getOutput();
             $suite->markTestSuiteSkipped('[ORM] Error when creating schema: '.$output);
 
             return;
@@ -208,14 +196,12 @@ class DatabaseTestListener implements \PHPUnit_Framework_TestListener
             return;
         }
 
-        $process = $this->processBuilder
-            ->setArguments(array_merge($this->prefix, array('doctrine:database:drop', '--force')))
-            ->getProcess();
+        $this->process->setCommandLine(array_merge($this->prefix, array('doctrine:database:drop', '--force')));
 
-        $process->run();
+        $this->process->run();
 
-        if (!$process->isSuccessful()) {
-            $output = null !== $process->getErrorOutput() ? $process->getErrorOutput() : $process->getOutput();
+        if (!$this->process->isSuccessful()) {
+            $output = null !== $this->process->getErrorOutput() ? $this->process->getErrorOutput() : $this->process->getOutput();
             $suite->markTestSuiteSkipped('Error when dropping database: '.$output);
         }
     }
