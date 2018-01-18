@@ -16,9 +16,13 @@ use Doctrine\Bundle\PHPCRBundle\DoctrinePHPCRBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\SecurityBundle\SecurityBundle;
 use Symfony\Bundle\TwigBundle\TwigBundle;
+use Symfony\Component\HttpKernel\Kernel;
 
 class TestKernelTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var Kernel
+     */
     private $kernel;
 
     private $mockBundle;
