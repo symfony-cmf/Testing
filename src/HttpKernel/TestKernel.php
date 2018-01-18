@@ -20,6 +20,9 @@ use Symfony\Bundle\TwigBundle\TwigBundle;
 use Symfony\Bundle\WebServerBundle\WebServerBundle;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\Kernel;
+use Symfony\Component\DependencyInjection\Compiler\PassConfig;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Cmf\Component\Testing\DependencyInjection\Compiler\TestContainerPass;
 
 /**
  * TestKernel base class for Symfony CMF Bundle
@@ -203,6 +206,15 @@ abstract class TestKernel extends Kernel
 
                 $this->requiredBundles[$class] = new $class();
             }
+        }
+    }
+
+    protected function build(ContainerBuilder $container)
+    {
+        parent::build($container);
+        if (in_array($this->getEnvironment(), ['test', 'phpcr']) && file_exists($this->getKernelDir().'/config/public_services.php')) {
+            $services = require $this->getKernelDir().'/config/public_services.php';
+            $container->addCompilerPass(new TestContainerPass($services), PassConfig::TYPE_OPTIMIZE);
         }
     }
 }
