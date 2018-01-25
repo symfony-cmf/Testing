@@ -30,7 +30,7 @@ env:
   global:
     - SYMFONY_DEPRECATIONS_HELPER="/.*each.*/"
     - SYMFONY_PHPUNIT_DIR=.phpunit SYMFONY_PHPUNIT_REMOVE="symfony/yaml"
-    - SYMFONY_PHPUNIT_VERSION=5.7
+    - SYMFONY_PHPUNIT_VERSION=6.5
     - TEST_INSTALLATION=false
 
 matrix:
@@ -38,7 +38,7 @@ matrix:
     - php: 7.2
       env: STABILITY=dev SYMFONY_VERSION=4.0.*
     - php: 7.1
-      env: STABILITY=dev COMPOSER_FLAGS="--prefer-lowest" SYMFONY_VERSION=2.8.* SYMFONY_DEPRECATIONS_HELPER=weak
+      env: STABILITY=dev COMPOSER_FLAGS="--prefer-lowest" SYMFONY_VERSION=^2.8.18 SYMFONY_DEPRECATIONS_HELPER=weak
     - php: 7.2
       env: STABILITY=dev SYMFONY_VERSION=3.3.*
     - php: 7.2
