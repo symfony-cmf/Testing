@@ -11,6 +11,7 @@
 
 namespace Symfony\Cmf\Component\Testing\Functional;
 
+use Doctrine\Bundle\PHPCRBundle\Test\RepositoryManager;
 use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DependencyInjection\Container;
@@ -111,6 +112,10 @@ abstract class BaseTestCase extends WebTestCase
             'Symfony\Cmf\Component\Testing\Functional\DbManager\%s',
             $type
         );
+
+        if ('phpcr' === strtolower($type) && class_exists(RepositoryManager::class)) {
+            $className = RepositoryManager::class;
+        }
 
         if (!class_exists($className)) {
             throw new \InvalidArgumentException(sprintf(
