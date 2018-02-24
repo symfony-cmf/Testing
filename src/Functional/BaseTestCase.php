@@ -14,6 +14,7 @@ namespace Symfony\Cmf\Component\Testing\Functional;
 use Doctrine\Bundle\PHPCRBundle\Test\RepositoryManager;
 use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Cmf\Component\Testing\Functional\DbManager\PhpcrDecorator;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -114,7 +115,7 @@ abstract class BaseTestCase extends WebTestCase
         );
 
         if ('phpcr' === strtolower($type) && class_exists(RepositoryManager::class)) {
-            $className = RepositoryManager::class;
+            $className = PhpcrDecorator::class;
         }
 
         if (!class_exists($className)) {
