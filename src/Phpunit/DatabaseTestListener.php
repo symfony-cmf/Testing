@@ -14,6 +14,7 @@ namespace Symfony\Cmf\Component\Testing\Phpunit;
 use Doctrine\Common\DataFixtures\Purger;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
+use Symfony\Component\Process\ProcessUtils;
 
 class DatabaseTestListener implements \PHPUnit_Framework_TestListener
 {
@@ -42,6 +43,10 @@ class DatabaseTestListener implements \PHPUnit_Framework_TestListener
             $callable = $this->processCallable;
 
             return $callable($arguments);
+        }
+
+        if (is_array($arguments) && method_exists(ProcessUtils::class, 'escapeArgument')) {
+            $arguments = implode(' ', array_map([ProcessUtils::class, 'escapeArgument'], $arguments));
         }
 
         return new Process($arguments);
