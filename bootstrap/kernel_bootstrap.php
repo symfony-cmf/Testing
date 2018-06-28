@@ -25,9 +25,18 @@ if (!file_exists($phpUnitFile)) {
 }
 
 $xml = new \SimpleXMLElement(file_get_contents($phpUnitFile));
-$kernelDir = $xml->php[0]->server[0]['value'];
 
-$kernelFile = $rootDir.'/'.$kernelDir.'/AppKernel.php';
+$envDir = $xml->xpath("//php/server[@name='KERNEL_DIR']");
+if (!count($envDir)) {
+    throw new \Exception(
+        'Kernel path must be set via <server name"KERNEL_DIR" value="..."/>'
+    );
+}
+$envClass = $xml->xpath("//php/env[@name='KERNEL_CLASS']");
+
+$kernelClass = count($envClass) ? (string) $envClass[0]['value'] : 'AppKernel';
+$kernelNs = explode('\\', $kernelClass);
+$kernelFile = $rootDir.'/'.$envDir[0]['value'].'/'.array_pop($kernelNs).'.php';
 
 if (!file_exists($kernelFile)) {
     throw new \Exception(sprintf(
@@ -38,4 +47,4 @@ if (!file_exists($kernelFile)) {
 
 require_once $kernelFile;
 
-return new AppKernel($env, true);
+return new $kernelClass($env, true);
