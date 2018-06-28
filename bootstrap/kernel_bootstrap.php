@@ -34,7 +34,7 @@ if (!count($envDir)) {
 }
 $envClass = $xml->xpath("//php/env[@name='KERNEL_CLASS']");
 
-$kernelClass = null === $envClass ? 'AppKernel' : (string) $envClass[0]['value'];
+$kernelClass = count($envClass) ? (string) $envClass[0]['value'] : 'AppKernel';
 $kernelNs = explode('\\', $kernelClass);
 $kernelFile = $rootDir.'/'.$envDir[0]['value'].'/'.array_pop($kernelNs).'.php';
 
