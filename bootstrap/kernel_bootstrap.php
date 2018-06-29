@@ -29,6 +29,7 @@ $xml = new \SimpleXMLElement(file_get_contents($phpUnitFile));
 $envClass = $xml->xpath("//php/env[@name='KERNEL_CLASS']");
 if (count($envClass)) {
     $kernelClass = (string) $envClass[0]['value'];
+    putenv(sprintf('KERNEL_CLASS=%s', $kernelClass));
 } else {
     $envDir = $xml->xpath("//php/server[@name='KERNEL_DIR']");
     if (!count($envDir)) {
