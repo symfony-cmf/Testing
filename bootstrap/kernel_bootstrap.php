@@ -26,25 +26,27 @@ if (!file_exists($phpUnitFile)) {
 
 $xml = new \SimpleXMLElement(file_get_contents($phpUnitFile));
 
-$envDir = $xml->xpath("//php/server[@name='KERNEL_DIR']");
-if (!count($envDir)) {
-    throw new \Exception(
-        'Kernel path must be set via <server name"KERNEL_DIR" value="..."/>'
-    );
-}
 $envClass = $xml->xpath("//php/env[@name='KERNEL_CLASS']");
+if (count($envClass)) {
+    $kernelClass = (string) $envClass[0]['value'];
+} else {
+    $envDir = $xml->xpath("//php/server[@name='KERNEL_DIR']");
+    if (!count($envDir)) {
+        throw new \Exception(
+            'KERNEL_CLASS must be set via <env name"KERNEL_CLASS" value="..."/>'
+        );
+    }
+    $kernelClass = 'AppKernel';
+    $kernelFile = $rootDir.'/'.$envDir[0]['value'].'/'.$kernelClass.'.php';
 
-$kernelClass = count($envClass) ? (string) $envClass[0]['value'] : 'AppKernel';
-$kernelNs = explode('\\', $kernelClass);
-$kernelFile = $rootDir.'/'.$envDir[0]['value'].'/'.array_pop($kernelNs).'.php';
+    if (!file_exists($kernelFile)) {
+        throw new \Exception(sprintf(
+            'Cannot find kernel file "%s"',
+            $kernelFile
+        ));
+    }
 
-if (!file_exists($kernelFile)) {
-    throw new \Exception(sprintf(
-        'Cannot find kernel file "%s"',
-        $kernelFile
-    ));
+    require_once $kernelFile;
 }
-
-require_once $kernelFile;
 
 return new $kernelClass($env, true);
