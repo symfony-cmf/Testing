@@ -1,8 +1,21 @@
 Changelog
 =========
 
-2.1.0 (unreleased)
-------------------
+2.1.3
+-----
+ * **2018-06-30**: Use KERNEL_DIR for backward compatibility only
+ * **2018-06-29**: Setting KERNEL_CLASS from phpunit.xml.dist during bootstrapping console command
+
+2.1.2
+-----
+ * **2018-06-29**: Read KERNEL_DIR and KERNEL_CLASS from phpunit.xml.dist for console commands
+
+2.1.1
+-----
+ * **2018-06-23**: Passing command line as array to Process for newer Symfony versions only
+
+2.1.0
+-----
 
 * **2017-01-18**: Introduce a `TestCompilePass` to make services public, which are needed 
 in i.e. a WebTest.
