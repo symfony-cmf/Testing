@@ -23,7 +23,7 @@ sudo: false
 cache:
   directories:
     - .phpunit
-    - $HOME/.composer/cache/files
+    #- $HOME/.composer/cache/files
 
 env:
   matrix: SYMFONY_VERSION=4.0.*
