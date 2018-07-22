@@ -15,7 +15,7 @@ use Doctrine\Bundle\PHPCRBundle\Test\RepositoryManager;
 use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Cmf\Component\Testing\Functional\DbManager\PhpcrDecorator;
-use Symfony\Component\DependencyInjection\Container;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -32,11 +32,6 @@ abstract class BaseTestCase extends WebTestCase
      * @var array
      */
     protected $dbManagers = [];
-
-    /**
-     * @var Container
-     */
-    protected $container;
 
     /**
      * @var Client
@@ -75,15 +70,11 @@ abstract class BaseTestCase extends WebTestCase
     /**
      * Gets the container.
      *
-     * @return Container
+     * @return ContainerInterface
      */
     public function getContainer()
     {
-        if (null === $this->container) {
-            $this->container = $this->getClient()->getContainer();
-        }
-
-        return $this->container;
+        return self::$kernel->getContainer();
     }
 
     /**
