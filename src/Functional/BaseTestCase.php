@@ -74,7 +74,24 @@ abstract class BaseTestCase extends WebTestCase
      */
     public function getContainer()
     {
-        return self::$kernel->getContainer();
+        return $this->getKernel()->getContainer();
+    }
+
+    /**
+     * Ensures the kernel is available.
+     *
+     * @return \Symfony\Component\HttpKernel\KernelInterface
+     */
+    public function getKernel()
+    {
+        if (null === self::$kernel) {
+            self::$kernel = parent::bootKernel();
+        }
+        if (!self::$kernel->getContainer()) {
+            self::$kernel->boot();
+        }
+
+        return self::$kernel;
     }
 
     /**
