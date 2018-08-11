@@ -21,7 +21,7 @@ the context of the CMF.
 
 ## Requirements
 
-* PHP 7.1 / 7.2
+* PHP 5.6 / 7.0 / 7.1 / 7.2
 * Symfony 2.8 / 3.3 / 3.4 / 4.0
 * See also the `require` section of [composer.json](composer.json)
 
