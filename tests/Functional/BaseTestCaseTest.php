@@ -61,6 +61,11 @@ class BaseTestCaseTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->container, $this->testCase->getContainer());
     }
 
+    public function testGetKernel()
+    {
+        $this->assertInstanceOf(KernelInterface::class, $this->testCase->getKernel());
+    }
+
     public function provideTestDb()
     {
         return [
