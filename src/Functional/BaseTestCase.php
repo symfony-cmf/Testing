@@ -17,6 +17,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Cmf\Component\Testing\Functional\DbManager\PhpcrDecorator;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\KernelInterface;
 
 /**
  * The base class for Functional and Web tests.
@@ -80,12 +81,15 @@ abstract class BaseTestCase extends WebTestCase
     /**
      * Ensures the kernel is available.
      *
-     * @return \Symfony\Component\HttpKernel\KernelInterface
+     * @return KernelInterface
      */
     public function getKernel()
     {
         if (null === self::$kernel) {
-            self::$kernel = parent::bootKernel();
+            $kernel = parent::bootKernel();
+            if ($kernel instanceof KernelInterface) {
+                self::$kernel = $kernel;
+            }
         }
         if (!self::$kernel->getContainer()) {
             self::$kernel->boot();
