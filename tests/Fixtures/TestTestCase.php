@@ -18,15 +18,15 @@ class TestTestCase extends BaseTestCase
 {
     public function setKernel(KernelInterface $kernel)
     {
-        self::$kernel = $kernel;
+        static::$kernel = $kernel;
     }
 
     protected static function createKernel(array $options = [])
     {
-        if (null === self::$kernel) {
+        if (null === static::$kernel) {
             return parent::createKernel($options);
         }
 
-        return self::$kernel;
+        return static::$kernel;
     }
 }

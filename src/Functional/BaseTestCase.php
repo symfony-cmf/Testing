@@ -85,17 +85,25 @@ abstract class BaseTestCase extends WebTestCase
      */
     public function getKernel()
     {
-        if (null === self::$kernel) {
-            $kernel = parent::bootKernel();
-            if ($kernel instanceof KernelInterface) {
-                self::$kernel = $kernel;
-            }
-        }
-        if (!self::$kernel->getContainer()) {
-            self::$kernel->boot();
+        if (null === static::$kernel) {
+            parent::bootKernel(static::getKernelConfiguration());
         }
 
-        return self::$kernel;
+        if (static::$kernel instanceof  KernelInterface) {
+            $kernelEnvironment = static::$kernel->getEnvironment();
+            $expectedEnvironment = isset($this->getKernelConfiguration()['environment'])
+                ? $this->getKernelConfiguration()['environment']
+                : 'phpcr';
+            if ($kernelEnvironment !== $expectedEnvironment) {
+                parent::bootKernel(static::getKernelConfiguration());
+            }
+        }
+
+        if (!static::$kernel->getContainer()) {
+            static::$kernel->boot();
+        }
+
+        return static::$kernel;
     }
 
     /**
