@@ -11,7 +11,7 @@
 
 namespace Symfony\Cmf\Component\Testing\Unit\Constraint;
 
-use PHPUnit\Framework\Constraint;
+use PHPUnit\Framework\Constraint\Constraint;
 
 class SchemaAcceptsXml extends Constraint
 {
@@ -26,7 +26,7 @@ class SchemaAcceptsXml extends Constraint
         $this->xml = $xml;
     }
 
-    public function matches($schemaFile)
+    public function matches($schemaFile): bool
     {
         foreach ($this->xml as $id => $dom) {
             $configElement = $dom->getElementsByTagName('config');
@@ -50,16 +50,16 @@ class SchemaAcceptsXml extends Constraint
         return true;
     }
 
-    public function count()
+    public function count(): int
     {
         return count($this->xml);
     }
 
-    public function toString()
+    public function toString(): string
     {
     }
 
-    protected function failureDescription($schemaFile)
+    protected function failureDescription($schemaFile): string
     {
         return sprintf(
             'Xml is accepted by the XML schema "%s"',
@@ -67,7 +67,7 @@ class SchemaAcceptsXml extends Constraint
         );
     }
 
-    protected function additionalFailureDescription($schema)
+    protected function additionalFailureDescription($schema): string
     {
         $str = "\n".$this->xml[$this->failingElement]->saveXml()."\n\n";
 

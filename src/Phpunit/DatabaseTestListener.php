@@ -15,6 +15,7 @@ use Doctrine\Common\DataFixtures\Purger;
 use PHPUnit\Framework\AssertionFailedError;
 use PHPUnit\Framework\Test;
 use PHPUnit\Framework\TestListener;
+use PHPUnit\Framework\TestSuite;
 use PHPUnit\Framework\Warning;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
@@ -56,31 +57,31 @@ class DatabaseTestListener implements TestListener
         return new Process($arguments);
     }
 
-    public function addError(Test $test, \Exception $e, $time)
+    public function addError(Test $test, \Throwable $e, float $time): void
     {
     }
 
-    public function addFailure(Test $test, AssertionFailedError $e, $time)
+    public function addFailure(Test $test, AssertionFailedError $e, float  $time): void
     {
     }
 
-    public function addWarning(Test $test, Warning $e, $time)
+    public function addWarning(Test $test, Warning $e, float $time): void
     {
     }
 
-    public function addIncompleteTest(Test $test, \Exception $e, $time)
+    public function addIncompleteTest(Test $test, \Throwable $e, float $time): void
     {
     }
 
-    public function addSkippedTest(Test $test, \Exception $e, $time)
+    public function addSkippedTest(Test $test, \Throwable $e, float $time): void
     {
     }
 
-    public function addRiskyTest(Test $test, \Exception $e, $time)
+    public function addRiskyTest(Test $test, \Throwable $e, float $time): void
     {
     }
 
-    public function startTest(Test $test)
+    public function startTest(Test $test): void
     {
         switch (static::$currentSuite->getName()) {
             case 'orm':
@@ -103,11 +104,11 @@ class DatabaseTestListener implements TestListener
         $purger->purge();
     }
 
-    public function endTest(Test $test, $time)
+    public function endTest(Test $test, float $time): void
     {
     }
 
-    public function startTestSuite(TestSuite $suite)
+    public function startTestSuite(TestSuite $suite): void
     {
         static::$currentSuite = $suite;
 
@@ -206,7 +207,7 @@ class DatabaseTestListener implements TestListener
         echo '[ORM]'.PHP_EOL;
     }
 
-    public function endTestSuite(TestSuite $suite)
+    public function endTestSuite(TestSuite $suite): void
     {
         if (!in_array($suite->getName(), ['phpcr', 'orm'])) {
             return;
