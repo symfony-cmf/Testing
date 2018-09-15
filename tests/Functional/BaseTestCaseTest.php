@@ -12,13 +12,14 @@
 namespace Symfony\Cmf\Component\Testing\Tests\Functional;
 
 use Doctrine\Bundle\PHPCRBundle\Test\RepositoryManager;
+use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Cmf\Component\Testing\Functional\DbManager\PHPCR;
 use Symfony\Cmf\Component\Testing\Tests\Fixtures\TestTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 
-class BaseTestCaseTest extends \PHPUnit_Framework_TestCase
+class BaseTestCaseTest extends TestCase
 {
     private $container;
 
