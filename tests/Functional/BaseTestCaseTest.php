@@ -84,7 +84,8 @@ class BaseTestCaseTest extends TestCase
     public function testDb($dbName, $expected)
     {
         if (null === $expected) {
-            $this->setExpectedException('InvalidArgumentException', $dbName.'" does not exist');
+            $this->expectException('InvalidArgumentException');
+            $this->expectExceptionMessage($dbName.'" does not exist');
         }
 
         $res = $this->testCase->getDbManager($dbName);

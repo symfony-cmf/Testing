@@ -33,7 +33,7 @@ class DatabaseTestListenerTest extends TestCase
 
     public function testPhpcrTestSuite()
     {
-        $suite = $this->createMock('TestSuite');
+        $suite = $this->createMock(TestSuite::class);
         $suite->expects($this->any())
             ->method('getName')
             ->willReturn('phpcr');
@@ -47,9 +47,12 @@ class DatabaseTestListenerTest extends TestCase
         $this->assertContains('[PHPCR]', ob_get_clean());
     }
 
+    /**
+     * @doesNotPerformAssertions
+     */
     public function testFallsBackToOldInitDbalCommand()
     {
-        $suite = $this->createMock('TestSuite');
+        $suite = $this->createMock(TestSuite::class);
         $suite->expects($this->any())
             ->method('getName')
             ->willReturn('phpcr');
@@ -65,7 +68,7 @@ class DatabaseTestListenerTest extends TestCase
 
     public function testOrmTestSuite()
     {
-        $suite = $this->createMock('TestSuite');
+        $suite = $this->createMock(TestSuite::class);
         $suite->expects($this->any())
             ->method('getName')
             ->willReturn('orm');
@@ -83,7 +86,7 @@ class DatabaseTestListenerTest extends TestCase
     public function testUnknownTestSuite()
     {
         $this->markTestSkipped('We have to rewrite that test code or delete it.');
-        $suite = $this->createMock('TestSuite');
+        $suite = $this->createMock(TestSuite::class);
         $suite->expects($this->any())
             ->method('getName')
             ->willReturn('not orm or phpcr tests');
