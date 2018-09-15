@@ -11,7 +11,9 @@
 
 namespace Symfony\Cmf\Component\Testing\Unit\Constraint;
 
-class SchemaAcceptsXml extends \PHPUnit_Framework_Constraint
+use PHPUnit\Framework\Constraint;
+
+class SchemaAcceptsXml extends Constraint
 {
     protected $xml;
 

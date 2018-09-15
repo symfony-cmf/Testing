@@ -11,9 +11,11 @@
 
 namespace Symfony\Cmf\Component\Testing\Tests\Phpunit;
 
+use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\TestSuite;
 use Symfony\Cmf\Component\Testing\Phpunit\DatabaseTestListener;
 
-class DatabaseTestListenerTest extends \PHPUnit_Framework_TestCase
+class DatabaseTestListenerTest extends TestCase
 {
     protected $listener;
 
@@ -31,7 +33,7 @@ class DatabaseTestListenerTest extends \PHPUnit_Framework_TestCase
 
     public function testPhpcrTestSuite()
     {
-        $suite = $this->createMock('PHPUnit_Framework_TestSuite');
+        $suite = $this->createMock('TestSuite');
         $suite->expects($this->any())
             ->method('getName')
             ->willReturn('phpcr');
@@ -47,7 +49,7 @@ class DatabaseTestListenerTest extends \PHPUnit_Framework_TestCase
 
     public function testFallsBackToOldInitDbalCommand()
     {
-        $suite = $this->createMock('PHPUnit_Framework_TestSuite');
+        $suite = $this->createMock('TestSuite');
         $suite->expects($this->any())
             ->method('getName')
             ->willReturn('phpcr');
@@ -63,7 +65,7 @@ class DatabaseTestListenerTest extends \PHPUnit_Framework_TestCase
 
     public function testOrmTestSuite()
     {
-        $suite = $this->createMock('PHPUnit_Framework_TestSuite');
+        $suite = $this->createMock('TestSuite');
         $suite->expects($this->any())
             ->method('getName')
             ->willReturn('orm');
@@ -81,7 +83,7 @@ class DatabaseTestListenerTest extends \PHPUnit_Framework_TestCase
     public function testUnknownTestSuite()
     {
         $this->markTestSkipped('We have to rewrite that test code or delete it.');
-        $suite = $this->createMock('PHPUnit_Framework_TestSuite');
+        $suite = $this->createMock('TestSuite');
         $suite->expects($this->any())
             ->method('getName')
             ->willReturn('not orm or phpcr tests');

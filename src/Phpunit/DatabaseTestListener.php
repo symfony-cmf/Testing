@@ -12,11 +12,15 @@
 namespace Symfony\Cmf\Component\Testing\Phpunit;
 
 use Doctrine\Common\DataFixtures\Purger;
+use PHPUnit\Framework\AssertionFailedError;
+use PHPUnit\Framework\Test;
+use PHPUnit\Framework\TestListener;
+use PHPUnit\Framework\Warning;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\ProcessUtils;
 
-class DatabaseTestListener implements \PHPUnit_Framework_TestListener
+class DatabaseTestListener implements TestListener
 {
     protected static $currentSuite;
 
@@ -52,31 +56,31 @@ class DatabaseTestListener implements \PHPUnit_Framework_TestListener
         return new Process($arguments);
     }
 
-    public function addError(\PHPUnit_Framework_Test $test, \Exception $e, $time)
+    public function addError(Test $test, \Exception $e, $time)
     {
     }
 
-    public function addFailure(\PHPUnit_Framework_Test $test, \PHPUnit_Framework_AssertionFailedError $e, $time)
+    public function addFailure(Test $test, AssertionFailedError $e, $time)
     {
     }
 
-    public function addWarning(\PHPUnit_Framework_Test $test, \PHPUnit_Framework_Warning $e, $time)
+    public function addWarning(Test $test, Warning $e, $time)
     {
     }
 
-    public function addIncompleteTest(\PHPUnit_Framework_Test $test, \Exception $e, $time)
+    public function addIncompleteTest(Test $test, \Exception $e, $time)
     {
     }
 
-    public function addSkippedTest(\PHPUnit_Framework_Test $test, \Exception $e, $time)
+    public function addSkippedTest(Test $test, \Exception $e, $time)
     {
     }
 
-    public function addRiskyTest(\PHPUnit_Framework_Test $test, \Exception $e, $time)
+    public function addRiskyTest(Test $test, \Exception $e, $time)
     {
     }
 
-    public function startTest(\PHPUnit_Framework_Test $test)
+    public function startTest(Test $test)
     {
         switch (static::$currentSuite->getName()) {
             case 'orm':
@@ -99,11 +103,11 @@ class DatabaseTestListener implements \PHPUnit_Framework_TestListener
         $purger->purge();
     }
 
-    public function endTest(\PHPUnit_Framework_Test $test, $time)
+    public function endTest(Test $test, $time)
     {
     }
 
-    public function startTestSuite(\PHPUnit_Framework_TestSuite $suite)
+    public function startTestSuite(TestSuite $suite)
     {
         static::$currentSuite = $suite;
 
@@ -202,7 +206,7 @@ class DatabaseTestListener implements \PHPUnit_Framework_TestListener
         echo '[ORM]'.PHP_EOL;
     }
 
-    public function endTestSuite(\PHPUnit_Framework_TestSuite $suite)
+    public function endTestSuite(TestSuite $suite)
     {
         if (!in_array($suite->getName(), ['phpcr', 'orm'])) {
             return;
