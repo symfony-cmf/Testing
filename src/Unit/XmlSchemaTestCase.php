@@ -11,7 +11,9 @@
 
 namespace Symfony\Cmf\Component\Testing\Unit;
 
-abstract class XmlSchemaTestCase extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+abstract class XmlSchemaTestCase extends TestCase
 {
     public static function assertSchemaAcceptsXml($xmlDoms, $schemaPath, $message = '')
     {
