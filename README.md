@@ -8,9 +8,11 @@
 [![Monthly Downloads](https://poser.pugx.org/symfony-cmf/testing/d/monthly)](https://packagist.org/packages/symfony-cmf/testing)
 [![Daily Downloads](https://poser.pugx.org/symfony-cmf/testing/d/daily)](https://packagist.org/packages/symfony-cmf/testing)
 
-Branch | Travis | Coveralls |
------- | ------ | --------- |
-master | [![Build Status][travis_unstable_badge]][travis_link] | [![Coverage Status][coveralls_unstable_badge]][coveralls_unstable_link] |
+Branch | Travis | Coveralls | Scrutinizer |
+------ | ------ | --------- | ----------- |
+master   | [![Build Status][travis_stable_badge]][travis_stable_link]     | [![Coverage Status][coveralls_stable_badge]][coveralls_stable_link]     | [![Scrutinizer Status][scrutinizer_stable_badge]][scrutinizer_stable_link] |
+master | [![Build Status][travis_unstable_badge]][travis_unstable_link] | [![Coverage Status][coveralls_unstable_badge]][coveralls_unstable_link] | [![Scrutinizer Status][scrutinizer_unstable_badge]][scrutinizer_unstable_link] |
+
 
 This package is part of the [Symfony Content Management Framework (CMF)](http://cmf.symfony.com/) and licensed
 under the [MIT License](LICENSE).
@@ -21,8 +23,8 @@ the context of the CMF.
 
 ## Requirements
 
-* PHP 5.6 / 7.0 / 7.1 / 7.2
-* Symfony 2.8 / 3.3 / 3.4 / 4.0
+* PHP 7.2 / 7.3
+* Symfony 3.4 / 4.0 / 4.1 / 4.2
 * See also the `require` section of [composer.json](composer.json)
 
 ## Documentation
@@ -57,14 +59,17 @@ Thanks to
 
 This package is available under the [MIT license](src/Resources/meta/LICENSE).
 
-[travis_legacy_badge]: https://travis-ci.org/symfony-cmf/testing.svg?branch=master
-[travis_stable_badge]: https://travis-ci.org/symfony-cmf/testing.svg?branch=master
-[travis_unstable_badge]: https://travis-ci.org/symfony-cmf/testing.svg?branch=master
-[travis_link]: https://travis-ci.org/symfony-cmf/testing
+[travis_stable_badge]: https://travis-ci.org/symfony-cmf/Testing.svg?branch=master
+[travis_stable_link]: https://travis-ci.org/symfony-cmf/Testing
+[travis_unstable_badge]: https://travis-ci.org/symfony-cmf/Testing.svg?branch=master
+[travis_unstable_link]: https://travis-ci.org/symfony-cmf/Testing
 
-[coveralls_legacy_badge]: https://coveralls.io/repos/github/symfony-cmf/testing/badge.svg?branch=master
-[coveralls_legacy_link]: https://coveralls.io/github/symfony-cmf/testing?branch=master
-[coveralls_stable_badge]: https://coveralls.io/repos/github/symfony-cmf/testing/badge.svg?branch=master
-[coveralls_stable_link]: https://coveralls.io/github/symfony-cmf/testing?branch=master
-[coveralls_unstable_badge]: https://coveralls.io/repos/github/symfony-cmf/testing/badge.svg?branch=master
-[coveralls_unstable_link]: https://coveralls.io/github/symfony-cmf/testing?branch=master
+[coveralls_stable_badge]: https://coveralls.io/repos/github/symfony-cmf/Testing/badge.svg?branch=master
+[coveralls_stable_link]: https://coveralls.io/github/symfony-cmf/Testing?branch=master
+[coveralls_unstable_badge]: https://coveralls.io/repos/github/symfony-cmf/Testing/badge.svg?branch=master
+[coveralls_unstable_link]: https://coveralls.io/github/symfony-cmf/Testing?branch=master
+
+[scrutinizer_stable_badge]: https://scrutinizer-ci.com/g/symfony-cmf/Testing/badges/quality-score.png?b=master
+[scrutinizer_stable_link]: https://scrutinizer-ci.com/g/symfony-cmf/Testing/?branch=master
+[scrutinizer_unstable_badge]: https://scrutinizer-ci.com/g/symfony-cmf/Testing/badges/quality-score.png?b=master
+[scrutinizer_unstable_link]: https://scrutinizer-ci.com/g/symfony-cmf/Testing/?branch=master
