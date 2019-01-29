@@ -31,12 +31,12 @@ the context of the CMF.
 
 For the install guide and reference, see:
 
-* [symfony-cmf/testing Documentation](http://symfony.com/doc/master/cmf/components/testing/index.html)
+* [symfony-cmf/testing Documentation](https://symfony.com/doc/master/cmf/components/testing/index.html)
 
 See also:
 
-* [All Symfony CMF documentation](http://symfony.com/doc/master/cmf/index.html) - complete Symfony CMF reference
-* [Symfony CMF Website](http://cmf.symfony.com/) - introduction, live demo, support and community links
+* [All Symfony CMF documentation](https://symfony.com/doc/master/cmf/index.html) - complete Symfony CMF reference
+* [Symfony CMF Website](https://cmf.symfony.com/) - introduction, live demo, support and community links
 
 ## Support
 
