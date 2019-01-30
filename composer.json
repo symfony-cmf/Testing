@@ -30,7 +30,8 @@
         "symfony/monolog-bundle": "~3.1",
         "symfony/process": "^3.4 || ^4.0",
         "symfony/security-bundle": "^3.4 || ^4.0",
-        "symfony/twig-bundle": "^3.4 || ^4.0"
+        "symfony/twig-bundle": "^3.4 || ^4.0",
+        "symfony/phpunit-bridge": "4.2.2"
     },
     "require-dev": {
         "symfony/phpunit-bridge": "^3.4 || ^4.0"
