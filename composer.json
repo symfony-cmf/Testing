@@ -31,10 +31,10 @@
         "symfony/process": "^3.4 || ^4.0",
         "symfony/security-bundle": "^3.4 || ^4.0",
         "symfony/twig-bundle": "^3.4 || ^4.0",
-        "symfony/phpunit-bridge": "4.2.2"
+        "symfony/phpunit-bridge": "^3.4 || ^4.0"
     },
     "require-dev": {
-        "symfony/phpunit-bridge": "^3.4 || ^4.0"
+        "symfony/phpunit-bridge": "4.2.2"
     },
     "autoload": {
         "psr-4": {
