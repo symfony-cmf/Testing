@@ -11,7 +11,7 @@
 
 namespace Symfony\Cmf\Component\Testing\Unit\Constraint;
 
-use PHPUnit\Framework\Constraint\Constraint;
+use PHPUnit\Framework\Constraint;
 
 class SchemaAcceptsXml extends Constraint
 {

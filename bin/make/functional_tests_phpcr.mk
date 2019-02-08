@@ -6,5 +6,9 @@ functional_tests_phpcr:
 	@${CONSOLE} doctrine:phpcr:init:dbal --drop --force
 	@${CONSOLE} doctrine:phpcr:repository:init
 	@echo '+++ run PHPCR functional tests +++'
-	@vendor/bin/simple-phpunit --testsuite "functional tests with phpcr"
+ifeq ($(HAS_XDEBUG), 0)
+	phpunit --prepend build/xdebug-filter.php -c phpunit.xml.dist --coverage-clover build/logs/clover.xml --testsuite "functional tests with phpcr"
+else
+	phpunit -c phpunit.xml.dist --testsuite "functional tests with phpcr"
+endif
 	@${CONSOLE} doctrine:database:drop --force
