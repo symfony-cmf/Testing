@@ -20,6 +20,8 @@ ifdef BRANCH
 	VERSION=dev-${BRANCH}
 endif
 PACKAGE=symfony-cmf/testing
+HAS_XDEBUG=$(shell php --modules|grep --quiet xdebug;echo $$?)
+
 list:
 	@echo 'test:                    will run all tests'
 	@echo 'unit_tests:               will run unit tests only'
@@ -29,4 +31,29 @@ list:
 include ${TESTING_SCRIPTS_DIR}/make/unit_tests.mk
 
 .PHONY: test
-test: unit_tests
+test: build/xdebug-filter.php  unit_tests
+lint-php:
+	php-cs-fixer fix --ansi --verbose --diff --dry-run
+.PHONY: lint-php
+
+int: lint-composer lint-php
+.PHONY: lint
+
+lint-composer:
+	composer validate
+.PHONY: lint-composer
+
+cs-fix: cs-fix-php
+.PHONY: cs-fix
+
+cs-fix-php:
+	php-cs-fixer fix --verbose
+.PHONY: cs-fix-php
+
+build:
+	mkdir $@
+
+build/xdebug-filter.php: phpunit.xml.dist build
+ifeq ($(HAS_XDEBUG), 0)
+	phpunit --dump-xdebug-filter $@
+endif
