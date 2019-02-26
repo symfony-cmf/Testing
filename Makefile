@@ -25,13 +25,14 @@ HAS_XDEBUG=$(shell php --modules|grep --quiet xdebug;echo $$?)
 list:
 	@echo 'test:                    will run all tests'
 	@echo 'unit_tests:               will run unit tests only'
+	@echo 'functional_tests_phpcr:  will run functional tests with PHPCR'
 
 
-
+include ${TESTING_SCRIPTS_DIR}/make/functional_tests_phpcr.mk
 include ${TESTING_SCRIPTS_DIR}/make/unit_tests.mk
 
 .PHONY: test
-test: build/xdebug-filter.php  unit_tests
+test: build/xdebug-filter.php  functional_tests_phpcr unit_tests
 lint-php:
 	php-cs-fixer fix --ansi --verbose --diff --dry-run
 .PHONY: lint-php
