@@ -11,7 +11,7 @@
 
 namespace Symfony\Cmf\Component\Testing\Unit\Constraint;
 
-use PHPUnit\Framework\Constraint;
+use PHPUnit\Framework\Constraint\Constraint;
 
 class SchemaAcceptsXml extends Constraint
 {
@@ -24,6 +24,7 @@ class SchemaAcceptsXml extends Constraint
     public function __construct($xml)
     {
         $this->xml = $xml;
+        parent::__construct();
     }
 
     public function matches($schemaFile): bool

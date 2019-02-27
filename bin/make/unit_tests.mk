@@ -7,4 +7,3 @@ ifeq ($(HAS_XDEBUG), 0)
 else
 	phpunit -c phpunit.xml.dist --testsuite "unit tests"
 endif
-	@vendor/bin/simple-phpunit
