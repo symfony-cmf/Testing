@@ -25,7 +25,6 @@ HAS_XDEBUG=$(shell php --modules|grep --quiet xdebug;echo $$?)
 list:
 	@echo 'test:                    will run all tests'
 	@echo 'unit_tests:               will run unit tests only'
-	@echo 'functional_tests_phpcr:  will run functional tests with PHPCR'
 
 
 include ${TESTING_SCRIPTS_DIR}/make/unit_tests.mk
