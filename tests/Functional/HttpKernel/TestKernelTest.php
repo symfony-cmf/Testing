@@ -28,7 +28,7 @@ class TestKernelTest extends TestCase
 
     private $mockBundle;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->kernel = $this->getMockBuilder('Symfony\Cmf\Component\Testing\HttpKernel\TestKernel')
             ->setConstructorArgs(['test', true])
