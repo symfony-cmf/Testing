@@ -8,8 +8,8 @@ functional_tests_orm:
 	@${CONSOLE} doctrine:schema:create --env=orm
 	@echo '+++ run ORM functional tests +++'
 ifeq ($(HAS_XDEBUG), 0)
-	phpunit --prepend build/xdebug-filter.php -c phpunit.xml.dist --coverage-clover build/logs/clover.xml --testsuite "functional tests with orm"
+	@vendor/bin/simple-phpunit --prepend build/xdebug-filter.php -c phpunit.xml.dist --coverage-clover build/logs/clover.xml --testsuite "functional tests with orm"
 else
-	phpunit -c phpunit.xml.dist --testsuite "functional tests with orm"
+	@vendor/bin/simple-phpunit -c phpunit.xml.dist --testsuite "functional tests with orm"
 endif
 	@${CONSOLE} doctrine:database:drop --force
