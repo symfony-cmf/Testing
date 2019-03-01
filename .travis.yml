@@ -43,9 +43,6 @@ matrix:
       env: SYMFONY_VERSION=4.2.*
     - php: 7.1
       env: COMPOSER_FLAGS="--prefer-lowest" SYMFONY_VERSION=3.4.* SYMFONY_DEPRECATIONS_HELPER="/.*each.*/"
-
-    - php: 7.2
-      env: SYMFONY_VERSION=4.0.*
     - php: 7.2
       env: SYMFONY_VERSION=4.1.*
   fast_finish: true
