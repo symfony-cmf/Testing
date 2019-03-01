@@ -32,7 +32,7 @@ class BaseTestCaseTest extends TestCase
 
     private $client;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->container = $this->createMock(ContainerInterface::class);
         $this->container->expects($this->any())

@@ -1,8 +1,14 @@
 Changelog
 =========
 
-2.1.0 (unreleased)
+3.0.0 (unreleased)
 ------------------
+* **2019-02-28**: [BC-BREAK] Remove `DatabaseTestListener`, use scripts in `bin/make/` to ramp up your testing environment for several test suites
+* **2019-02-28**: [BC-BREAK] Introduce PHPUnit 6 Support, Remove PHPUnit 5.7.
+* **2019-02-28**: Add testing scenarios for Symfony 4.2 and 4.3 (allowed to fail for now)
+
+2.1.0
+-----
 
 * **2017-01-18**: Introduce a `TestCompilePass` to make services public, which are needed 
 in i.e. a WebTest.
