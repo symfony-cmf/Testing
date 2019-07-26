@@ -54,20 +54,6 @@ abstract class BaseTestCase extends WebTestCase
         return [];
     }
 
-    public function __call($name, $arguments)
-    {
-        if ('getClient' === $name) {
-            @trigger_error(sprintf(
-                '"%s::getClient()" is deprecated in favor of getFrameworkBundleClient() since symfony-cmf/testing 2.1 and will no longer be callable in 3.0',
-                __CLASS__
-            ), E_USER_DEPRECATED);
-
-            return $this->getFrameworkBundleClient();
-        }
-
-        return parent::$name(...$arguments);
-    }
-
     /**
      * Gets the Client.
      *
@@ -76,7 +62,7 @@ abstract class BaseTestCase extends WebTestCase
     public function getFrameworkBundleClient()
     {
         if (null === $this->client) {
-            $this->client = $this->createClient($this->getKernelConfiguration());
+            $this->client = self::createClient($this->getKernelConfiguration());
         }
 
         return $this->client;

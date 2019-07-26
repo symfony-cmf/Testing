@@ -77,15 +77,6 @@ class BaseTestCaseTest extends TestCase
         ];
     }
 
-    /**
-     * @group legacy
-     * @expectedDeprecation "Symfony\Cmf\Component\Testing\Functional\BaseTestCase::getClient()" is deprecated in favor of getFrameworkBundleClient() since symfony-cmf/testing 2.1 and will no longer be callable in 3.0
-     */
-    public function testItTriggersADeprecationErrorWhenCallingGetClient()
-    {
-        $this->assertInstanceOf(Client::class, $this->testCase->getClient());
-    }
-
     public function testItCanProvideAFrameworkBundleClient()
     {
         $this->assertInstanceOf(Client::class, $this->testCase->getFrameworkBundleClient());
