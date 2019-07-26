@@ -3,9 +3,16 @@ Changelog
 
 3.0.0 (unreleased)
 ------------------
+
 * **2019-02-28**: [BC-BREAK] Remove `DatabaseTestListener`, use scripts in `bin/make/` to ramp up your testing environment for several test suites
 * **2019-02-28**: [BC-BREAK] Introduce PHPUnit 6 Support, Remove PHPUnit 5.7.
 * **2019-02-28**: Add testing scenarios for Symfony 4.2 and 4.3 (allowed to fail for now)
+
+2.1.12
+------
+
+* **2019-07-26**: Work around name collision with Symfony 4.3.
+  `BaseTestCase::getClient` is deprecated, use `BaseTestCase::getFrameworkBundleClient` instead.
 
 2.1.0
 -----
