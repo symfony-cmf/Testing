@@ -1,8 +1,14 @@
 Changelog
 =========
 
-2.1.0 (unreleased)
-------------------
+2.1.12
+------
+
+* **2019-07-26**: Work around name collision with Symfony 4.3.
+  `BaseTestCase::getClient` is deprecated, use `BaseTestCase::getFrameworkBundleClient` instead.
+
+2.1.0
+-----
 
 * **2017-01-18**: Introduce a `TestCompilePass` to make services public, which are needed 
 in i.e. a WebTest.
