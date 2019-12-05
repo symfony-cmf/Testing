@@ -20,13 +20,6 @@ under the [MIT License](LICENSE).
 **NOTE**: This is an internal tool and is not intended to be used outside of
 the context of the CMF.
 
-
-## Requirements
-
-* PHP 7.1 / 7.2 / 7.3
-* Symfony 3.4 / 4.0 / 4.1 / 4.2
-* See also the `require` section of [composer.json](composer.json)
-
 ## Documentation
 
 For the install guide and reference, see:

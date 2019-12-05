@@ -30,7 +30,7 @@ list:
 include ${TESTING_SCRIPTS_DIR}/make/unit_tests.mk
 
 .PHONY: test
-test: build/xdebug-filter.php unit_tests
+test: unit_tests
 lint-php:
 	php-cs-fixer fix --ansi --verbose --diff --dry-run
 .PHONY: lint-php

@@ -46,44 +46,31 @@ abstract class BaseTestCase extends WebTestCase
      *
      *  * environment - The environment to use (defaults to 'phpcr')
      *  * debug - If debug should be enabled/disabled (defaults to true)
-     *
-     * @return array
      */
-    protected function getKernelConfiguration()
+    protected function getKernelConfiguration(): array
     {
         return [];
     }
 
-    /**
-     * Gets the Client.
-     *
-     * @return Client
-     */
-    public function getFrameworkBundleClient()
+    public function getFrameworkBundleClient(): Client
     {
         if (null === $this->client) {
+            // property does not exist in all symfony versions
+            if (\property_exists(self::class, 'booted') && self::$booted) {
+                self::ensureKernelShutdown();
+            }
             $this->client = self::createClient($this->getKernelConfiguration());
         }
 
         return $this->client;
     }
 
-    /**
-     * Gets the container.
-     *
-     * @return ContainerInterface
-     */
-    public function getContainer()
+    public function getContainer(): ContainerInterface
     {
         return $this->getKernel()->getContainer();
     }
 
-    /**
-     * Ensures the kernel is available.
-     *
-     * @return KernelInterface
-     */
-    public function getKernel()
+    public function getKernel(): KernelInterface
     {
         if (null === static::$kernel) {
             parent::bootKernel(static::getKernelConfiguration());
@@ -152,7 +139,7 @@ abstract class BaseTestCase extends WebTestCase
         return $dbManager;
     }
 
-    public static function getKernelClass()
+    public static function getKernelClass(): string
     {
         if (isset($_SERVER['KERNEL_CLASS']) || isset($_ENV['KERNEL_CLASS'])) {
             $class = isset($_SERVER['KERNEL_CLASS']) ? $_SERVER['KERNEL_CLASS'] : $_ENV['KERNEL_CLASS'];
@@ -171,7 +158,7 @@ abstract class BaseTestCase extends WebTestCase
      *
      * This is overriden to set the default environment to 'phpcr'
      */
-    protected static function createKernel(array $options = [])
+    protected static function createKernel(array $options = []): KernelInterface
     {
         // default environment is 'phpcr'
         if (!isset($options['environment'])) {

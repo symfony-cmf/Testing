@@ -68,15 +68,13 @@ class SchemaAcceptsXmlTest extends TestCase
         return $data;
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testFailsIfNoConfigElementIsAvailable()
     {
         $dom = new \DomDocument();
         $dom->loadXML('<container></container>');
 
         $constraint = new SchemaAcceptsXml([$dom]);
+        $this->expectException(\InvalidArgumentException::class);
         $constraint->matches(__DIR__.'/../Fixtures/schema/schema1.xsd');
     }
 }
