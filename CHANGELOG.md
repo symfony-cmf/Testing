@@ -4,6 +4,7 @@ Changelog
 3.0.0 (unreleased)
 ------------------
 
+* **2019-12-05**: [BC-BREAK] Support PHPUnit 6, 7 and 8, drop support for PHPUnit 5.7
 * **2019-07-26**: [BC-BREAK] Remove deprecated `BaseTestCase::getClient`, use `BaseTestCase::getFrameworkBundleClient` instead.
 * **2019-02-28**: [BC-BREAK] Remove `DatabaseTestListener`, use scripts in `bin/make/` to ramp up your testing environment for several test suites
 * **2019-02-28**: [BC-BREAK] Introduce PHPUnit 6 Support, Remove PHPUnit 5.7.

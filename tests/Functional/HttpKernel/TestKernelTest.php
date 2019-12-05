@@ -17,12 +17,13 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\SecurityBundle\SecurityBundle;
 use Symfony\Bundle\TwigBundle\TwigBundle;
-use Symfony\Component\HttpKernel\Kernel;
+use Symfony\Cmf\Component\Testing\HttpKernel\TestKernel;
+use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 
 class TestKernelTest extends TestCase
 {
     /**
-     * @var Kernel
+     * @var TestKernel
      */
     private $kernel;
 
@@ -30,11 +31,11 @@ class TestKernelTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->kernel = $this->getMockBuilder('Symfony\Cmf\Component\Testing\HttpKernel\TestKernel')
+        $this->kernel = $this->getMockBuilder(TestKernel::class)
             ->setConstructorArgs(['test', true])
             ->getMockForAbstractClass();
 
-        $this->mockBundle = $this->createMock('Symfony\Component\HttpKernel\Bundle\BundleInterface');
+        $this->mockBundle = $this->createMock(BundleInterface::class);
     }
 
     /**
@@ -45,7 +46,10 @@ class TestKernelTest extends TestCase
         $this->kernel->requireBundleSets($bundleSets);
         $bundles = array_keys($this->kernel->registerBundles());
 
-        $this->assertArraySubset($expectedBundles, $bundles);
+        foreach ($expectedBundles as $key => $value) {
+            $this->assertArrayHasKey($key, $bundles);
+            $this->assertSame($value, $bundles[$key]);
+        }
     }
 
     public function bundleSetProvider()
@@ -65,11 +69,9 @@ class TestKernelTest extends TestCase
         $this->assertCount(2, $this->kernel->registerBundles());
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testRequireInvalidBundleSet()
     {
+        $this->expectException(\InvalidArgumentException::class);
         $this->kernel->requireBundleSet('foobar');
     }
 }

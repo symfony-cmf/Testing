@@ -24,7 +24,6 @@ class SchemaAcceptsXml extends Constraint
     public function __construct($xml)
     {
         $this->xml = $xml;
-        parent::__construct();
     }
 
     public function matches($schemaFile): bool

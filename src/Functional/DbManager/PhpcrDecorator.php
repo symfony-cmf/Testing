@@ -28,7 +28,7 @@ class PhpcrDecorator extends RepositoryManager
     /**
      * Create a test node, if the test node already exists, remove it.
      */
-    public function createTestNode()
+    public function createTestNode(): void
     {
         $session = $this->getDocumentManager()->getPhpcrSession();
 

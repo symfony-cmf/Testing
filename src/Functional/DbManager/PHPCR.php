@@ -13,6 +13,7 @@ namespace Symfony\Cmf\Component\Testing\Functional\DbManager;
 
 use Doctrine\Bundle\PHPCRBundle\DataFixtures\PHPCRExecutor;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
+use Doctrine\Common\DataFixtures\Loader;
 use Doctrine\Common\DataFixtures\ProxyReferenceRepository;
 use Doctrine\Common\DataFixtures\Purger\PHPCRPurger;
 use Doctrine\Common\Persistence\ManagerRegistry;
@@ -24,6 +25,9 @@ class PHPCR
 {
     protected $container;
 
+    /**
+     * @var DocumentManager
+     */
     protected $om;
 
     /**
@@ -31,30 +35,17 @@ class PHPCR
      */
     private $executor;
 
-    /**
-     * @param ContainerInterface
-     */
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
     }
 
-    /**
-     * Return the PHPCR ODM registry.
-     *
-     * @return ManagerRegistry
-     */
-    public function getRegistry()
+    public function getRegistry(): ManagerRegistry
     {
         return $this->container->get('doctrine_phpcr');
     }
 
-    /**
-     * @param null|string $managerName
-     *
-     * @return DocumentManager
-     */
-    public function getOm($managerName = null)
+    public function getOm(?string $managerName = null): DocumentManager
     {
         if (!$this->om) {
             $this->om = $this->getRegistry()->getManager($managerName);
@@ -63,23 +54,16 @@ class PHPCR
         return $this->om;
     }
 
-    /**
-     * Purge the database.
-     *
-     * @param bool $initialize if the ODM repository initializers should be executed
-     */
-    public function purgeRepository($initialize = false)
+    public function purgeRepository(bool $initialize = false): void
     {
         $this->getExecutor($initialize)->purge();
     }
 
     /**
-     * Load fixtures.
-     *
-     * @param array $classNames Fixture classes to load
-     * @param bool  $initialize if the ODM repository initializers should be executed
+     * @param string[] $classNames Fixture classes to load
+     * @param bool     $initialize if the ODM repository initializers should be executed
      */
-    public function loadFixtures(array $classNames, $initialize = false)
+    public function loadFixtures(array $classNames, bool $initialize = false): void
     {
         $loader = new ContainerAwareLoader($this->container);
 
@@ -90,13 +74,7 @@ class PHPCR
         $this->getExecutor($initialize)->execute($loader->getFixtures(), false);
     }
 
-    /**
-     * Load the named fixture class with the given loader.
-     *
-     * @param \Doctrine\Common\DataFixtures\Loader $loader
-     * @param string                               $className
-     */
-    public function loadFixtureClass($loader, $className)
+    public function loadFixtureClass(Loader $loader, string $className)
     {
         if (!class_exists($className)) {
             throw new \InvalidArgumentException(sprintf(
@@ -125,7 +103,7 @@ class PHPCR
     /**
      * Create a test node, if the test node already exists, remove it.
      */
-    public function createTestNode()
+    public function createTestNode(): void
     {
         $session = $this->container->get('doctrine_phpcr.session');
 
@@ -138,12 +116,7 @@ class PHPCR
         $session->save();
     }
 
-    /**
-     * Return the PHPCR Executor class.
-     *
-     * @return PHPCRExecutor
-     */
-    private function getExecutor($initialize = false)
+    private function getExecutor($initialize = false): PHPCRExecutor
     {
         static $lastInitialize = null;
 

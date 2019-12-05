@@ -55,24 +55,12 @@ class ORM
         $this->container = $container;
     }
 
-    /**
-     * Gets the Doctrine ManagerRegistry.
-     *
-     * @return ManagerRegistry
-     */
-    public function getRegistry()
+    public function getRegistry(): ManagerRegistry
     {
         return $this->container->get('doctrine');
     }
 
-    /**
-     * Gets the Doctrine ObjectManager.
-     *
-     * @param null $managerName
-     *
-     * @return ObjectManager
-     */
-    public function getOm($managerName = null)
+    public function getOm($managerName = null): ObjectManager
     {
         if (!$this->om) {
             $this->om = $this->getRegistry()->getManager($managerName);
@@ -84,7 +72,7 @@ class ORM
     /**
      * Purge the database.
      */
-    public function purgeDatabase()
+    public function purgeDatabase(): void
     {
         $referenceRepository = new ProxyReferenceRepository($this->getOm());
         $this->getExecutor()->setReferenceRepository($referenceRepository);
@@ -92,11 +80,9 @@ class ORM
     }
 
     /**
-     * Loads fixture classes.
-     *
      * @param string[] $classNames
      */
-    public function loadFixtures(array $classNames)
+    public function loadFixtures(array $classNames): void
     {
         $this->purgeDatabase();
         $loader = new ContainerAwareLoader($this->container);
@@ -108,13 +94,7 @@ class ORM
         $this->getExecutor()->execute($loader->getFixtures(), true);
     }
 
-    /**
-     * Loads a single fixture.
-     *
-     * @param Loader $loader
-     * @param string $className
-     */
-    protected function loadFixtureClass(Loader $loader, $className)
+    protected function loadFixtureClass(Loader $loader, string $className): void
     {
         if (!class_exists($className)) {
             throw new \InvalidArgumentException(sprintf(
@@ -140,12 +120,7 @@ class ORM
         }
     }
 
-    /**
-     * Return the ORM Executor class.
-     *
-     * @return ORMExecutor
-     */
-    private function getExecutor()
+    private function getExecutor(): ORMExecutor
     {
         if ($this->executor) {
             return $this->executor;
