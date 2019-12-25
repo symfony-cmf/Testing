@@ -12,8 +12,10 @@
 namespace Symfony\Cmf\Component\Testing\Tests\Functional;
 
 use Doctrine\Bundle\PHPCRBundle\Test\RepositoryManager;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\FrameworkBundle\Client;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Cmf\Component\Testing\Functional\DbManager\PHPCR;
 use Symfony\Cmf\Component\Testing\Tests\Fixtures\TestTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -21,8 +23,14 @@ use Symfony\Component\HttpKernel\KernelInterface;
 
 class BaseTestCaseTest extends TestCase
 {
+    /**
+     * @var ContainerInterface|MockObject
+     */
     private $container;
 
+    /**
+     * @var KernelInterface|MockObject
+     */
     private $kernel;
 
     /**
@@ -30,6 +38,9 @@ class BaseTestCaseTest extends TestCase
      */
     private $testCase;
 
+    /**
+     * @var KernelBrowser|Client|MockObject
+     */
     private $client;
 
     protected function setUp(): void
@@ -51,7 +62,12 @@ class BaseTestCaseTest extends TestCase
         $this->testCase = new TestTestCase();
         $this->testCase->setKernel($this->kernel);
 
-        $this->client = $this->createMock(Client::class);
+        if (class_exists(KernelBrowser::class)) {
+            $this->client = $this->createMock(KernelBrowser::class);
+        } else {
+            $this->client = $this->createMock(Client::class);
+        }
+
         $this->client->expects($this->any())
             ->method('getContainer')
             ->willReturn($this->container);
@@ -79,7 +95,11 @@ class BaseTestCaseTest extends TestCase
 
     public function testItCanProvideAFrameworkBundleClient()
     {
-        $this->assertInstanceOf(Client::class, $this->testCase->getFrameworkBundleClient());
+        if (class_exists(KernelBrowser::class)) {
+            $this->assertInstanceOf(KernelBrowser::class, $this->testCase->getFrameworkBundleClient());
+        } else {
+            $this->assertInstanceOf(Client::class, $this->testCase->getFrameworkBundleClient());
+        }
     }
 
     /**

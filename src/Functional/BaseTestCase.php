@@ -13,6 +13,7 @@ namespace Symfony\Cmf\Component\Testing\Functional;
 
 use Doctrine\Bundle\PHPCRBundle\Test\RepositoryManager;
 use Symfony\Bundle\FrameworkBundle\Client;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Cmf\Component\Testing\Functional\DbManager\PhpcrDecorator;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -52,7 +53,10 @@ abstract class BaseTestCase extends WebTestCase
         return [];
     }
 
-    public function getFrameworkBundleClient(): Client
+    /**
+     * @return Client|KernelBrowser
+     */
+    public function getFrameworkBundleClient()
     {
         if (null === $this->client) {
             // property does not exist in all symfony versions
