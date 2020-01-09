@@ -1,8 +1,8 @@
 Changelog
 =========
 
-3.0.0 (unreleased)
-------------------
+3.0.0
+-----
 
 * **2020-01-08**: [BC-BREAK] Move feature packages to require-dev to make sure packages using the testing component declare their dependencies correctly.
 * **2019-12-05**: [BC-BREAK] Support PHPUnit 6, 7 and 8, drop support for PHPUnit 5.7
