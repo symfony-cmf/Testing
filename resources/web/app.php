@@ -9,12 +9,17 @@
  * file that was distributed with this source code.
  */
 
-use Symfony\Component\Debug\Debug;
+use Symfony\Component\Debug\Debug as LegacyDebug;
+use Symfony\Component\ErrorHandler\Debug;
 use Symfony\Component\HttpFoundation\Request;
 
 require_once __DIR__.'/../../bootstrap/bootstrap.php';
 
-Debug::enable();
+if (class_exists(Debug::class)) {
+    Debug::enable();
+} elseif (class_exists(LegacyDebug::class)) {
+    LegacyDebug::enable();
+}
 
 $request = Request::createFromGlobals();
 $env = $request->query->get('env', 'phpcr');
