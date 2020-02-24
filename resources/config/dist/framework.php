@@ -24,9 +24,6 @@ $config = [
         'resource' => '%kernel.root_dir%/config/routing.php',
     ],
     'default_locale' => 'en',
-    'templating' => [
-        'engines' => ['twig'],
-    ],
     'translator' => [
         'fallback' => 'en',
     ],
