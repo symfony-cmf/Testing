@@ -27,7 +27,7 @@ $config = [
     ],
 ];
 
-$kernelRootDir = $container->getParameter('kernel.root_dir');
+$kernelRootDir = $container->hasParameter('kernel.project_dir') ? $container->getParameter('kernel.project_dir') : $container->getParameter('kernel.root_dir');
 $bundleFQN = $container->getParameter('cmf_testing.bundle_fqn');
 if (getenv('KERNEL_CLASS')) {
     $phpcrOdmDocDir = sprintf('%s/Document', $kernelRootDir);

@@ -159,6 +159,11 @@ abstract class TestKernel extends Kernel
      */
     public function getKernelDir()
     {
+        $this->getProjectDir();
+    }
+
+    public function getProjectDir()
+    {
         $refl = new \ReflectionClass($this);
         $fname = $refl->getFileName();
         $kernelDir = dirname($fname);

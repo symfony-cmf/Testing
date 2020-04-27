@@ -9,6 +9,11 @@
  * file that was distributed with this source code.
  */
 
+$routerPath = '%kernel.root_dir%/config/routing.php';
+if ($container->hasParameter('kernel.project_dir')) {
+    $routerPath = '%kernel.project_dir%/config/routing.php';
+}
+
 $config = [
     'secret' => 'test',
     'test' => null,
@@ -21,7 +26,7 @@ $config = [
         'enable_annotations' => true,
     ],
     'router' => [
-        'resource' => '%kernel.root_dir%/config/routing.php',
+        'resource' => $routerPath,
     ],
     'default_locale' => 'en',
     'translator' => [
