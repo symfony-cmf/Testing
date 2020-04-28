@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-$kernelRootDir = $container->getParameter('kernel.root_dir');
+$kernelRootDir = $container->hasParameter('kernel.project_dir') ? $container->getParameter('kernel.project_dir') : $container->getParameter('kernel.root_dir');
 $bundleName = null;
 
 if (preg_match('&/([a-zA-Z]+?)Bundle&', $kernelRootDir, $matches)) {
@@ -23,7 +23,11 @@ if (preg_match('&/([a-zA-Z]+?)Bundle&', $kernelRootDir, $matches)) {
     }
 }
 
-$loader->import('dist/parameters.yml');
+if ($container->hasParameter('kernel.project_dir')) {
+    $loader->import('dist/parameters_sf5.yml');
+} else {
+    $loader->import('dist/parameters.yml');
+}
 if (class_exists('Symfony\Bundle\MonologBundle\MonologBundle')) {
     $loader->import('dist/monolog.yml');
 }
