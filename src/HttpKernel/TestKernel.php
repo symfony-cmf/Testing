@@ -159,7 +159,7 @@ abstract class TestKernel extends Kernel
      */
     public function getKernelDir()
     {
-        $this->getProjectDir();
+        return $this->getProjectDir();
     }
 
     public function getProjectDir()
