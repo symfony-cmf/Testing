@@ -46,6 +46,8 @@ matrix:
       env: SYMFONY_REQUIRE=5.0.*
     - php: 7.4
       env: STABILITY="dev"
+    - php: nightly
+      env: STABILITY="dev"
   fast_finish: true
   allow_failures:
     - php: 7.4
