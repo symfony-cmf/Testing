@@ -32,12 +32,12 @@ abstract class XmlSchemaTestCase extends TestCase
 
     private static function getSchemaAcceptsXmlConstraint($xmlDoms)
     {
-        if (!is_array($xmlDoms)) {
+        if (!\is_array($xmlDoms)) {
             $xmlDoms = [$xmlDoms];
         }
 
         $xmlDoms = array_map(function ($dom) {
-            if (is_string($dom)) {
+            if (\is_string($dom)) {
                 $xml = $dom;
                 $dom = new \DOMDocument();
                 $dom->load($xml);
@@ -46,7 +46,7 @@ abstract class XmlSchemaTestCase extends TestCase
             }
 
             if (!$dom instanceof \DOMDocument) {
-                throw new \InvalidArgumentException(sprintf('The first argument of assertSchemaAcceptsXml should be instances of \DOMDocument, "%s" given', get_class($dom)));
+                throw new \InvalidArgumentException(sprintf('The first argument of assertSchemaAcceptsXml should be instances of \DOMDocument, "%s" given', \get_class($dom)));
             }
 
             return $dom;
