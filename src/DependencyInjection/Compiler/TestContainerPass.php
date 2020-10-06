@@ -34,7 +34,7 @@ class TestContainerPass implements CompilerPassInterface
     public function process(ContainerBuilder $container)
     {
         foreach ($container->getDefinitions() as $id => $definition) {
-            if (in_array($id, $this->services, true)) {
+            if (\in_array($id, $this->services, true)) {
                 $definition->setPublic(true);
             }
         }

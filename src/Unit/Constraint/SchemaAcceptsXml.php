@@ -52,7 +52,7 @@ class SchemaAcceptsXml extends Constraint
 
     public function count(): int
     {
-        return count($this->xml);
+        return \count($this->xml);
     }
 
     public function toString(): string

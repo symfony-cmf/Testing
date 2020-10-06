@@ -166,7 +166,7 @@ abstract class TestKernel extends Kernel
     {
         $refl = new \ReflectionClass($this);
         $fname = $refl->getFileName();
-        $kernelDir = dirname($fname);
+        $kernelDir = \dirname($fname);
 
         return $kernelDir;
     }
@@ -217,7 +217,7 @@ abstract class TestKernel extends Kernel
     protected function build(ContainerBuilder $container)
     {
         parent::build($container);
-        if (in_array($this->getEnvironment(), ['test', 'phpcr']) && file_exists($this->getKernelDir().'/config/public_services.php')) {
+        if (\in_array($this->getEnvironment(), ['test', 'phpcr']) && file_exists($this->getKernelDir().'/config/public_services.php')) {
             $services = require $this->getKernelDir().'/config/public_services.php';
             $container->addCompilerPass(new TestContainerPass($services), PassConfig::TYPE_OPTIMIZE);
         }
