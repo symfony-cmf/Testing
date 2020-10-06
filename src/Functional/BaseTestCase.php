@@ -60,7 +60,7 @@ abstract class BaseTestCase extends WebTestCase
     {
         if (null === $this->client) {
             // property does not exist in all symfony versions
-            if (\property_exists(self::class, 'booted') && self::$booted) {
+            if (property_exists(self::class, 'booted') && self::$booted) {
                 self::ensureKernelShutdown();
             }
             $this->client = self::createClient($this->getKernelConfiguration());
