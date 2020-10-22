@@ -16,8 +16,10 @@ use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
 use Doctrine\Common\DataFixtures\ProxyReferenceRepository;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
-use Doctrine\Common\Persistence\ManagerRegistry;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Common\Persistence\ManagerRegistry as LegacyManagerRegistry;
+use Doctrine\Common\Persistence\ObjectManager as LegacyObjectManager;
+use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ObjectManager;
 use Symfony\Bridge\Doctrine\DataFixtures\ContainerAwareLoader;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -45,20 +47,23 @@ class ORM
      */
     protected $om;
 
-    /**
-     * Constructor.
-     */
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
     }
 
-    public function getRegistry(): ManagerRegistry
+    /**
+     * @return ManagerRegistry|LegacyManagerRegistry
+     */
+    public function getRegistry()
     {
         return $this->container->get('doctrine');
     }
 
-    public function getOm($managerName = null): ObjectManager
+    /**
+     * @return ObjectManager|LegacyObjectManager
+     */
+    public function getOm($managerName = null)
     {
         if (!$this->om) {
             $this->om = $this->getRegistry()->getManager($managerName);

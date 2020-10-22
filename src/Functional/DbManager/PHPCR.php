@@ -16,8 +16,9 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\DataFixtures\Loader;
 use Doctrine\Common\DataFixtures\ProxyReferenceRepository;
 use Doctrine\Common\DataFixtures\Purger\PHPCRPurger;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Common\Persistence\ManagerRegistry as LegacyManagerRegistry;
 use Doctrine\ODM\PHPCR\DocumentManager;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bridge\Doctrine\DataFixtures\ContainerAwareLoader;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -40,7 +41,10 @@ class PHPCR
         $this->container = $container;
     }
 
-    public function getRegistry(): ManagerRegistry
+    /**
+     * @return ManagerRegistry|LegacyManagerRegistry
+     */
+    public function getRegistry()
     {
         return $this->container->get('doctrine_phpcr');
     }
