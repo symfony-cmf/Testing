@@ -1,6 +1,11 @@
 Changelog
 =========
 
+3.2.1
+-----
+
+* **2020-10-22**: Remove typehints to allow doctrine persistence in commons and stand alone
+
 3.2.0
 -----
 
