@@ -12,10 +12,9 @@ on:
 jobs:
     test:
         name: 'PHP ${{ matrix.php-version }}, Symfony ${{ matrix.symfony-version }}'
-        runs-on: ubuntu-latest
+        runs-on: ubuntu-20.04
 
         env:
-            SYMFONY_PHPUNIT_VERSION: 8
             SYMFONY_DEPRECATIONS_HELPER: ${{ matrix.symfony-deprecation-helper }}
 
         strategy:
@@ -26,6 +25,7 @@ jobs:
                       composer-flags: '--prefer-lowest'
                       symfony-version: '^3.4'
                       symfony-deprecation-helper: 'weak'
+                      phpunit-version: 7.5
 
                     - php-version: '7.2'
                     - php-version: '7.3'
@@ -57,3 +57,10 @@ jobs:
 
             - name: Execute test cases
               run: make test
+
+            - name: Execute test cases
+              run: |
+                  if [[ $SYMFONY_PHPUNIT_VERSION == '' ]]; then unset SYMFONY_PHPUNIT_VERSION; fi;
+                  vendor/bin/simple-phpunit ${{ matrix.phpunit-flags }}
+              env:
+                  SYMFONY_PHPUNIT_VERSION: ${{ matrix.phpunit-version }}
