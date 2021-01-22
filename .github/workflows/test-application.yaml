@@ -16,6 +16,7 @@ jobs:
 
         env:
             SYMFONY_DEPRECATIONS_HELPER: ${{ matrix.symfony-deprecation-helper }}
+            SYMFONY_REQUIRE: ${{ symfony-version }}
 
         strategy:
             fail-fast: false
@@ -44,9 +45,8 @@ jobs:
                   php-version: ${{ matrix.php-version }}
                   tools: 'composer:v2'
 
-            - name: Require Specific Symfony Version
-              if: ${{ matrix.symfony-version }}
-              run: composer require --no-update symfony/symfony:${{ matrix.symfony-version }}
+            - name: Install Symfony Flex
+              run: composer global require --no-progress --no-scripts --no-plugins symfony/flex
 
             - name: Install dependencies with Composer
               uses: ramsey/composer-install@v1
