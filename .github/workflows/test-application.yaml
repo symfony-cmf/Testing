@@ -21,9 +21,6 @@ jobs:
         strategy:
             fail-fast: false
             matrix:
-                symfony-version:
-                    - '*'
-
                 include:
                     - php-version: '7.1'
                       dependencies: 'lowest'
