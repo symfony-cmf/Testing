@@ -16,7 +16,7 @@ jobs:
 
         env:
             SYMFONY_DEPRECATIONS_HELPER: ${{ matrix.symfony-deprecation-helper }}
-            SYMFONY_REQUIRE: ${{ symfony-version }}
+            SYMFONY_REQUIRE: ${{ matrix.symfony-version }}
 
         strategy:
             fail-fast: false
