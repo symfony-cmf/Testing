@@ -12,7 +12,7 @@
 $vendorDir = realpath(__DIR__.'/../../..');
 
 if (!$loader = include $vendorDir.'/autoload.php') {
-    $nl = 'cli' === substr(PHP_SAPI, 0, 3) ? PHP_EOL : '<br />';
+    $nl = 'cli' === substr(\PHP_SAPI, 0, 3) ? \PHP_EOL : '<br />';
     echo $nl.$nl.
         'You must set up the project dependencies.'.$nl.
         'Run the following commands in '.dirname($vendorDir).':'.$nl.$nl.
