@@ -1,6 +1,11 @@
 Changelog
 =========
 
+4.0.0
+-----
+
+* [BC-BREAK] Made bootstrap utility methods in BaseTestCase static to not conflict with recent versions of Symfony FrameworkBundle.
+
 3.3.0
 -----
 
