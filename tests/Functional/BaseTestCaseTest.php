@@ -16,6 +16,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
+use Symfony\Cmf\Component\Testing\Functional\BaseTestCase;
 use Symfony\Cmf\Component\Testing\Functional\DbManager\PHPCR;
 use Symfony\Cmf\Component\Testing\Tests\Fixtures\TestTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -57,7 +58,12 @@ class BaseTestCaseTest extends TestCase
         $this->kernel = $this->createMock(KernelInterface::class);
         $this->kernel->expects($this->any())
             ->method('getContainer')
-            ->willReturn($this->container);
+            ->willReturn($this->container)
+        ;
+        $this->kernel->expects($this->any())
+            ->method('getEnvironment')
+            ->willReturn('phpcr')
+        ;
 
         $this->testCase = new TestTestCase();
         $this->testCase->setKernel($this->kernel);
@@ -75,12 +81,33 @@ class BaseTestCaseTest extends TestCase
 
     public function testGetContainer()
     {
-        $this->assertEquals($this->container, $this->testCase->getContainer());
+        $class = new \ReflectionClass(BaseTestCase::class);
+        $method = $class->getMethod('getContainer');
+        $method->setAccessible(true);
+
+        $this->assertEquals($this->container, $method->invoke(null));
     }
 
     public function testGetKernel()
     {
-        $this->assertInstanceOf(KernelInterface::class, $this->testCase->getKernel());
+        $class = new \ReflectionClass(BaseTestCase::class);
+        $method = $class->getMethod('getKernel');
+        $method->setAccessible(true);
+
+        $this->assertInstanceOf(KernelInterface::class, $method->invoke(null));
+    }
+
+    public function testItCanProvideAFrameworkBundleClient()
+    {
+        $class = new \ReflectionClass(BaseTestCase::class);
+        $method = $class->getMethod('getFrameworkBundleClient');
+        $method->setAccessible(true);
+
+        if (class_exists(KernelBrowser::class)) {
+            $this->assertInstanceOf(KernelBrowser::class, $method->invoke($this->testCase));
+        } else {
+            $this->assertInstanceOf(Client::class, $method->invoke($this->testCase));
+        }
     }
 
     public function provideTestDb()
@@ -93,27 +120,26 @@ class BaseTestCaseTest extends TestCase
         ];
     }
 
-    public function testItCanProvideAFrameworkBundleClient()
-    {
-        if (class_exists(KernelBrowser::class)) {
-            $this->assertInstanceOf(KernelBrowser::class, $this->testCase->getFrameworkBundleClient());
-        } else {
-            $this->assertInstanceOf(Client::class, $this->testCase->getFrameworkBundleClient());
-        }
-    }
-
     /**
      * @dataProvider provideTestDb
      * @depends testGetContainer
      */
     public function testDb($dbName, $expected)
     {
+        $class = new \ReflectionClass(BaseTestCase::class);
+        $method = $class->getMethod('getDbManager');
+        $method->setAccessible(true);
+
         if (null === $expected) {
             $this->expectException('InvalidArgumentException');
             $this->expectExceptionMessage($dbName.'" does not exist');
         }
 
-        $res = $this->testCase->getDbManager($dbName);
+        $res = $method->invoke($this->testCase, $dbName);
+        if (null === $expected) {
+            // do not do assertions if the expected exception has not been thrown.
+            return;
+        }
 
         $className = sprintf(
             'Symfony\Cmf\Component\Testing\Functional\DbManager\%s',

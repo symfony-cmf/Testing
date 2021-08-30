@@ -20,6 +20,6 @@ if ($asset !== __DIR__.'/' && file_exists($asset)) {
 
 // otherwise lets run the application
 $_SERVER['DOCUMENT_ROOT'] = __DIR__;
-$_SERVER['SCRIPT_FILENAME'] = __DIR__.DIRECTORY_SEPARATOR.'app_test.php';
+$_SERVER['SCRIPT_FILENAME'] = __DIR__.\DIRECTORY_SEPARATOR.'app_test.php';
 
 require 'app_test.php';

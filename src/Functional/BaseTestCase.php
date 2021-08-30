@@ -15,6 +15,8 @@ use Doctrine\Bundle\PHPCRBundle\Test\RepositoryManager;
 use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Cmf\Component\Testing\Functional\DbManager\ORM;
+use Symfony\Cmf\Component\Testing\Functional\DbManager\PHPCR;
 use Symfony\Cmf\Component\Testing\Functional\DbManager\PhpcrDecorator;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -48,15 +50,76 @@ abstract class BaseTestCase extends WebTestCase
      *  * environment - The environment to use (defaults to 'phpcr')
      *  * debug - If debug should be enabled/disabled (defaults to true)
      */
-    protected function getKernelConfiguration(): array
+    protected static function getKernelConfiguration(): array
     {
         return [];
     }
 
     /**
+     * {@inheritdoc}
+     *
+     * Overwritten to set the default environment to 'phpcr'.
+     */
+    protected static function createKernel(array $options = []): KernelInterface
+    {
+        // default environment is 'phpcr'
+        if (!isset($options['environment'])) {
+            $options['environment'] = 'phpcr';
+        }
+
+        return parent::createKernel($options);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * Overwritten to set the kernel configuration from getKernelConfiguration.
+     */
+    protected static function bootKernel(array $options = [])
+    {
+        return parent::bootKernel(static::getKernelConfiguration());
+    }
+
+    /**
+     * BC with Symfony < 5.3 - when minimum version raises to ^5.3, we can remove this method.
+     */
+    protected static function getContainer(): ContainerInterface
+    {
+        if (method_exists(KernelTestCase::class, 'getContainer')) {
+            return parent::getContainer();
+        }
+
+        return self::getKernel()->getContainer();
+    }
+
+    protected static function getKernel(): KernelInterface
+    {
+        if (null === static::$kernel) {
+            static::bootKernel();
+        }
+
+        if (static::$kernel instanceof KernelInterface) {
+            $kernelEnvironment = static::$kernel->getEnvironment();
+            $expectedEnvironment = isset(static::getKernelConfiguration()['environment'])
+                ? static::getKernelConfiguration()['environment']
+                : 'phpcr';
+            if ($kernelEnvironment !== $expectedEnvironment) {
+                var_dump($kernelEnvironment, $expectedEnvironment);
+                static::bootKernel();
+            }
+        }
+
+        if (!static::$kernel->getContainer()) {
+            static::$kernel->boot();
+        }
+
+        return static::$kernel;
+    }
+
+    /**
      * @return Client|KernelBrowser
      */
-    public function getFrameworkBundleClient()
+    protected function getFrameworkBundleClient()
     {
         if (null === $this->client) {
             // property does not exist in all symfony versions
@@ -69,52 +132,20 @@ abstract class BaseTestCase extends WebTestCase
         return $this->client;
     }
 
-    public function getContainer(): ContainerInterface
-    {
-        return $this->getKernel()->getContainer();
-    }
-
-    public function getKernel(): KernelInterface
-    {
-        if (null === static::$kernel) {
-            parent::bootKernel(static::getKernelConfiguration());
-        }
-
-        if (static::$kernel instanceof  KernelInterface) {
-            $kernelEnvironment = static::$kernel->getEnvironment();
-            $expectedEnvironment = isset($this->getKernelConfiguration()['environment'])
-                ? $this->getKernelConfiguration()['environment']
-                : 'phpcr';
-            if ($kernelEnvironment !== $expectedEnvironment) {
-                parent::bootKernel(static::getKernelConfiguration());
-            }
-        }
-
-        if (!static::$kernel->getContainer()) {
-            static::$kernel->boot();
-        }
-
-        return static::$kernel;
-    }
-
     /**
-     * Gets the DbManager.
+     * Shortcut for getDbManager.
      *
      * @see self::getDbManager
      */
-    public function db($type)
+    protected function db($type)
     {
         return $this->getDbManager($type);
     }
 
     /**
-     * Gets the DbManager.
-     *
-     * @param string $type The Db type
-     *
-     * @return object
+     * @return ORM|PHPCR
      */
-    public function getDbManager($type)
+    protected function getDbManager(string $type)
     {
         if (isset($this->dbManagers[$type])) {
             return $this->dbManagers[$type];
@@ -143,36 +174,7 @@ abstract class BaseTestCase extends WebTestCase
         return $dbManager;
     }
 
-    public static function getKernelClass(): string
-    {
-        if (isset($_SERVER['KERNEL_CLASS']) || isset($_ENV['KERNEL_CLASS'])) {
-            $class = isset($_SERVER['KERNEL_CLASS']) ? $_SERVER['KERNEL_CLASS'] : $_ENV['KERNEL_CLASS'];
-            if (!class_exists($class)) {
-                throw new \RuntimeException(sprintf('Class "%s" doesn\'t exist or cannot be autoloaded. Check that the KERNEL_CLASS value in phpunit.xml matches the fully-qualified class name of your Kernel or override the %s::createKernel() method.', $class, static::class));
-            }
-
-            return $class;
-        }
-
-        return parent::getKernelClass();
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * This is overriden to set the default environment to 'phpcr'
-     */
-    protected static function createKernel(array $options = []): KernelInterface
-    {
-        // default environment is 'phpcr'
-        if (!isset($options['environment'])) {
-            $options['environment'] = 'phpcr';
-        }
-
-        return parent::createKernel($options);
-    }
-
-    protected function assertResponseSuccess(Response $response)
+    protected static function assertResponseSuccess(Response $response)
     {
         libxml_use_internal_errors(true);
 
@@ -186,6 +188,6 @@ abstract class BaseTestCase extends WebTestCase
             $exception = $result->item(0)->nodeValue;
         }
 
-        $this->assertEquals(200, $response->getStatusCode(), $exception ? 'Exception: "'.$exception.'"' : '');
+        self::assertEquals(200, $response->getStatusCode(), $exception ? 'Exception: "'.$exception.'"' : '');
     }
 }
