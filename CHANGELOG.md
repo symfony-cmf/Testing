@@ -1,6 +1,12 @@
 Changelog
 =========
 
+4.1.0
+-----
+
+* **2021-12-16**: Allow installation with Symfony 6.
+  Technically there is a BC break with BaseTestCase::bootKernel now having a return type declaration, but the CMF bundles to not overwrite that method further.
+
 4.0.0
 -----
 
