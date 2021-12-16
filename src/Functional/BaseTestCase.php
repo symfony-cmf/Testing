@@ -75,7 +75,7 @@ abstract class BaseTestCase extends WebTestCase
      *
      * Overwritten to set the kernel configuration from getKernelConfiguration.
      */
-    protected static function bootKernel(array $options = [])
+    protected static function bootKernel(array $options = []): KernelInterface
     {
         return parent::bootKernel(static::getKernelConfiguration());
     }

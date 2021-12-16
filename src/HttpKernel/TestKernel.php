@@ -143,11 +143,11 @@ abstract class TestKernel extends Kernel
     }
 
     /**
-     * {inheritDoc}.
+     * {@inheritDoc}.
      *
      * Here we return our list of bundles
      */
-    public function registerBundles()
+    public function registerBundles(): iterable
     {
         return $this->requiredBundles;
     }
@@ -162,7 +162,7 @@ abstract class TestKernel extends Kernel
         return $this->getProjectDir();
     }
 
-    public function getProjectDir()
+    public function getProjectDir(): string
     {
         $refl = new \ReflectionClass($this);
         $fname = $refl->getFileName();
@@ -171,7 +171,7 @@ abstract class TestKernel extends Kernel
         return $kernelDir;
     }
 
-    public function getCacheDir()
+    public function getCacheDir(): string
     {
         return implode('/', [
             $this->getKernelDir(),
@@ -180,7 +180,7 @@ abstract class TestKernel extends Kernel
         ]);
     }
 
-    public function getLogDir()
+    public function getLogDir(): string
     {
         return implode('/', [
             $this->getKernelDir(),
