@@ -32,5 +32,5 @@ if (class_exists('Symfony\Bundle\MonologBundle\MonologBundle')) {
     $loader->import('dist/monolog.yml');
 }
 $loader->import('dist/doctrine.yml');
-$loader->import('dist/security.yml');
 $loader->import('dist/framework.php');
+$loader->import('dist/security.php');
