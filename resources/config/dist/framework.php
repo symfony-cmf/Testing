@@ -17,9 +17,6 @@ if ($container->hasParameter('kernel.project_dir')) {
 $config = [
     'secret' => 'test',
     'test' => null,
-    'session' => [
-        'storage_id' => 'session.storage.filesystem',
-    ],
     'form' => true,
     'validation' => [
         'enabled' => true,
@@ -33,6 +30,14 @@ $config = [
         'fallback' => 'en',
     ],
 ];
+
+if (interface_exists(\Symfony\Component\HttpFoundation\Session\Storage\SessionStorageFactoryInterface::class)) {
+    // Symfony 5.3+
+    $config = array_merge($config, ['session' => ['storage_factory_id' => 'session.storage.factory.mock_file']]);
+} else {
+    // Symfony <5.3
+    $config = array_merge($config, ['session' => ['storage_id' => 'session.storage.filesystem']]);
+}
 
 $container->loadFromExtension('framework', $config);
 
