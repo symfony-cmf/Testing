@@ -45,4 +45,12 @@ if (class_exists(\Symfony\Component\Security\Core\Authentication\Provider\Anonym
     $config = array_merge($config, ['firewall' => ['main' => ['anonymous' => null]]]);
 }
 
+if (interface_exists(\Symfony\Component\PasswordHasher\PasswordHasherInterface::class)) {
+    unset($config['encoders']);
+    $config = array_merge($config, [
+        'enable_authenticator_manager' => true,
+        'password_hashers' => ['Symfony\Component\Security\Core\User\User' => 'plaintext'],
+    ]);
+}
+
 $container->loadFromExtension('security', $config);

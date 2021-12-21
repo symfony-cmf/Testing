@@ -24,13 +24,13 @@ if (preg_match('&/([a-zA-Z]+?)Bundle&', $kernelRootDir, $matches)) {
 }
 
 if ($container->hasParameter('kernel.project_dir')) {
-    $loader->import('dist/parameters_sf5.yml');
+    $loader->import(__DIR__.'/dist/parameters_sf5.yml');
 } else {
-    $loader->import('dist/parameters.yml');
+    $loader->import(__DIR__.'/dist/parameters.yml');
 }
 if (class_exists('Symfony\Bundle\MonologBundle\MonologBundle')) {
-    $loader->import('dist/monolog.yml');
+    $loader->import(__DIR__.'/dist/monolog.yml');
 }
-$loader->import('dist/doctrine.yml');
-$loader->import('dist/framework.php');
-$loader->import('dist/security.php');
+$loader->import(__DIR__.'/dist/doctrine.yml');
+$loader->import(__DIR__.'/dist/framework.php');
+$loader->import(__DIR__.'/dist/security.php');
