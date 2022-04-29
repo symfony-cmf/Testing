@@ -1,6 +1,11 @@
 Changelog
 =========
 
+4.1.1
+-----
+
+* Configuration fixes for Symfony 6.
+
 4.1.0
 -----
 
