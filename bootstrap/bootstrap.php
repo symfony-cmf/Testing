@@ -23,19 +23,21 @@ if (!$loader = include $vendorDir.'/autoload.php') {
 
 use Doctrine\Common\Annotations\AnnotationRegistry;
 
-AnnotationRegistry::registerLoader(function ($class) use ($loader) {
-    $loader->loadClass($class);
+if (method_exists(AnnotationRegistry::class, 'registerLoader')) {
+    AnnotationRegistry::registerLoader(function ($class) use ($loader) {
+        $loader->loadClass($class);
 
-    // this was class_exists($class, false) i.e. do not autoload.
-    // this is required so that custom annotations (e.g. TreeUiBundle
-    // annotations) are autoloaded - but they should be found by the
-    // composer loader above.
-    //
-    // This probably slows things down.
-    //
-    // @todo: Fix me.
-    return class_exists($class);
-});
+        // this was class_exists($class, false) i.e. do not autoload.
+        // this is required so that custom annotations (e.g. TreeUiBundle
+        // annotations) are autoloaded - but they should be found by the
+        // composer loader above.
+        //
+        // This probably slows things down.
+        //
+        // @todo: Fix me.
+        return class_exists($class);
+    });
+}
 
 if (!defined('CMF_TEST_ROOT_DIR')) {
     define('CMF_TEST_ROOT_DIR', realpath(__DIR__.'/..'));
