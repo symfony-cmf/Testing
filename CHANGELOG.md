@@ -1,8 +1,15 @@
 Changelog
 =========
 
-4.1.1
+4.4.2
 -----
+
+* Only call `AnnotationRegistry::registerLoader` if it is available.
+
+4.4.1
+-----
+
+Should have been 4.1.1 but gave the wrong tag name.
 
 * Configuration fixes for Symfony 6.
 
