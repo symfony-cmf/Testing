@@ -18,7 +18,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Cmf\Component\Testing\Functional\DbManager\ORM;
 use Symfony\Cmf\Component\Testing\Functional\DbManager\PHPCR;
 use Symfony\Cmf\Component\Testing\Functional\DbManager\PhpcrDecorator;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\KernelInterface;
 
@@ -83,7 +83,7 @@ abstract class BaseTestCase extends WebTestCase
     /**
      * BC with Symfony < 5.3 - when minimum version raises to ^5.3, we can remove this method.
      */
-    protected static function getContainer(): ContainerInterface
+    protected static function getContainer(): Container
     {
         if (method_exists(KernelTestCase::class, 'getContainer')) {
             return parent::getContainer();

@@ -13,6 +13,7 @@ namespace Symfony\Cmf\Component\Testing\Functional\DbManager;
 
 use Doctrine\Bundle\PHPCRBundle\Test\RepositoryManager;
 use Doctrine\ODM\PHPCR\DocumentManagerInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * A decorator around the DoctrinePHPCRBundle RepositoryManager class to
@@ -20,6 +21,11 @@ use Doctrine\ODM\PHPCR\DocumentManagerInterface;
  */
 class PhpcrDecorator extends RepositoryManager
 {
+    public function __construct(ContainerInterface $container)
+    {
+        parent::__construct($container->get('doctrine_phpcr'), $container->get('doctrine_phpcr.initializer_manager'));
+    }
+
     public function getOm(string $managerName = null): DocumentManagerInterface
     {
         return $this->getDocumentManager($managerName);

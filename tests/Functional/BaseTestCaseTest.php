@@ -11,6 +11,8 @@
 
 namespace Symfony\Cmf\Component\Testing\Tests\Functional;
 
+use Doctrine\Bundle\PHPCRBundle\Initializer\InitializerManager;
+use Doctrine\Bundle\PHPCRBundle\ManagerRegistryInterface;
 use Doctrine\Bundle\PHPCRBundle\Test\RepositoryManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -19,18 +21,18 @@ use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Cmf\Component\Testing\Functional\BaseTestCase;
 use Symfony\Cmf\Component\Testing\Functional\DbManager\PHPCR;
 use Symfony\Cmf\Component\Testing\Tests\Fixtures\TestTestCase;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\HttpKernel\KernelInterface;
 
 class BaseTestCaseTest extends TestCase
 {
     /**
-     * @var ContainerInterface|MockObject
+     * @var Container&MockObject
      */
     private $container;
 
     /**
-     * @var KernelInterface|MockObject
+     * @var KernelInterface&MockObject
      */
     private $kernel;
 
@@ -40,27 +42,33 @@ class BaseTestCaseTest extends TestCase
     private $testCase;
 
     /**
-     * @var KernelBrowser|Client|MockObject
+     * @var KernelBrowser|Client&MockObject
      */
     private $client;
 
     protected function setUp(): void
     {
-        $this->container = $this->createMock(ContainerInterface::class);
-        $this->container->expects($this->any())
+        $managerRegistry = $this->createMock(ManagerRegistryInterface::class);
+        $initializerManager = $this->createMock(InitializerManager::class);
+        $this->container = $this->createMock(Container::class);
+        $this->container
             ->method('get')
-            ->will($this->returnCallback(function ($name) {
-                $dic = ['test.client' => $this->client];
+            ->willReturnCallback(function ($name) use ($managerRegistry, $initializerManager) {
+                $dic = [
+                    'test.client' => $this->client,
+                    'doctrine_phpcr' => $managerRegistry,
+                    'doctrine_phpcr.initializer_manager' => $initializerManager,
+                ];
 
                 return $dic[$name];
-            }));
+            });
 
         $this->kernel = $this->createMock(KernelInterface::class);
-        $this->kernel->expects($this->any())
+        $this->kernel
             ->method('getContainer')
             ->willReturn($this->container)
         ;
-        $this->kernel->expects($this->any())
+        $this->kernel
             ->method('getEnvironment')
             ->willReturn('phpcr')
         ;
