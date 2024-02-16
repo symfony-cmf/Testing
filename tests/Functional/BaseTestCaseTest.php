@@ -122,6 +122,7 @@ class BaseTestCaseTest extends TestCase
 
     /**
      * @dataProvider provideTestDb
+     *
      * @depends testGetContainer
      */
     public function testDb($dbName, $expected)

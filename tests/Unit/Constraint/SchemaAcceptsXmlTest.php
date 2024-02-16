@@ -53,11 +53,11 @@ class SchemaAcceptsXmlTest extends TestCase
 
         $data = [];
 
-        $dom1 = new \DomDocument();
+        $dom1 = new \DOMDocument();
         $dom1->loadXML('<container><config xmlns="http://cmf.symfony.com/schema/dic/foo" required="f"/></container>');
         $data[] = [[$dom1], $schema1, true];
 
-        $dom2 = new \DomDocument();
+        $dom2 = new \DOMDocument();
         $dom2->loadXML('<container><config xmlns="http://cmf.symfony.com/schema/dic/foo" /></container>');
         $data[] = [[$dom2], $schema1, false];
 
@@ -70,7 +70,7 @@ class SchemaAcceptsXmlTest extends TestCase
 
     public function testFailsIfNoConfigElementIsAvailable()
     {
-        $dom = new \DomDocument();
+        $dom = new \DOMDocument();
         $dom->loadXML('<container></container>');
 
         $constraint = new SchemaAcceptsXml([$dom]);

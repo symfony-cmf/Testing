@@ -35,7 +35,7 @@ class SchemaAcceptsXml extends Constraint
                 throw new \InvalidArgumentException(sprintf('Can only test a file if it contains 1 <config> element, %d given', $configElement->length));
             }
 
-            $configDom = new \DomDocument();
+            $configDom = new \DOMDocument();
             $configDom->appendChild($configDom->importNode($configElement->item(0), true));
 
             libxml_use_internal_errors(true);
