@@ -4,7 +4,7 @@ functional_tests_orm:
 	@echo
 	@echo '+++ create ORM database +++'
 	@${CONSOLE} doctrine:schema:drop --env=orm --force
-	@${CONSOLE} doctrine:database:create --env=orm
+	@${CONSOLE} doctrine:database:create --env=orm || echo "Failed to create database. If this is sqlite, this is normal. Otherwise there will be an error with schema creation"
 	@${CONSOLE} doctrine:schema:create --env=orm
 	@echo '+++ run ORM functional tests +++'
 ifeq ($(HAS_XDEBUG), 0)

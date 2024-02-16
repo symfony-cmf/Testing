@@ -10,9 +10,6 @@
  */
 
 $config = [
-    'encoders' => [
-        'Symfony\Component\Security\Core\User\User' => 'plaintext',
-    ],
     'role_hierarchy' => [
         'ROLE_ADMIN' => 'ROLE_USER',
         'ROLE_SUPER_ADMIN' => ['ROLE_USER', 'ROLE_ADMIN', 'ROLE_ALLOWED_TO_SWITCH'],
@@ -40,13 +37,7 @@ $config = [
     ],
 ];
 
-if (class_exists(\Symfony\Component\Security\Core\Authentication\Provider\AnonymousAuthenticationProvider::class)) {
-    // Symfony <=5.4
-    $config = array_merge($config, ['firewall' => ['main' => ['anonymous' => null]]]);
-}
-
-if (interface_exists(\Symfony\Component\PasswordHasher\PasswordHasherInterface::class)) {
-    unset($config['encoders']);
+if (class_exists(\Symfony\Component\Security\Core\Security::class)) {
     $config = array_merge($config, [
         'enable_authenticator_manager' => true,
         'password_hashers' => ['Symfony\Component\Security\Core\User\User' => 'plaintext'],

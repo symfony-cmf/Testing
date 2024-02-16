@@ -214,7 +214,7 @@ abstract class TestKernel extends Kernel
         }
     }
 
-    protected function build(ContainerBuilder $container)
+    protected function build(ContainerBuilder $container): void
     {
         parent::build($container);
         if (\in_array($this->getEnvironment(), ['test', 'phpcr']) && file_exists($this->getKernelDir().'/config/public_services.php')) {

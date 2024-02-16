@@ -12,13 +12,11 @@
 namespace Symfony\Cmf\Component\Testing\Functional;
 
 use Doctrine\Bundle\PHPCRBundle\Test\RepositoryManager;
-use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Cmf\Component\Testing\Functional\DbManager\ORM;
 use Symfony\Cmf\Component\Testing\Functional\DbManager\PHPCR;
 use Symfony\Cmf\Component\Testing\Functional\DbManager\PhpcrDecorator;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\KernelInterface;
 
@@ -32,15 +30,10 @@ abstract class BaseTestCase extends WebTestCase
 {
     /**
      * Use this property to save the DbManagers.
-     *
-     * @var array
      */
-    protected $dbManagers = [];
+    protected array $dbManagers = [];
 
-    /**
-     * @var Client
-     */
-    protected $client;
+    protected ?KernelBrowser $client = null;
 
     /**
      * Return the configuration to use when creating the Kernel.
@@ -80,18 +73,6 @@ abstract class BaseTestCase extends WebTestCase
         return parent::bootKernel(static::getKernelConfiguration());
     }
 
-    /**
-     * BC with Symfony < 5.3 - when minimum version raises to ^5.3, we can remove this method.
-     */
-    protected static function getContainer(): ContainerInterface
-    {
-        if (method_exists(KernelTestCase::class, 'getContainer')) {
-            return parent::getContainer();
-        }
-
-        return self::getKernel()->getContainer();
-    }
-
     protected static function getKernel(): KernelInterface
     {
         if (null === static::$kernel) {
@@ -100,9 +81,7 @@ abstract class BaseTestCase extends WebTestCase
 
         if (static::$kernel instanceof KernelInterface) {
             $kernelEnvironment = static::$kernel->getEnvironment();
-            $expectedEnvironment = isset(static::getKernelConfiguration()['environment'])
-                ? static::getKernelConfiguration()['environment']
-                : 'phpcr';
+            $expectedEnvironment = static::getKernelConfiguration()['environment'] ?? 'phpcr';
             if ($kernelEnvironment !== $expectedEnvironment) {
                 var_dump($kernelEnvironment, $expectedEnvironment);
                 static::bootKernel();
@@ -116,17 +95,14 @@ abstract class BaseTestCase extends WebTestCase
         return static::$kernel;
     }
 
-    /**
-     * @return Client|KernelBrowser
-     */
-    protected function getFrameworkBundleClient()
+    protected function getFrameworkBundleClient(): KernelBrowser
     {
         if (null === $this->client) {
             // property does not exist in all symfony versions
             if (property_exists(self::class, 'booted') && self::$booted) {
                 self::ensureKernelShutdown();
             }
-            $this->client = self::createClient($this->getKernelConfiguration());
+            $this->client = self::createClient(self::getKernelConfiguration());
         }
 
         return $this->client;
@@ -174,7 +150,7 @@ abstract class BaseTestCase extends WebTestCase
         return $dbManager;
     }
 
-    protected static function assertResponseSuccess(Response $response)
+    protected static function assertResponseSuccess(Response $response): void
     {
         libxml_use_internal_errors(true);
 

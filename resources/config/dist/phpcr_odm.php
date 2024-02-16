@@ -39,7 +39,7 @@ if (getenv('KERNEL_CLASS')) {
 
 if (file_exists($phpcrOdmDocDir)) {
     $config['odm']['mappings']['test_additional'] = [
-        'type' => 'annotation',
+        'type' => 'attribute',
         'prefix' => $phpcrOdmDocPrefix,
         'dir' => $phpcrOdmDocDir,
         'is_bundle' => false,
