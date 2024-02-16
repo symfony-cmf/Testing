@@ -42,7 +42,7 @@ class BaseTestCaseTest extends TestCase
     private $testCase;
 
     /**
-     * @var KernelBrowser|Client&MockObject
+     * @var KernelBrowser|Client|MockObject
      */
     private $client;
 
@@ -130,6 +130,7 @@ class BaseTestCaseTest extends TestCase
 
     /**
      * @dataProvider provideTestDb
+     *
      * @depends testGetContainer
      */
     public function testDb($dbName, $expected)
