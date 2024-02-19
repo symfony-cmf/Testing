@@ -15,33 +15,22 @@ jobs:
         runs-on: ubuntu-20.04
 
         env:
-            SYMFONY_DEPRECATIONS_HELPER: ${{ matrix.symfony-deprecation-helper }}
+            SYMFONY_DEPRECATIONS_HELPER: weak
             SYMFONY_REQUIRE: ${{ matrix.symfony-version }}
 
         strategy:
-            fail-fast: false
-            matrix:
-                symfony-version:
-                    - '*'
-                include:
-                    - php-version: '7.1'
-                      dependencies: 'lowest'
-                      symfony-version: '^3.4'
-                      symfony-deprecation-helper: 'weak'
-
-                    - php-version: '7.2'
-                    - php-version: '7.3'
-                    - php-version: '7.4'
-                      symfony-version: '^4.4'
-                    - php-version: '7.4'
-                      symfony-version: '5.0.*'
-                    - php-version: '8.0'
-                    - php-version: '8.0'
-                      symfony-version: '6.0.*'
+          fail-fast: false
+          matrix:
+            include:
+              - php-version: '8.1'
+                dependencies: 'lowest'
+              - php-version: '8.1'
+              - php-version: '8.2'
+              - php-version: '8.3'
 
         steps:
             - name: Checkout project
-              uses: actions/checkout@v2
+              uses: actions/checkout@v4
 
             - name: Install and configure PHP
               uses: shivammathur/setup-php@v2
@@ -50,13 +39,12 @@ jobs:
                   tools: 'composer:v2'
 
             - name: Install Symfony Flex
-              run: composer global require --no-progress --no-scripts --no-plugins symfony/flex
-              
-            - name: Allow Symfony Flex Plugin
-              run: composer global config --no-plugins allow-plugins.symfony/flex true
+              run: |
+                composer global require --no-progress --no-scripts --no-plugins symfony/flex
+                composer global config --no-plugins allow-plugins.symfony/flex true
 
             - name: Install dependencies with Composer
-              uses: ramsey/composer-install@v1
+              uses: ramsey/composer-install@v2
               with:
                   dependency-versions: ${{ matrix.dependencies }}
                   composer-options: --prefer-dist

@@ -16,8 +16,6 @@ use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
 use Doctrine\Common\DataFixtures\ProxyReferenceRepository;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
-use Doctrine\Common\Persistence\ManagerRegistry as LegacyManagerRegistry;
-use Doctrine\Common\Persistence\ObjectManager as LegacyObjectManager;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Bridge\Doctrine\DataFixtures\ContainerAwareLoader;
@@ -32,49 +30,29 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class ORM
 {
-    /**
-     * @var ORMExecutor
-     */
-    private $executor;
-
-    /**
-     * @var ContainerInterface
-     */
-    protected $container;
-
-    /**
-     * @var ObjectManager
-     */
-    protected $om;
+    private ORMExecutor $executor;
+    protected ContainerInterface $container;
+    protected ObjectManager $om;
 
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
     }
 
-    /**
-     * @return ManagerRegistry|LegacyManagerRegistry
-     */
-    public function getRegistry()
+    public function getRegistry(): ManagerRegistry
     {
         return $this->container->get('doctrine');
     }
 
-    /**
-     * @return ObjectManager|LegacyObjectManager
-     */
-    public function getOm($managerName = null)
+    public function getOm($managerName = null): ObjectManager
     {
-        if (!$this->om) {
+        if (!isset($this->om)) {
             $this->om = $this->getRegistry()->getManager($managerName);
         }
 
         return $this->om;
     }
 
-    /**
-     * Purge the database.
-     */
     public function purgeDatabase(): void
     {
         $referenceRepository = new ProxyReferenceRepository($this->getOm());
@@ -125,7 +103,7 @@ class ORM
 
     private function getExecutor(): ORMExecutor
     {
-        if ($this->executor) {
+        if (isset($this->executor)) {
             return $this->executor;
         }
 

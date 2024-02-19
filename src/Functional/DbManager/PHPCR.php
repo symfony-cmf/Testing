@@ -16,7 +16,6 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\DataFixtures\Loader;
 use Doctrine\Common\DataFixtures\ProxyReferenceRepository;
 use Doctrine\Common\DataFixtures\Purger\PHPCRPurger;
-use Doctrine\Common\Persistence\ManagerRegistry as LegacyManagerRegistry;
 use Doctrine\ODM\PHPCR\DocumentManager;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bridge\Doctrine\DataFixtures\ContainerAwareLoader;
@@ -26,25 +25,16 @@ class PHPCR
 {
     protected $container;
 
-    /**
-     * @var DocumentManager
-     */
-    protected $om;
+    protected ?DocumentManager $om = null;
 
-    /**
-     * @var PHPCRExecutor
-     */
-    private $executor;
+    private ?PHPCRExecutor $executor = null;
 
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
     }
 
-    /**
-     * @return ManagerRegistry|LegacyManagerRegistry
-     */
-    public function getRegistry()
+    public function getRegistry(): ManagerRegistry
     {
         return $this->container->get('doctrine_phpcr');
     }
@@ -78,7 +68,7 @@ class PHPCR
         $this->getExecutor($initialize)->execute($loader->getFixtures(), false);
     }
 
-    public function loadFixtureClass(Loader $loader, string $className)
+    public function loadFixtureClass(Loader $loader, string $className): void
     {
         if (!class_exists($className)) {
             throw new \InvalidArgumentException(sprintf(
