@@ -26,7 +26,7 @@ class PhpcrDecorator extends RepositoryManager
         parent::__construct($container->get('doctrine_phpcr'), $container->get('doctrine_phpcr.initializer_manager'));
     }
 
-    public function getOm(string $managerName = null): DocumentManagerInterface
+    public function getOm(?string $managerName = null): DocumentManagerInterface
     {
         return $this->getDocumentManager($managerName);
     }
