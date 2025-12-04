@@ -4,6 +4,12 @@ Changelog
 5.x
 ===
 
+5.0.3
+-----
+
+* Compatible with Symfony 8.
+* Test with PHP 8.5 and fix deprecations.
+
 5.0.2
 -----
 
