@@ -18,13 +18,13 @@ $rootDir = realpath(__DIR__.'/../../../..');
 $phpUnitFile = $rootDir.'/phpunit.xml.dist';
 
 if (!file_exists($phpUnitFile)) {
-    throw new \Exception(sprintf(
+    throw new Exception(sprintf(
         'Cannot find phpunit.xml.dist file in "%s"',
         $phpUnitFile
     ));
 }
 
-$xml = new \SimpleXMLElement(file_get_contents($phpUnitFile));
+$xml = new SimpleXMLElement(file_get_contents($phpUnitFile));
 
 $envClass = $xml->xpath("//php/env[@name='KERNEL_CLASS']");
 if (count($envClass)) {
@@ -32,7 +32,7 @@ if (count($envClass)) {
 } else {
     $envDir = $xml->xpath("//php/server[@name='KERNEL_DIR']");
     if (!count($envDir)) {
-        throw new \Exception(
+        throw new Exception(
             'KERNEL_CLASS must be set via <env name"KERNEL_CLASS" value="..."/>'
         );
     }
@@ -40,7 +40,7 @@ if (count($envClass)) {
     $kernelFile = $rootDir.'/'.$envDir[0]['value'].'/'.$kernelClass.'.php';
 
     if (!file_exists($kernelFile)) {
-        throw new \Exception(sprintf(
+        throw new Exception(sprintf(
             'Cannot find kernel file "%s"',
             $kernelFile
         ));
