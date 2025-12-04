@@ -11,7 +11,7 @@
     "require": {
         "php": "^8.1",
         "doctrine/data-fixtures": "^1.2",
-        "symfony/browser-kit": "^6.4 || ^7.0"
+        "symfony/browser-kit": "^6.4 || ^7.0 || ^8.0"
     },
     "require-dev": {
         "ext-dom": "*",
@@ -19,14 +19,14 @@
         "doctrine/phpcr-odm": "^2.0",
         "doctrine/phpcr-bundle": "^3.0",
         "jackalope/jackalope-doctrine-dbal": "^2.0",
-        "symfony/console": "^6.4 || ^7.0",
-        "symfony/dependency-injection": "^6.4 || ^7.0",
-        "symfony/doctrine-bridge": "^6.4 || ^7.0",
-        "symfony/framework-bundle": "^6.4 || ^7.0",
-        "symfony/http-kernel": "^6.4 || ^7.0",
+        "symfony/console": "^6.4 || ^7.0 || ^8.0",
+        "symfony/dependency-injection": "^6.4 || ^7.0 || ^8.0",
+        "symfony/doctrine-bridge": "^6.4 || ^7.0 || ^8.0",
+        "symfony/framework-bundle": "^6.4 || ^7.0 || ^8.0",
+        "symfony/http-kernel": "^6.4 || ^7.0 || ^8.0",
         "symfony/monolog-bundle": "^3.5",
-        "symfony/security-bundle": "^6.4 || ^7.0",
-        "symfony/twig-bundle": "^6.4 || ^7.0",
+        "symfony/security-bundle": "^6.4 || ^7.0 || ^8.0",
+        "symfony/twig-bundle": "^6.4 || ^7.0 || ^8.0",
         "symfony/phpunit-bridge": "^7.0.3"
     },
     "conflict": {

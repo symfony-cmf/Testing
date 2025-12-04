@@ -39,5 +39,5 @@ $ composer show --latest 'symfony-cmf/*'
     If it's an error message or piece of code, use code block tags,
     and make sure you provide the whole stack trace(s),
     not just the first error message you can see.
-    More details here: https://github.com/symfony-cmf/Testing/blob/master/CONTRIBUTING.md#issues
+    More details here: https://github.com/symfony-cmf/Testing/blob/5.x/CONTRIBUTING.md#issues
 -->
