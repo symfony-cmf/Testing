@@ -113,7 +113,7 @@ class BaseTestCaseTest extends TestCase
             return;
         }
 
-        $className = sprintf(
+        $className = \sprintf(
             'Symfony\Cmf\Component\Testing\Functional\DbManager\%s',
             $expected
         );

@@ -124,7 +124,7 @@ abstract class BaseTestCase extends WebTestCase
             return $this->dbManagers[$type];
         }
 
-        $className = sprintf(
+        $className = \sprintf(
             'Symfony\Cmf\Component\Testing\Functional\DbManager\%s',
             $type
         );
@@ -134,7 +134,7 @@ abstract class BaseTestCase extends WebTestCase
         }
 
         if (!class_exists($className)) {
-            throw new \InvalidArgumentException(sprintf(
+            throw new \InvalidArgumentException(\sprintf(
                 'Test DBManager "%s" does not exist.',
                 $className
             ));

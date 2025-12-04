@@ -81,7 +81,7 @@ class PHPCR
             $fixture = $class;
         } else {
             if (!class_exists($class)) {
-                throw new \InvalidArgumentException(sprintf(
+                throw new \InvalidArgumentException(\sprintf(
                     'Fixture class "%s" does not exist.',
                     $class
                 ));

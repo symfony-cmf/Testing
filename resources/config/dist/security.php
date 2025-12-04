@@ -40,7 +40,7 @@ $config = [
     ],
 ];
 
-if (class_exists(\Symfony\Component\Security\Core\Security::class)) {
+if (class_exists(Symfony\Component\Security\Core\Security::class)) {
     // Symfony 6 but not 7
     $config['enable_authenticator_manager'] = true;
 }
