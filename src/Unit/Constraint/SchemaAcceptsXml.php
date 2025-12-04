@@ -32,7 +32,7 @@ class SchemaAcceptsXml extends Constraint
             $configElement = $dom->getElementsByTagName('config');
 
             if (1 !== $configElement->length) {
-                throw new \InvalidArgumentException(sprintf('Can only test a file if it contains 1 <config> element, %d given', $configElement->length));
+                throw new \InvalidArgumentException(\sprintf('Can only test a file if it contains 1 <config> element, %d given', $configElement->length));
             }
 
             $configDom = new \DOMDocument();
@@ -61,7 +61,7 @@ class SchemaAcceptsXml extends Constraint
 
     protected function failureDescription($schemaFile): string
     {
-        return sprintf(
+        return \sprintf(
             'Xml is accepted by the XML schema "%s"',
             $schemaFile
         );

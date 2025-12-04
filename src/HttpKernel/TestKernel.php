@@ -107,7 +107,7 @@ abstract class TestKernel extends Kernel
     public function requireBundleSet(string $name): void
     {
         if (!isset($this->bundleSets[$name])) {
-            throw new \InvalidArgumentException(sprintf(
+            throw new \InvalidArgumentException(\sprintf(
                 'Bundle set %s has not been registered, available bundle sets: %s',
                 $name,
                 implode(',', array_keys($this->bundleSets))
@@ -116,7 +116,7 @@ abstract class TestKernel extends Kernel
 
         foreach ($this->bundleSets[$name] as $bundle) {
             if (!class_exists($bundle)) {
-                throw new \InvalidArgumentException(sprintf(
+                throw new \InvalidArgumentException(\sprintf(
                     'Bundle class "%s" does not exist.',
                     $bundle
                 ));
@@ -199,7 +199,7 @@ abstract class TestKernel extends Kernel
         foreach ($bundles as $class => $environments) {
             if (isset($environments['all']) || isset($environments[$this->environment])) {
                 if (!class_exists($class)) {
-                    throw new \InvalidArgumentException(sprintf(
+                    throw new \InvalidArgumentException(\sprintf(
                         'Bundle class "%s" does not exist.',
                         $class
                     ));

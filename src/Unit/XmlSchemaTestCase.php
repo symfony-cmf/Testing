@@ -46,7 +46,7 @@ abstract class XmlSchemaTestCase extends TestCase
             }
 
             if (!$dom instanceof \DOMDocument) {
-                throw new \InvalidArgumentException(sprintf('The first argument of assertSchemaAcceptsXml should be instances of \DOMDocument, "%s" given', \get_class($dom)));
+                throw new \InvalidArgumentException(\sprintf('The first argument of assertSchemaAcceptsXml should be instances of \DOMDocument, "%s" given', \get_class($dom)));
             }
 
             return $dom;

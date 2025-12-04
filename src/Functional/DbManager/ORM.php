@@ -78,7 +78,7 @@ class ORM
     protected function loadFixtureClass(Loader $loader, string $className): void
     {
         if (!class_exists($className)) {
-            throw new \InvalidArgumentException(sprintf(
+            throw new \InvalidArgumentException(\sprintf(
                 'Fixture class "%s" does not exist.',
                 $className
             ));
