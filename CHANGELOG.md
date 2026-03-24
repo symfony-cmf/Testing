@@ -4,6 +4,11 @@ Changelog
 5.x
 ===
 
+5.0.4
+-----
+
+* Allow data fixtures version 2, to make this actually installable with Doctrine and Symfony 8.
+
 5.0.3
 -----
 

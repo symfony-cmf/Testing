@@ -57,6 +57,7 @@ class SchemaAcceptsXml extends Constraint
 
     public function toString(): string
     {
+        return 'schema-accepts-xml';
     }
 
     protected function failureDescription($schemaFile): string
@@ -75,7 +76,7 @@ class SchemaAcceptsXml extends Constraint
             $error = trim($error->message).($error->file ? ' in'.$error->file : '').' on line '.$error->line."\n";
 
             // avoid repeating same error
-            if (false === strpos($str, $error)) {
+            if (!str_contains($str, $error)) {
                 $str .= $error;
             }
         }
